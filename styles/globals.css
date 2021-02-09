@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+.loading,
+.loaded {
+  position: relative;
+  top: 0;
+  opacity: 1;
+  overflow: auto;
+  border-radius: 0 0 0.6rem 0.6rem;
+  padding: 0.4rem 0.8rem;
+  margin: 0;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.loading {
+  top: -2rem;
+  opacity: 0;
+  background-color: #222222;
+}
+@tailwind utilities;
