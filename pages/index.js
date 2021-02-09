@@ -18,7 +18,7 @@ export default function Home() {
 
         <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
           <h1 className="text-6xl font-extrabold">
-          🧁
+            🧁
             <span className="text-blue-400">Ice</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
               Bakers
@@ -66,15 +66,9 @@ export default function Home() {
                     Get to know your colleagues and friends
                   </p>
                   <p className="text-lg font-light">
-                    IceBakers works in two stages. In one, you respond to the
-                    "icebreaker questions" and your responses are saved with
-                    your name. In a second stage, you will get the questions
-                    with a reply from your colleague. There is the catch though,
-                    you will get two names and your goal is to figure out who is
-                    the right person that wrote this answer.
-                  </p>
-                  <p className="text-lg font-light">
-                    This site is heavily influenced by a functionality of <a href="https://www.quizbreaker.com/" className="font-semibold">QuizBreaker</a>. We aim to make a lightweight version that will be free to use.
+                    Thanks for signing in. Now we recommend to start with
+                    answering questions. This will provide pool of answers for
+                    others and make the app more fun for your colleagues.
                   </p>
                 </div>
               </div>
