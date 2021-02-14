@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { signin, signout, useSession } from "next-auth/client";
+import Companies from "../components/companies"
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -70,6 +71,7 @@ export default function Home() {
                     answering questions. This will provide pool of answers for
                     others and make the app more fun for your colleagues.
                   </p>
+                  <Companies />
                 </div>
               </div>
             </>
