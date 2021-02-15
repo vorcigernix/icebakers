@@ -68,11 +68,11 @@ export default function SignIn({ providers }) {
       <footer className="flex items-center justify-center w-full h-24 border-t">
         <a
           className="flex items-center justify-center"
-          href="https://adamsobotka.vercel.app"
+          href="https://gitcoin.co/issue/binancex/Grant-projects/17/100024656"
           target="_blank"
           rel="noopener noreferrer"
         >
-          by Adam Sobotka
+          built at Binance Hackathon: The Future Is Now
         </a>
       </footer>
     </div>

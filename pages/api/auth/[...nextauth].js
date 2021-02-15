@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import Adapters from "next-auth/adapters"
+import Models from "../../../usermodels"
 
 const options = {
   // @link https://next-auth.js.org/configuration/providers
@@ -13,8 +15,17 @@ const options = {
   ],
 
   // @link https://next-auth.js.org/configuration/databases
-  database: process.env.NEXTAUTH_DATABASE_URL,
-
+  //database: process.env.NEXTAUTH_DATABASE_URL,
+  adapter: Adapters.TypeORM.Adapter(
+    // The first argument should be a database connection string or TypeORM config object
+    process.env.NEXTAUTH_DATABASE_URL,
+    // The second argument can be used to pass custom models and schemas
+    {
+      models: {
+        User: Models.User,
+      },
+    }
+  ),
   // @link https://next-auth.js.org/configuration/options#session
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
@@ -55,6 +66,7 @@ const options = {
      *                           Return `false` to deny access
      */
     signIn: async (user, account, profile) => {
+      console.log(user);
       return true;
     },
 

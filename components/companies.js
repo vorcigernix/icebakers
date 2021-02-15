@@ -10,7 +10,7 @@ function Companies() {
     <>
       <div className="relative mr-6 my-2">
         <input
-          className="bg-white shadow rounded border-0 p-3"
+          className="bg-white shadow rounded border-0 p-3 w-full"
           type="search"
           aria-label="Search for your company"
           placeholder="type your company..."
@@ -20,7 +20,7 @@ function Companies() {
       </div>
       <datalist id="companyName">
         {data.map((item) => (
-          <option key={item.id} value={item.id}>
+          <option key={item.id} value={item.name}>
             {item.name}
           </option>
         ))}
