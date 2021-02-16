@@ -1,10 +1,7 @@
 import Head from "next/head";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
-import Web3 from "web3";
-import React, { useState, useEffect } from "react";
-
-
+import Wallet from "../components/wallet";
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -53,29 +50,9 @@ export default function Home() {
                     <span>
                       Connect your wallet below if you want to receive tips.
                     </span>
-                    {!walletInstalled && (
-                      <span>
-                        In order to use wallet, install free and safe
-                        <a href="https://metamask.io/">Metamask</a>.
-                      </span>
-                    )}
                   </p>
                   <div className="md:flex justify-center p-8 ">
-                    <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="h-8 mx-2 text-blue-400"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Connect wallet
-                    </button>
+                    <Wallet />
                     <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
