@@ -13,13 +13,13 @@ export default function Home() {
       <noscript>
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
       </noscript>
-      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <div className="flex flex-col  min-h-screen py-2">
         <Head>
           <title>IceBakers</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
+        <main className="flex flex-col items-center justify-center flex-1 px-20">
           <h1 className="text-6xl font-extrabold">
             🧁
             <span className="text-blue-400">Ice</span>
@@ -36,8 +36,8 @@ export default function Home() {
                   src="/bg2.svg"
                   alt=""
                 />
-                <div className="w-2/3 pt-6 md:p-8 text-center md:text-left space-y-4">
-                  <p className="my-6 text-2xl">
+                <div className="w-2/3 pt-6 md:p-8  space-y-4">
+                  <p className="my-6 text-2xl mx-auto">
                     Get to know your colleagues and friends
                   </p>
                   <p className="text-lg font-light">
@@ -46,14 +46,15 @@ export default function Home() {
                     others and make the app more fun for your colleagues.
                   </p>
                   <Companies />
-                  <p className="text-lg font-light">
+                  <p className="text-lg font-light mt-6 pt-8">
                     <span>
                       Connect your wallet below if you want to receive tips.
+                      <a href="/about" className="font-semibold"> How does it work?</a>
                     </span>
                   </p>
-                  <div className="md:flex justify-center p-8 ">
+                  <div className="md:flex pb-8">
                     <Wallet />
-                    <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                    <button className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -68,7 +69,7 @@ export default function Home() {
                       </svg>
                       Answer Questions
                     </button>
-                    <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                    <button className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
