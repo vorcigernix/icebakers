@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb'
 
-const { NEXTAUTH_DATABASE_URL } = process.env
+const { NEXTAUTH_DATABASE_URL, NEXTAUTH_DATABASE } = process.env
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -27,7 +27,7 @@ export async function connectToDatabase() {
     cached.promise = MongoClient.connect(NEXTAUTH_DATABASE_URL, opts).then((client) => {
       return {
         client,
-        db: client.db("icebeakers"),
+        db: client.db(NEXTAUTH_DATABASE || "icebakers"),
       }
     })
   }

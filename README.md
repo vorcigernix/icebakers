@@ -11,6 +11,7 @@ Inside __.env.local__ populate the following
 - NEXTAUTH_GOOGLE_ID : this is your google id for OAUTH
 - NEXTAUTH_GOOGLE_SECRET : this is your google secret for OAUTH
 - NEXTAUTH_URL=http://localhost:3000
+- NEXTAUTH_DATABASE : the database to connect to (default to icebakers)
 
 Inside __.secret__ store the same BINANCE_SECRET_KEY as above. This .secret file is used to compile and deploy your Smart Contracts
 
