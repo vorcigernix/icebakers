@@ -13,7 +13,8 @@
 /out/
 
 # production
-/build
+# Remove to include the contracts in the build directory ...
+# /build
 
 # misc
 .DS_Store
