@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 export default function QuestionsPage() {
   const [session, loading] = useSession();
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [answerText, setAnswerText] = React.useState("");
 
   if (!loading && !session?.user) return signin();
 
@@ -13,6 +14,18 @@ export default function QuestionsPage() {
   //console.log(data)
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+
+  async function handleClick() {
+    setQuestionIndex(questionIndex + 1);
+
+    await fetch("/api/mutate", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ answerText, data: data[questionIndex] }),
+    });
+  }
 
   return (
     <div className="flex flex-col  min-h-screen py-2">
@@ -47,6 +60,8 @@ export default function QuestionsPage() {
                 className="block w-full resize-none p-2 outline-none"
                 placeholder="type your answer and click next"
                 autoFocus
+                onChange={(event) => setAnswerText(event.target.value)}
+                value={answerText}
               ></textarea>
             </div>
           </div>
@@ -76,7 +91,7 @@ export default function QuestionsPage() {
 
             <button
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-              onClick={() => setQuestionIndex(questionIndex + 1)}
+              onClick={() => handleClick()}
             >
               <span className="">Next</span>
               <svg
