@@ -4,7 +4,7 @@
  * notified of their pending tips
  */
 
-import { resolveWeb3 } from "../../lib/getWeb3";
+import { resolveWeb3 } from "../../lib/getWeb3Server";
 import getContractInstance from "../../lib/getContract";
 import Contract from "../../lib/contracts/TipEscrow.json";
 import { getSession } from 'next-auth/client'

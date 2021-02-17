@@ -4,7 +4,7 @@
  * notified of their pending tips
  */
 
-import { resolveWeb3 } from "../../lib/getWeb3";
+import { resolveWeb3 } from "../../lib/getWeb3Server";
 import getContractInstance from "../../lib/getContract";
 import Contract from "../../lib/contracts/TipEscrow.json";
 import { getSession } from 'next-auth/client';
@@ -29,7 +29,7 @@ const handler = async (req, res) => {
         res.status(200).json({"result":"success", "message": `Already registered, ${address} to ${email}`});
         return;
     }
-    
+
     const updatedAddress = JSON.parse(req.body).address;
 
     const Web3 = await resolveWeb3();
