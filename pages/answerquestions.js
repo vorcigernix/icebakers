@@ -1,8 +1,10 @@
 import { useSession } from "next-auth/client";
 import useSWR from "swr";
+import React, { useEffect, useState } from "react";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   if (!loading && !session?.user) return signin();
 
@@ -11,7 +13,6 @@ export default function QuestionsPage() {
   //console.log(data)
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
-
 
   return (
     <div className="flex flex-col  min-h-screen py-2">
@@ -24,10 +25,12 @@ export default function QuestionsPage() {
           </span>
         </h1>
         <div>
-          {data.map((item) => (
-            <div key={item.id}>{item.questiontext}</div> 
+          {data.map((item, index) => (
+            <div className={index==questionIndex?`visible`:`hidden`} key={item.id}>{item.questiontext}</div>
           ))}
         </div>
+        <button onClick={() => setQuestionIndex(questionIndex - 1)}>Previous</button>
+        <button onClick={() => setQuestionIndex(questionIndex + 1)}>Next</button>
       </main>
     </div>
   );
