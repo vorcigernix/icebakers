@@ -19,7 +19,7 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="flex flex-col items-center justify-center flex-1 px-20">
+        <main className="flex flex-col items-center mt-9 flex-1 px-20">
           <h1 className="text-6xl font-extrabold">
             🧁
             <span className="text-blue-400">Ice</span>
