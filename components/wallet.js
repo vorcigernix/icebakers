@@ -60,7 +60,7 @@ function WalletComponent(props) {
       const result = await getPendingTips();
       setPendingTips(+result.pending > 0);
     }, 15000));
-  });
+  }, [session.user]);
 
   return (
     <>
