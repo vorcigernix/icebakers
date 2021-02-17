@@ -41,18 +41,21 @@ const handler = async (req, res) => {
     const contractDefinition = await getContractInstance(Web3, Contract);
 
     const { db } = await connectToDatabase();
-    await db
-    .collection("users")
+    const results = await db
+    .collection("userUsers")
     .findOneAndUpdate(
         {
             email
         },
         {
             $set: {
-                erctwenty: updatedAddress
+                erctwenty: updatedAddress,
+                updatedAt: new Date()
             }
         }
     );
+
+    console.log(results);
 
     console.log(`Connected User Wallet ${updatedAddress} to client email ${email}`);
 

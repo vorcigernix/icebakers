@@ -1,7 +1,7 @@
 import Web3Container from "../lib/Web3Container";
 import { getPendingTips, connectWallet } from "../lib/tipsService";
 import React, { useEffect, useState } from "react";
-import { useSession, signIn, signOut } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 
 async function tipFriend({ friend, amount, contract, wallet, web3 }) {
   console.log(amount);
@@ -45,10 +45,11 @@ function WalletComponent(props) {
   const [pendingTips, setPendingTips] = React.useState(false);
   const [session] = useSession();
   const [timer, setTimer] = useState(0);
+
   useEffect((e) => {
     // poll the pending tips
     console.log(session);
-    if (session && session.user && session.user.address) {
+    if (session.user && session.user.address) {
       window.clearInterval(timer);
       setTimer(0);
       return; // we don't need to check pending tips if the user already exists
@@ -60,7 +61,7 @@ function WalletComponent(props) {
       const result = await getPendingTips();
       setPendingTips(+result.pending > 0);
     }, 15000));
-  }, [session.user]);
+  }, [session.user.address]);
 
   return (
     <>
