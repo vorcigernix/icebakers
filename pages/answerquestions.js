@@ -18,7 +18,7 @@ export default function QuestionsPage() {
   async function handleClick() {
     setQuestionIndex(questionIndex + 1);
 
-    await fetch("/api/mutate", {
+    await fetch("/api/answer", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
