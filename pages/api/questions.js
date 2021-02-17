@@ -17,7 +17,6 @@ export default async (req, res) => {
     }`;
 
   const { questions } = await graphcms.request(questionsQuery);
-  //console.log(data)
 
   res.status(200).json(questions);
 };
