@@ -25,7 +25,7 @@ export default function QuestionsPage() {
         </h1>
         <div>
           {data.map((item) => (
-            <div key={item.id}>{item.questiontext}</div>
+            <div key={item.id}>{item.questiontext}</div> 
           ))}
         </div>
       </main>
