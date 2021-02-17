@@ -7,7 +7,7 @@ import { GraphQLClient } from 'graphql-request';
 
 export default async ({ body }, res) => {
   const graphcms = new GraphQLClient(
-    'https://api-eu-central-1.graphcms.com/v2/ck8sn5tnf01gc01z89dbc7s0o/master',
+    process.env.GRAPHCMS_ENDPOINT,
     {
       headers: {
         authorization: `Bearer ${process.env.GRAPHCMS_MUTATION_TOKEN}`,

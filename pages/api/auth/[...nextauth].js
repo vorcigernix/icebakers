@@ -79,6 +79,7 @@ const options = {
      */
     session: async (session, user) => {
       //session.customSessionProperty = 'bar'
+      session.user.address = user.erctwenty;
       return Promise.resolve(session);
     },
 

@@ -7,31 +7,59 @@
 import { resolveWeb3 } from "../../lib/getWeb3";
 import getContractInstance from "../../lib/getContract";
 import Contract from "../../lib/contracts/TipEscrow.json";
+import { getSession } from 'next-auth/client';
+import { connectToDatabase } from '../../util/mongodb';
+
 
 const handler = async (req, res) => {
-    // assume that we can get the authenticated email address somehow
-    // for my demo, i will supply as argument in the body
-    const { email, address } = JSON.parse(req.body); // note email should be authenticated
+    const session = await getSession({ req })
+    if (!session) {
+        res.status(403);
+        return;
+    }
 
-    console.log(email, address, req.body);
+    const { email, address } = session.user; // authenticated user
 
-    if ((req.method !== "POST") || !email || !address) {
+    if ((req.method !== "POST") || !email) {
         res.status(403).json({"result":"failure", "message":"Invalid response"});
         return;
     }
+
+    if (address) {
+        res.status(200).json({"result":"success", "message": `Already registered, ${address} to ${email}`});
+        return;
+    }
+    
+    const updatedAddress = JSON.parse(req.body).address;
 
     const Web3 = await resolveWeb3();
     const accounts = await Web3.eth.getAccounts();
     const contractDefinition = await getContractInstance(Web3, Contract);
 
-    const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
+    const { db } = await connectToDatabase();
+    await db
+    .collection("users")
+    .findOneAndUpdate(
+        {
+            email
+        },
+        {
+            $set: {
+                erctwenty: updatedAddress
+            }
+        }
+    );
+
+    console.log(`Connected User Wallet ${updatedAddress} to client email ${email}`);
+
+    const result = +(await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call());
     if (result) {
         // claim the tips!
-        const result = await contractDefinition.methods.claim(address, Web3.utils.soliditySha3(email)).send({from:accounts[0]});
+        const result = await contractDefinition.methods.claim(updatedAddress, Web3.utils.soliditySha3(email)).send({from:accounts[0]});
         res.status(200).json({"result": "Successfully claimed tips as well!"});
         return;
     }
-    res.status(200).json({"result":"success", "message": `Registered ${address} to ${email}`});
+    res.status(200).json({"result":"success", "message": `Registered ${updatedAddress} to ${email}`});
 }
 
 export default handler;

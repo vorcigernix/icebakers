@@ -7,13 +7,18 @@
 import { resolveWeb3 } from "../../lib/getWeb3";
 import getContractInstance from "../../lib/getContract";
 import Contract from "../../lib/contracts/TipEscrow.json";
+import { getSession } from 'next-auth/client'
 
 // Call this to get any pending tips. It should be done when a user logs in
 // This will encourage the user to redeem the tips by linking their public key
 const handler = async (req, res) => {
-    // assume that we can get the authenticated email address somehow
-    // for my demo, i will supply as argument in the body
-    const { email } = req.query;
+    const session = await getSession({ req })
+    if (!session) {
+        res.status(403);
+        return;
+    }
+    // retrieving the users' email from the session
+    const { email } = session.user;
     // find the wallet
     const Web3 = await resolveWeb3();
 

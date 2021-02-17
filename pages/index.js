@@ -53,7 +53,7 @@ export default function Home() {
                     </span>
                   </p>
                   <div className="md:flex pb-8">
-                    <Wallet />
+                    <Wallet session={session}/>
                     <button className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
