@@ -26,5 +26,8 @@
     "graphql-request": "^1.8.2",
     "swr": "^0.2.0",
     "@truffle/hdwallet-provider": "^1.2.2"
+  },
+  "peerOptionalDependencies": {
+    "mongodb": "^3.6.4"
   }
 }
