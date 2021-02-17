@@ -54,9 +54,6 @@ function WalletComponent(props) {
       setTimer(0);
       return; // we don't need to check pending tips if the user already exists
     }
-    if (timer > 0) {
-      window.clearInterval(timer);
-    }
     setTimer(window.setInterval(async (e) => {
       const result = await getPendingTips();
       setPendingTips(+result.pending > 0);

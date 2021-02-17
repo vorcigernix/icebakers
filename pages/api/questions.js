@@ -13,10 +13,12 @@ export default async (req, res) => {
   const questionsQuery = `{
     questions {
         questiontext
+        id
       }
     }`;
 
   const { questions } = await graphcms.request(questionsQuery);
+  //console.log(questions)
 
   res.status(200).json(questions);
 };
