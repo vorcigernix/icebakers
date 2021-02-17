@@ -4,8 +4,8 @@ import Adapters from "next-auth/adapters"
 export default class User extends Adapters.TypeORM.Models.User.model {
   // You can extend the options in a model but you should not remove the base
   // properties or change the order of the built-in options on the constructor
-  constructor(name, email, image, emailVerified) {
-    super(name, email, image, emailVerified)
+  constructor(name, email, image, emailVerified, erctwenty) {
+    super(name, email, image, emailVerified, erctwenty)
   }
 }
 
