@@ -72,7 +72,7 @@ function WalletComponent(props) {
           className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
           onClick={(e) => registerWalletToClaim(wallet)}
         >
-          <span>Connect wallet</span>
+          <span>Claim tips</span>
           <svg
             className="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -87,24 +87,6 @@ function WalletComponent(props) {
             />
           </svg>
         </button>
-        // <button
-        //   className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3"
-        //   onClick={(e) => registerWalletToClaim(wallet)}
-        // >
-        //   <svg
-        //     xmlns="http://www.w3.org/2000/svg"
-        //     viewBox="0 0 20 20"
-        //     fill="currentColor"
-        //     className="h-8 mx-2 text-blue-400"
-        //   >
-        //     <path
-        //       fillRule="evenodd"
-        //       d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z"
-        //       clipRule="evenodd"
-        //     />
-        //   </svg>
-        //   Claim your tips
-        // </button>
       )}
     </>
   );
@@ -114,7 +96,17 @@ const Wallet = (props) => {
   return (
     <Web3Container
       renderLoading={() => (
-        <div className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3">
+        <div className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
+          <svg
+            className="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+          </svg>
           Connecting
         </div>
       )}

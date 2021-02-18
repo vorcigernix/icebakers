@@ -216,7 +216,8 @@ export default function Home() {
                       className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                       onClick={() => setPageIndex(pageIndex + 1)}
                     >
-                      <span>Skip</span>
+                      {session.accessToken &&( <span>Next</span>)}
+                      {!session.accessToken &&( <span>Skip</span>)}
 
                       <svg
                         className="h-5 w-5"
@@ -225,11 +226,7 @@ export default function Home() {
                         fill="currentColor"
                         aria-hidden="true"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                          clipRule="evenodd"
-                        />
+
                         <path
                           fillRule="evenodd"
                           d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
