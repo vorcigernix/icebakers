@@ -7,7 +7,7 @@ export default async ({ body }, res) => {
     },
   });
 
-  console.log(body);
+  //console.log(body);
 
   const { createCompany } = await graphcms.request(
     `

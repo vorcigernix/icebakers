@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
-import addcompany from "./api/addcompany";
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -12,18 +11,29 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [pageIndex, setPageIndex] = useState(0);
-  async function AddCompany() {
+  async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
-
-    await fetch("/api/addcompany", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        name:createdCompany
-      }),
-    });
+    if (isnew) {
+      await fetch("/api/addcompany", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: createdCompany,
+        }),
+      });
+    } else {
+      await fetch("/api/joincompany", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          orgId: selectedCompany.id,
+        }),
+      });
+    }
   }
 
   return (
@@ -111,9 +121,9 @@ export default function Home() {
                     {selectedCompany && selectedCompany != " " && (
                       <button
                         className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-                        onClick={() => setPageIndex(pageIndex + 1)}
+                        onClick={() => ManageCompany(false)}
                       >
-                        <span>Next</span>
+                        <span>Join {selectedCompany.name}</span>
                         <svg
                           className="h-5 w-5"
                           xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +142,7 @@ export default function Home() {
                     {!selectedCompany && (
                       <button
                         className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-yellow-300 text-sm font-medium text-gray-500 hover:bg-white"
-                        onClick={() => AddCompany()}
+                        onClick={() => ManageCompany(true)}
                       >
                         <span>Create new company</span>
                         <svg
@@ -150,7 +160,6 @@ export default function Home() {
                         </svg>
                       </button>
                     )}
-                    
                   </nav>
                 </div>
                 {/* screen 2 */}
