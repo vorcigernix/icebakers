@@ -1,11 +1,14 @@
 import { useSession } from "next-auth/client";
 import useSWR from "swr";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answerText, setAnswerText] = React.useState("");
+  const router = useRouter();
+  const { company } = router.query;
 
   if (!loading && !session?.user) return signin();
 
@@ -17,13 +20,19 @@ export default function QuestionsPage() {
 
   async function handleClick() {
     setQuestionIndex(questionIndex + 1);
+    const email = session.user.email;
 
     await fetch("/api/answer", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ answerText, data: data[questionIndex] }),
+      body: JSON.stringify({
+        answerText,
+        company,
+        email,
+        data: data[questionIndex],
+      }),
     });
   }
 

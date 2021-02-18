@@ -1,8 +1,3 @@
-
-// export default function helloAPI(req, res) {
-//   res.status(200).json({ name: 'John Doe' })
-// }
-
 import { GraphQLClient } from 'graphql-request';
 import { getSession } from 'next-auth/client';
 
