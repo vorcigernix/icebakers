@@ -1,11 +1,16 @@
 import useSWR from "swr";
 
-function Companies() {
+function Companies({ company, onCompanyChange }) {
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error } = useSWR("/api/companies", fetcher);
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
   //console.log(data);
+  function handleChange(e) {
+    const id = data.find( ({ name }) => name === e.target.value );
+    //console.log(id);
+    onCompanyChange(id);
+  }
   return (
     <>
       <div className="relative mr-6 my-2">
@@ -16,11 +21,12 @@ function Companies() {
           placeholder="type your company..."
           name="companies"
           list="companyName"
+          onChange={handleChange}
         />
       </div>
-      <datalist id="companyName">
+      <datalist id="companyName" >
         {data.map((item) => (
-          <option key={item.id} value={item.name}>
+          <option key={item.id} value={item.name} >
             {item.name}
           </option>
         ))}

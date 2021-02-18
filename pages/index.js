@@ -1,4 +1,5 @@
 import Head from "next/head";
+import React, { useState } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
@@ -6,6 +7,9 @@ import Wallet from "../components/wallet";
 export default function Home() {
   const [session, loading] = useSession();
   if (!loading && !session?.user) return signin();
+
+  const [selectedCompany, setSelectedCompany] = React.useState("");
+  //console.log(selectedCompany);
 
   return (
     <div className={`nojs-show ${!session && loading ? "loading" : "loaded"}`}>
@@ -44,7 +48,10 @@ export default function Home() {
                     answering questions. This will provide pool of answers for
                     others and make the app more fun for your colleagues.
                   </p>
-                  <Companies />
+                  <p className="text-lg font-light">
+                    First, please select a "company". This is the group that sets boundaries, your answers will be visible only within your group and later, in a Guess Answer part, you will see answers only from your group.
+                  </p>
+                  <Companies company={selectedCompany} onCompanyChange={setSelectedCompany}/>
                   <p className="text-lg font-light mt-6 pt-8">
                     <span>
                       Connect your wallet below if you want to receive tips.
