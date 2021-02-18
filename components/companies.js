@@ -8,7 +8,7 @@ function Companies({ company, onCompanyChange }) {
   //console.log(data);
   function handleChange(e) {
     const id = data.find( ({ name }) => name === e.target.value );
-    //console.log(id);
+    console.log(id);
     onCompanyChange(id);
   }
   return (

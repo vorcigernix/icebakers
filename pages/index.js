@@ -8,7 +8,7 @@ export default function Home() {
   const [session, loading] = useSession();
   if (!loading && !session?.user) return signin();
 
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState(" ");
   const [pageIndex, setPageIndex] = useState(0);
   //console.log(selectedCompany);
 
@@ -61,11 +61,16 @@ export default function Home() {
                     your group and later, in a Guess Answer part, you will see
                     answers only from your group.
                   </p>
+
                   <Companies
                     company={selectedCompany}
                     onCompanyChange={setSelectedCompany}
                   />
-
+                  <p className="font-light">
+                    Existing companies are listed as you type. If you want to
+                    create a new company, type a name and press the yellow
+                    button.
+                  </p>
                   <nav
                     className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
                     aria-label="Pagination"
@@ -89,25 +94,48 @@ export default function Home() {
                         />
                       </svg>
                     </button>
-                    <button
-                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-                      onClick={() => setPageIndex(pageIndex + 1)}
-                    >
-                      <span>Next</span>
-                      <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
+                    {selectedCompany && (
+                      <button
+                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                        onClick={() => setPageIndex(pageIndex + 1)}
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
+                        <span>Next</span>
+                        <svg
+                          className="h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                    {!selectedCompany && (
+                      <button
+                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-yellow-300 text-sm font-medium text-gray-500 hover:bg-white"
+                        onClick={() => setPageIndex(pageIndex + 1)}
+                      >
+                        <span>Create new company</span>
+                        <svg
+                          className="h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </nav>
 
                   {/* <div className="md:flex pb-8">
@@ -167,8 +195,11 @@ export default function Home() {
                   <p className="text-lg font-light">
                     It goes both ways though, if you want to be rewarded, we'll
                     need your wallet address. If you don't have a wallet
-                    installed, follow our easy guide to install a Metamask. And,
-                    welcome to the future.
+                    installed, follow{" "}
+                    <a href="/guide" className="font-semibold">
+                      our easy guide
+                    </a>{" "}
+                    to install a Metamask. And, welcome to the future.
                   </p>
                   <nav
                     className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
@@ -194,10 +225,35 @@ export default function Home() {
                       </svg>
                     </button>
                     <button
+                      className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      onClick={() => setPageIndex(pageIndex + 1)}
+                    >
+                      <span>Skip</span>
+
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                    <button
                       className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
                       onClick={() => setPageIndex(pageIndex + 1)}
                     >
-                      <span>Next</span>
+                      <span>Connect wallet</span>
                       <svg
                         className="h-5 w-5"
                         xmlns="http://www.w3.org/2000/svg"
