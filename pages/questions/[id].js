@@ -8,7 +8,8 @@ export default function QuestionsPage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answerText, setAnswerText] = React.useState("");
   const router = useRouter();
-  const { company } = router.query;
+  const { id } = router.query; // note this value (id) is based on the [id].js
+  console.log(router.query, id);
 
   if (!loading && !session?.user) return signin();
 
@@ -28,10 +29,9 @@ export default function QuestionsPage() {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        answerText,
-        company,
-        email,
-        data: data[questionIndex],
+        ans: answerText,
+        orgId: id,
+        qnId: data[questionIndex].id,
       }),
     });
   }

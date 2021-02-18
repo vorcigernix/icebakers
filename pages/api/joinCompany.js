@@ -23,7 +23,7 @@ export default async (req, res) => {
       },
     }
   );
-  const body = JSON.parse(req.body);
+  const body = req.body;
   console.log(body);
   const { updatePerson } = await graphcms.request(
     ` mutation connectOrgPeople($id: String! $orgId: ID) {
@@ -43,15 +43,6 @@ export default async (req, res) => {
         }
       }`,
     { id: email, orgId: body.orgId }
-  );
-
-  await graphcms.request(
-    `mutation publishOrganizations($id: ID!) {
-        publishOrganizations(where: {id:$id}) {
-        id
-      }
-    }`,
-    { id: updatePerson.organizations }
   );
 
   res.status(200).json({ id: updatePerson.id, answers: updatePerson.answers });
