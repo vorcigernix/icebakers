@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-function Companies({ company, onCompanyChange }) {
+function Companies({ onCreateCompany, onCompanyChange }) {
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error } = useSWR("/api/companies", fetcher);
   if (error) return <div>failed to load</div>;
@@ -8,7 +8,7 @@ function Companies({ company, onCompanyChange }) {
   //console.log(data);
   function handleChange(e) {
     const id = data.find( ({ name }) => name === e.target.value );
-    console.log(id);
+    onCreateCompany(e.target.value);
     onCompanyChange(id);
   }
   return (
