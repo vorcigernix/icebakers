@@ -1,7 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import Adapters from "next-auth/adapters"
-import Models from "../../../usermodels"
+import Adapters from "next-auth/adapters";
+import Models from "../../../usermodels";
+import RegisterPerson from "../person";
 
 const options = {
   // @link https://next-auth.js.org/configuration/providers
@@ -113,6 +114,11 @@ const options = {
     //verifyRequest: '/api/auth/verify-request', // (used for check email message)
     //newUser: null // If set, new users will be directed here on first sign in
   },
+  events: {
+    async createUser(message) { 
+      await RegisterPerson(message.email);    
+    },
+  }
 
   // Additional options
   // secret: 'abcdef123456789' // Recommended (but auto-generated if not specified)

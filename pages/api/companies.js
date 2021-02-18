@@ -22,3 +22,21 @@ export default async (req, res) => {
 
   res.status(200).json(organizations);
 };
+
+/**
+ mutation joinOrganisation($id: String! $orgId: ID) {
+    updatePerson(where: {objectId: $id}, 
+      data: {
+        organizations: {
+          connect:{
+            where:{
+              id:$orgId
+            }
+          }
+        }       
+      }
+    ) {
+      id
+    }
+  }
+ */
