@@ -31,8 +31,8 @@ export default async (req, res) => {
       },
     }
   );
-  const body = JSON.parse(req.body);
-  console.log(body);
+  const body = req.body;
+  console.log(email, req.body);
   const { updatePerson } = await graphcms.request(
     `mutation answerQuestion($id: String! $ans: String $qnId: ID $orgId: ID) {
       updatePerson(where: {objectId: $id}, 
@@ -55,19 +55,21 @@ export default async (req, res) => {
         }
       ) {
         id
-        answers: id
+        answers(last:1) {id}
       }
     }`,
     { id: email, ans: body.ans, qnId: body.qnId, orgId: body.orgId }
   );
 
+  console.log(updatePerson);
+
   await graphcms.request(
     `mutation publishAnswer($id: ID!) {
-      publishAnswer(where: {id:$id}) {
+      publishAnswer(where: {id:$id}, to: PUBLISHED) {
         id
       }
     }`,
-    { id: updatePerson.answers }
+    { id: updatePerson.answers[0].id }
   );
 
   res.status(200).json({ id: updatePerson.id, answers: updatePerson.answers });

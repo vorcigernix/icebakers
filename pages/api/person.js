@@ -19,7 +19,7 @@ export default async (emailId) => {
      * It should happen after the registration event
      * The objectId is the email address
      */
-    const { createPerson } = await graphcms.request(
+    const { updatePerson } = await graphcms.request(
         `mutation joinOrganisation($id: String! $orgId: ID) {
             updatePerson(where: {objectId: $id},
               data: {
@@ -39,16 +39,7 @@ export default async (emailId) => {
         { id: emailId }
     );
 
-    await graphcms.request(
-        `mutation publishPerson($id: String!) {
-            publishPerson(where: { objectId: $id }, to: PUBLISHED) {
-              id
-            }
-          }`,
-        { id: createPerson.objectId }
-    );
-
-    console.log(`User ${emailId} has been registered. Person is ${createPerson.objectId}`);
+    console.log(`User ${emailId} has been registered. Person is ${updatePerson.id}`);
 };
 
 /*
