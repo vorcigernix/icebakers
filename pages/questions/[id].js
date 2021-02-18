@@ -102,7 +102,7 @@ export default function QuestionsPage() {
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={() => handleClick()}
             >
-              <span className="">Next</span>
+              <span>Next</span>
               <svg
                 className="h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"

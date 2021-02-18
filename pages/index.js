@@ -8,7 +8,8 @@ export default function Home() {
   const [session, loading] = useSession();
   if (!loading && !session?.user) return signin();
 
-  const [selectedCompany, setSelectedCompany] = React.useState("");
+  const [selectedCompany, setSelectedCompany] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
   //console.log(selectedCompany);
 
   return (
@@ -39,7 +40,13 @@ export default function Home() {
                   src="/bg2.svg"
                   alt=""
                 />
-                <div className="w-2/3 pt-6 md:p-8  space-y-4">
+                <div
+                  className={
+                    pageIndex == 0
+                      ? `visible w-2/3 pt-6 md:p-8  space-y-4`
+                      : `hidden`
+                  }
+                >
                   <p className="my-6 text-2xl mx-auto">
                     Get to know your colleagues and friends
                   </p>
@@ -49,19 +56,61 @@ export default function Home() {
                     others and make the app more fun for your colleagues.
                   </p>
                   <p className="text-lg font-light">
-                    First, please select a "company". This is the group that sets boundaries, your answers will be visible only within your group and later, in a Guess Answer part, you will see answers only from your group.
+                    First, please select a "company". This is the group that
+                    sets boundaries, your answers will be visible only within
+                    your group and later, in a Guess Answer part, you will see
+                    answers only from your group.
                   </p>
-                  <Companies company={selectedCompany} onCompanyChange={setSelectedCompany}/>
-                  <p className="text-lg font-light mt-6 pt-8">
-                    <span>
-                      Connect your wallet below if you want to receive tips.
-                      <a href="/about" className="font-semibold">
-                        {" "}
-                        How does it work?
-                      </a>
-                    </span>
-                  </p>
-                  <div className="md:flex pb-8">
+                  <Companies
+                    company={selectedCompany}
+                    onCompanyChange={setSelectedCompany}
+                  />
+
+                  <nav
+                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
+                    aria-label="Pagination"
+                  >
+                    <button
+                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      onClick={() => setPageIndex(pageIndex - 1)}
+                    >
+                      <span className="sr-only">Previous</span>
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                      onClick={() => setPageIndex(pageIndex + 1)}
+                    >
+                      <span>Next</span>
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </nav>
+
+                  {/* <div className="md:flex pb-8">
                     <Wallet session={session} />
                     <a href="/questions/687656586">
                       <button className="flex items-center justify-center text-base font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 mr-4 shadow rounded border-0 p-3">
@@ -95,7 +144,75 @@ export default function Home() {
                       </svg>
                       Guess Answers
                     </button>
-                  </div>
+                  </div> */}
+                </div>
+                {/* screen 2 */}
+                <div
+                  className={
+                    pageIndex == 1
+                      ? `visible w-2/3 pt-6 md:p-8  space-y-4`
+                      : `hidden`
+                  }
+                >
+                  <p className="my-6 text-2xl mx-auto">
+                    Get rewarded for great answers
+                  </p>
+                  <p className="text-lg font-light">
+                    Thanks for selecting your "company". Now, this part is
+                    optional, but we all like to be rewarded, right? A new
+                    projects like BSC allows us to make tip process fast and
+                    easy. This does not mean that you need to reward your peers,
+                    no pressure, this is up to you.
+                  </p>
+                  <p className="text-lg font-light">
+                    It goes both ways though, if you want to be rewarded, we'll
+                    need your wallet address. If you don't have a wallet
+                    installed, follow our easy guide to install a Metamask. And,
+                    welcome to the future.
+                  </p>
+                  <nav
+                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
+                    aria-label="Pagination"
+                  >
+                    <button
+                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      onClick={() => setPageIndex(pageIndex - 1)}
+                    >
+                      <span className="sr-only">Previous</span>
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                      onClick={() => setPageIndex(pageIndex + 1)}
+                    >
+                      <span>Next</span>
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </nav>
                 </div>
               </div>
             </>
