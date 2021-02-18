@@ -212,31 +212,50 @@ export default function Home() {
                         />
                       </svg>
                     </button>
-                    <button
-                      className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                      onClick={() => setPageIndex(pageIndex + 1)}
-                    >
-                      {session.accessToken &&( <span>Next</span>)}
-                      {!session.accessToken &&( <span>Skip</span>)}
+                    {session.accessToken && (
+                      <a href={`/questions/${selectedCompany.id}`}>
+                      <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span>Nice, all is set</span>
 
-                      <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
+                        <svg
+                          className="h-5 w-5 ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      </a>
+                    )}
+                    {!session.accessToken && (
+                      <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span>Skip</span>
 
-                        <path
-                          fillRule="evenodd"
-                          d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          className="h-5 w-5 ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
                     <Wallet />
                   </nav>
                 </div>
+                {/* screen3 - choose questions or answers?*/}
               </div>
             </>
           )}
