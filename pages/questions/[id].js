@@ -1,17 +1,16 @@
 import { useSession } from "next-auth/client";
 import useSWR from "swr";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [answerText, setAnswerText] = React.useState("");
+  const [questionIndex, setQuestionIndex] = useStickyState(0, "questionNumber");
+  const [answerText, setAnswerText] = useState("");
   const router = useRouter();
   const { id } = router.query; // note this value (id) is based on the [id].js
   console.log(router.query, id);
-  const [lastQuestion, setLastQuestion] = useStickyState("", "questionNumber");
 
   if (!loading && !session?.user) return signin();
 
@@ -21,11 +20,8 @@ export default function QuestionsPage() {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  lastQuestion && (setQuestionIndex(lastQuestion));
-
   async function handleClick() {
     setQuestionIndex(questionIndex + 1);
-    const email = session.user.email;
 
     await fetch("/api/answer", {
       method: "POST",
@@ -38,7 +34,6 @@ export default function QuestionsPage() {
         qnId: data[questionIndex].id,
       }),
     });
-    setLastQuestion(questionIndex);
     setAnswerText("");
   }
 
@@ -103,6 +98,28 @@ export default function QuestionsPage() {
                 />
               </svg>
             </button>
+
+            {questionIndex > 15 && (
+              <button
+                className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-400 text-sm font-medium text-gray-500 hover:bg-green-50"
+                onClick={() => handleClick()}
+              >
+                <span>Guess Answers</span>
+                <svg
+                  className="h-5 w-5 mx-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            )}
 
             <button
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
