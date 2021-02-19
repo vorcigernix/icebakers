@@ -1,16 +1,43 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
+import { Router, useRouter } from 'next/router'
+
+function useStickyState(defaultValue, key) {
+  const [value, setValue] = useState(defaultValue);
+
+  useEffect(() => {
+    const stickyValue = window.localStorage.getItem(key);
+
+    if (stickyValue !== null) {
+      setValue(JSON.parse(stickyValue));
+    }
+  }, [key]);
+
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
 
 export default function Home() {
   const [session, loading] = useSession();
   if (!loading && !session?.user) return signin();
+  const fwRouter = useRouter();
 
+  //refactor this
+  const [pageIndex, setPageIndex] = useState(0);
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
-  const [pageIndex, setPageIndex] = useState(0);
+  const [lastCompany, setLastCompany] = useStickyState("", "companyid");
+  if (lastCompany){
+    
+    fwRouter.push(`/questions/${lastCompany}`)
+  }
+  //
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
     if (isnew) {
@@ -24,6 +51,7 @@ export default function Home() {
         }),
       });
     } else {
+      setLastCompany(selectedCompany.id);
       await fetch("/api/joincompany", {
         method: "POST",
         headers: {
@@ -174,7 +202,7 @@ export default function Home() {
                     Get rewarded for great answers
                   </p>
                   <p className="text-lg font-light">
-                    Thanks for selecting your "company". Now, this part is
+                    Thanks for selecting your company. Now, this part is
                     optional, but we all like to be rewarded, right? A new
                     projects like BSC allows us to make tip process fast and
                     easy. This does not mean that you need to reward your peers,
@@ -184,10 +212,13 @@ export default function Home() {
                     It goes both ways though, if you want to be rewarded, we'll
                     need your wallet address. If you don't have a wallet
                     installed, follow{" "}
-                    <a href="/guide" className="font-semibold">
-                      our easy guide
+                    <a
+                      href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+                      className="font-semibold"
+                    >
+                      Binance easy guide
                     </a>{" "}
-                    to install a Metamask. And, welcome to the future.
+                    to install and setup a Metamask. And, welcome to the future.
                   </p>
                   <nav
                     className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
@@ -212,47 +243,49 @@ export default function Home() {
                         />
                       </svg>
                     </button>
-                    {session.accessToken && selectedCompany && (
+                    {session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                      <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span>Nice, all is set</span>
+                        <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                          <span>Nice, all is set</span>
 
-                        <svg
-                          className="h-5 w-5 ml-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            className="h-5 w-5 ml-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
                       </a>
                     )}
-                    {!session.accessToken && (
-                      <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span>Skip</span>
+                    {!session.user.address && selectedCompany && (
+                      <a href={`/questions/${selectedCompany.id}`}>
+                        <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                          <span>Skip</span>
 
-                        <svg
-                          className="h-5 w-5 ml-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            className="h-5 w-5 ml-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </a>
                     )}
-                    <Wallet session={session}/>
+                    <Wallet session={session} />
                   </nav>
                 </div>
                 {/* screen3 - choose questions or answers?*/}
