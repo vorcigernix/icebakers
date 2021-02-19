@@ -252,7 +252,7 @@ export default function Home() {
                         </svg>
                       </button>
                     )}
-                    <Wallet />
+                    <Wallet session={session}/>
                   </nav>
                 </div>
                 {/* screen3 - choose questions or answers?*/}

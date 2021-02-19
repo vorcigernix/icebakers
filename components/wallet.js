@@ -34,7 +34,7 @@ async function tipFriend({ friend, amount, contract, wallet, web3 }) {
  * @param {String} wallet - wallet to be registered
  */
 async function registerWalletToClaim(wallet) {
-  connectWallet(wallet);
+  await connectWallet(wallet);
 }
 
 function WalletComponent(props) {
