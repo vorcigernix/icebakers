@@ -10,7 +10,7 @@ export default function QuestionsPage() {
   const [answerText, setAnswerText] = useState("");
   const router = useRouter();
   const { id } = router.query; // note this value (id) is based on the [id].js
-  console.log(router.query, id);
+  //console.log(router.query, id);
 
   if (!loading && !session?.user) return signin();
 
@@ -101,7 +101,7 @@ export default function QuestionsPage() {
 
             {questionIndex > 15 && (
               <button
-                className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-400 text-sm font-medium text-gray-500 hover:bg-green-50"
+                className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50"
                 onClick={() => handleClick()}
               >
                 <span>Guess Answers</span>
@@ -141,6 +141,11 @@ export default function QuestionsPage() {
               </svg>
             </button>
           </nav>
+          <p className=" px-4 pb-6 font-light">
+            Now you can guess the answers. You will see what other people in
+            your company responded and you will have to guess who gave this
+            answer.
+          </p>
         </div>
       </main>
     </div>
