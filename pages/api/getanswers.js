@@ -8,13 +8,13 @@ export default async ({ body }, res) => {
   });
 
   const { answersQuery } = await graphcms.request(
-    `query getAnswersQuery {
-        answersConnection(where: {organization: {id: "ckktohxfcb3bi0f48u19qmlnj"}}) {
+    `query getAnswersQuery($id: ID!) {
+        answersConnection(where: {organization: {id: $id}}) {
           edges {
             node {
               answer
               person {
-                name
+                name    
                 profilePic
               }
             }
@@ -24,6 +24,5 @@ export default async ({ body }, res) => {
     { id: body.id }
   );
   const { answers } = await graphcms.request(answersQuery);
-
   res.status(200).json(answers);
 };

@@ -19,6 +19,7 @@ export default async (emailId) => {
      * This query will create a user 
      * It should happen after the registration event
      * The objectId is the email address
+     * We need to add a name and profilepic
      */
     const { createPerson } = await graphcms.request(
         `mutation createPerson ($id:String!){
