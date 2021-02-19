@@ -8,9 +8,9 @@ export default async (req, res) => {
     },
   });
 
-  const { answersQuery } = await graphcms.request(
-    `query getAnswersQuery($id: ID!) {
-        answersConnection(where: {organization: {id: $id}}) {
+  const { getAnswersQuery } = await graphcms.request(
+    `query getAnswersQuery($orgId: ID!) {
+        answersConnection(where: {organization: {id: $orgId}}) {
           edges {
             node {
               answer
@@ -22,8 +22,9 @@ export default async (req, res) => {
           }
         }
       }`,
-    { id: id }
+    { orgId: id }
   );
-  const { answers } = await graphcms.request(answersQuery);
+  console.log(id)
+  const { answers } = await graphcms.request(getAnswersQuery);
   res.status(200).json(answers);
 };
