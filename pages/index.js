@@ -41,7 +41,7 @@ export default function Home() {
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
     if (isnew) {
-      await fetch("/api/addcompany", {
+      const result = await fetch("/api/addcompany", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -50,6 +50,8 @@ export default function Home() {
           name: createdCompany,
         }),
       });
+      const json = await result.json();
+      setSelectedCompany(json);
     } else {
       setLastCompany(selectedCompany.id);
       await fetch("/api/joincompany", {
