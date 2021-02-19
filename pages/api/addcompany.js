@@ -1,6 +1,16 @@
 import { GraphQLClient } from "graphql-request";
+import { getSession } from "next-auth/client";
 
-export default async ({ body }, res) => {
+export default async (req, res) => {
+  const { body } = req;
+  const session = await getSession({ req })
+  if (!session) {
+    res.status(403);
+    return;
+  }
+
+  const { email } = session.user; // authenticated user
+
   const graphcms = new GraphQLClient(process.env.GRAPHCMS_ENDPOINT, {
     headers: {
       authorization: `Bearer ${process.env.GRAPHCMS_MUTATION_TOKEN}`,
@@ -9,9 +19,9 @@ export default async ({ body }, res) => {
 
   //console.log(body);
 
-  const { createCompany } = await graphcms.request(
+  const { createOrganization } = await graphcms.request(
     `
-    mutation insertCompany($name) {
+    mutation insertCompany($name:String) {
       createOrganization(data: {name: $name}) {
         id
       }
@@ -19,14 +29,36 @@ export default async ({ body }, res) => {
     { name: body.name }
   );
 
+  console.log(createOrganization);
+
   await graphcms.request(
     `mutation publishCompany($id: ID!) {
       publishOrganization(where: { id: $id }, to: PUBLISHED) {
         id
       }
     }`,
-    { id: createCompany.id }
+    { id: createOrganization.id }
   );
 
-  res.status(200).json({ id: createCompany.id });
+  const { updatePerson } = await graphcms.request(
+    ` mutation connectOrgPeople($id: String! $orgId: ID) {
+        updatePerson(where: {objectId: $id}, 
+          data: {
+            organizations: {
+              connect:{
+                where:{
+                  id:$orgId
+                }
+              }
+            }       
+          }
+        ) {
+          id
+          organizations: id
+        }
+      }`,
+    { id: email, orgId: createOrganization.id }
+  );
+
+  res.status(200).json({ id: createOrganization.id });
 };
