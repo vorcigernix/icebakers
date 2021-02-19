@@ -14,32 +14,32 @@ export default async (emailId) => {
         }
     );
 
+    console.log(`User ${emailId} - this is a test`);
     /**
      * This query will create a user 
      * It should happen after the registration event
      * The objectId is the email address
      */
-    const { updatePerson } = await graphcms.request(
-        `mutation joinOrganisation($id: String! $orgId: ID) {
-            updatePerson(where: {objectId: $id},
-              data: {
-                organizations: {
-                  connect:{
-                    where:{
-                      id:$orgId
-                    }
-                  }
-                }
-              }
-            ) {
+    const { createPerson } = await graphcms.request(
+        `mutation createPerson ($id:String!){
+            createPerson(data: {objectId: $id}) {
               id
-                organizations: id
+              objectId
             }
           }`,
         { id: emailId }
     );
 
-    console.log(`User ${emailId} has been registered. Person is ${updatePerson.id}`);
+    await graphcms.request(
+        `mutation publishPerson($id: ID!) {
+          publishPerson(where: {id:$id}, to: PUBLISHED) {
+            id
+          }
+        }`,
+        { id: createPerson.id }
+      );
+
+    console.log(`User ${emailId} has been registered. Person is ${createPerson.objectId}`);
 };
 
 /*
