@@ -2,6 +2,7 @@ import { useSession } from "next-auth/client";
 import useSWR from "swr";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import useStickyState from "../../lib/useStickyState";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
@@ -10,6 +11,7 @@ export default function QuestionsPage() {
   const router = useRouter();
   const { id } = router.query; // note this value (id) is based on the [id].js
   console.log(router.query, id);
+  const [lastQuestion, setLastQuestion] = useStickyState("", "questionNumber");
 
   if (!loading && !session?.user) return signin();
 
@@ -18,6 +20,8 @@ export default function QuestionsPage() {
   //console.log(data)
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+
+  lastQuestion && (setQuestionIndex(lastQuestion));
 
   async function handleClick() {
     setQuestionIndex(questionIndex + 1);
@@ -34,6 +38,8 @@ export default function QuestionsPage() {
         qnId: data[questionIndex].id,
       }),
     });
+    setLastQuestion(questionIndex);
+    setAnswerText("");
   }
 
   return (
