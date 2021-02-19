@@ -1,6 +1,7 @@
 import { GraphQLClient } from "graphql-request";
 
-export default async ({ body }, res) => {
+export default async (req, res) => {
+  const { id } = req.query;
   const graphcms = new GraphQLClient(process.env.GRAPHCMS_ENDPOINT, {
     headers: {
       authorization: `Bearer ${process.env.GRAPHCMS_MUTATION_TOKEN}`,
@@ -21,7 +22,7 @@ export default async ({ body }, res) => {
           }
         }
       }`,
-    { id: body.id }
+    { id: id }
   );
   const { answers } = await graphcms.request(answersQuery);
   res.status(200).json(answers);
