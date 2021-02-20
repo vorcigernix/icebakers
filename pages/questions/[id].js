@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
+import Wallet from "../../components/wallet";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
@@ -122,7 +123,7 @@ export default function QuestionsPage() {
             )}
 
             <button
-              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+              className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={() => handleClick()}
             >
               <span>Next</span>
@@ -140,6 +141,8 @@ export default function QuestionsPage() {
                 />
               </svg>
             </button>
+            <Wallet session={session} />
+
           </nav>
           <p className=" px-4 pb-6 font-light">
             Now you can guess the answers. You will see what other people in

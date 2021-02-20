@@ -9,7 +9,7 @@ import useStickyState from "../lib/useStickyState"
 
 export default function Home() {
   const [session, loading] = useSession();
-  if (!loading && !session?.user) return signin();
+  if (!loading && (!session || !session?.user)) return signin();
   const fwRouter = useRouter();
 
   //refactor this
@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  if (lastCompany){
+  if (lastCompany && session.user.address){
     
     fwRouter.push(`/questions/${lastCompany}`)
   }
