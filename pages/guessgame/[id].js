@@ -186,15 +186,14 @@ export default function GuessGame() {
               key={item.id}
             >
               <h3 className="text-2xl font-extrabold  text-gray-900">
-                {item.questiontext}
+                <span className=" text-blue-400">Q:&nbsp;</span>{item.questiontext}
               </h3>
               <div className="text-2xl font-extrabold  text-gray-900 my-6">
-                <h3 className="text-xl text-blue-400">Your friend says:</h3>"
+                <h3 className="text-xl text-blue-400 mb-4">Either Adam or Victa responded:</h3>"
                 {anwers[questionIndex].answer}"
               </div>
               <div className="text-xl font-extrabold">
-                <h3 className="text-blue-400">Was it</h3>
-                <div className="flex flex-col md:flex-row flex-1 text-center py-4">
+                <div className="flex flex-col md:flex-row justify-center items-center flex-1 text-center py-4">
                   <button
                     className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600 hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg "
                     onClick={() => showResult()}
