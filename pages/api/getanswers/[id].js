@@ -92,7 +92,7 @@ export default async (req, res) => {
     if (e.answers.length === 0) return; // no point because there are no answers ...
     const ans = getRandomInt(e.answers.length);
     e.answer = e.answers[ans];   
-    const other = persons.filter(f=> f.objectId !== email);
+    const other = persons.filter(f=> f.objectId !== email && f.objectId !== e.answer.person.objectId);
     if (other.length === 0) {
       // hmmmmm
       return;
