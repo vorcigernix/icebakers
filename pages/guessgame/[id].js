@@ -13,8 +13,8 @@ export default function GuessGame() {
 
   useEffect(async () => {
     const res = await fetch(`/api/getanswers/${id}`);
-    const data = await res.json();
-    setData(data);
+    const answers = await res.json();
+    setData(answers);
   });
 
   if (!loading && !session?.user) return signin();
