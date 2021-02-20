@@ -18,8 +18,8 @@ export default function GuessGame() {
     "questionAnswerNumber"
   );
   const [rightAnswer, setRightAnswer] = useState("");
-  function showResult(){
-    setRightAnswer(true);
+  function showResult(correct){
+    setRightAnswer(correct===true ? true:false);
   }
   function handleNext(){
     setQuestionIndex(questionIndex + 1);
@@ -28,145 +28,17 @@ export default function GuessGame() {
   }
 
   const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
-  //  const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
+  const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
   //console.log(data);
   //if (error) return <div>failed to load</div>;
   //if (!data) return <div>loading...</div>;
 
   //get the questions so I don't need to fake them
-  const { data, error } = useSWR(`/api/questions`, fetcher);
+  // const { data, error } = useSWR(`/api/questions`, fetcher);
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  const anwers = [
-    {
-      answer: "No. And yes, I know I am not getting rewarded for this.",
-    },
-    {
-      answer: "No again. Go away.",
-    },
-    {
-      answer: "ACTIV which is like active, which is not me",
-    },
-    {
-      answer: "Can'ŧ say there is.",
-    },
-    {
-      answer:
-        "Definitely. We don't matter. It is how far we can go as a humankind, before the sun burn us down that matters.",
-    },
-    {
-      answer: "Makumba. Ok, no, not really.",
-    },
-    {
-      answer: "Definitely.",
-    },
-    {
-      answer: "What? I am famous!",
-    },
-    {
-      answer:
-        "Cat. In my house. I actually thought that I am lazy before I've got cat.",
-    },
-    {
-      answer:
-        "So, I've done a lot of them. I feel really bad for jumping over begging homeless person, but I was really drunk. Yes, I know it doesn't help.",
-    },
-    {
-      answer:
-        "A beautiful chunk of wood from my 3yrs old kid, wrapped in some leather. Neither of us can say what it is (he is now 16)",
-    },
-    {
-      answer:
-        "That \"no matter how hard you try, in the end it doesn't even matter\". But that's not just now, it is the way I perceive the life. ",
-    },
-    {
-      answer:
-        "Pear on pizza. Try it. Not my invention, had one in northern Italy and it is great.",
-    },
-    {
-      answer:
-        "Prague. Seriously, I've been in many places, I love a lot of them, but I am always glad to return.",
-    },
-    {
-      answer: "Talker that try hard to be a listener too.",
-    },
-    {
-      answer:
-        "I will be jumping around the world, feeling guilty about damage I do to the nature.",
-    },
-    {
-      answer: "Armenia. And no, I don't know why.",
-    },
-    {
-      answer:
-        "I wanted to be a film director, like my father. So, kinda dreams fulfilled, I am a director :-) ",
-    },
-    {
-      answer: "Hora rut.",
-    },
-    {
-      answer: "I will burn it doing nothing probably. ",
-    },
-    {
-      answer:
-        "I was almost answering my wife, but I wouldn't do that to her. Other than that, I'd need just one thing: a satellite phone.",
-    },
-    {
-      answer: "ACTIV, which is most certainly not what I am!",
-    },
-    {
-      answer: "Yes I would visit all the planets and spend my days on uranus",
-    },
-    {
-      answer:
-        "No, but my dad is always being confused with someone (Jackie Chan)",
-    },
-    {
-      answer: "Cats, they are carefree and their own boss",
-    },
-    {
-      answer:
-        "Accidentally left my whatsapp open in a meeting with all my bosses",
-    },
-    {
-      answer:
-        "Accidentally left my whatsapp open in a meeting with all my bosses",
-    },
-    {
-      answer: "Its my life!",
-    },
-    {
-      answer: "Its my life!",
-    },
-    {
-      answer: "Inside my own head ",
-    },
-    {
-      answer: "Did you ask something?",
-    },
-    {
-      answer: "I'd like to visit every continent",
-    },
-    {
-      answer:
-        "In a small town in Kuala Lumpur on a large piece of land doing simple farming",
-    },
-    {
-      answer:
-        "In a small town in Kuala Lumpur on a large piece of land doing simple farming",
-    },
-    {
-      answer: "Buy bitcoin, buy ethereum, hold at least 1000 of each",
-    },
-    {
-      answer: "i would most likely waste it!",
-    },
-    {
-      answer: "Knife, Glass, Plastic Wrap",
-    },
-  ];
-
+  console.log(rightAnswer);
   return (
     <div className="flex flex-col  min-h-screen py-2">
       <main className="flex flex-col items-center mt-9 flex-1 px-20">
@@ -183,26 +55,26 @@ export default function GuessGame() {
               className={
                 index == questionIndex ? `visible px-4 py-5 sm:px-6` : `hidden`
               }
-              key={item.id}
+              key={index}
             >
               <h3 className="text-2xl font-extrabold  text-gray-900">
                 <span className=" text-blue-400">Q:&nbsp;</span>{item.questiontext}
               </h3>
               <div className="text-2xl font-extrabold  text-gray-900 my-6">
-                <h3 className="text-xl text-blue-400 mb-4">Either Adam or Victa responded:</h3>"
-                {anwers[questionIndex].answer}"
+                <h3 className="text-xl text-blue-400 mb-4">Either {item.answer.person.name} or {item.answer.person2.name} responded:</h3>"
+                {item.answer.answer}"
               </div>
               <div className="text-xl font-extrabold">
                 <div className="flex flex-col md:flex-row justify-center items-center flex-1 text-center py-4">
                   <button
                     className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600 hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg "
-                    onClick={() => showResult()}
+                    onClick={() => showResult(item.answer.person.correct)}
                   >
                     <img
                       className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
-                      src="https://lh3.googleusercontent.com/ogw/ADGmqu9zT8s8Ev5kcUcGWzUoGmQf8-A2QqCtvHvwMhWFweI=s32-c-mo"
+                      src={item.answer.person.profilePic}
                     />
-                    Adam Sobotka
+                    {item.answer.person.name}
                   </button>
                   <div className="w-44 h-44 flex items-center justify-center">
                     <div className="flex rounded-full w-12 h-12 bg-blue-400 text-white align-middle items-center justify-center">
@@ -211,19 +83,19 @@ export default function GuessGame() {
                   </div>
                   <button
                     className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg"
-                    onClick={() => showResult()}
+                    onClick={() => showResult(item.answer.person2.correct)}
                   >
                     <img
                       className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
-                      src="https://media-exp1.licdn.com/dms/image/C5603AQGWANestALqaQ/profile-displayphoto-shrink_100_100/0/1605661692544?e=1619049600&v=beta&t=ot_KSmgwbcaj_YhwJJxdBOeQzKoxwyzXMQTD1wTF6YA"
+                      src={item.answer.person2.profilePic}
                     />
-                    Victa Phu
+                    {item.answer.person2.name}
                   </button>
                 </div>
-                {rightAnswer && rightAnswer == true && (
+                {rightAnswer && rightAnswer === true && (
                   <h3 className="text-green-400">Oh no, you are right :)</h3>
                 )}
-                {rightAnswer && rightAnswer == false &&  (
+                {rightAnswer === false &&  (
                   <h3 className="text-red-400">Awesome. Wrong.</h3>
                 )}
               </div>
@@ -236,7 +108,7 @@ export default function GuessGame() {
           >
             <button
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              onClick={() => setQuestionIndex(questionIndex - 1)}
+              onClick={() => questionIndex > 0 && setQuestionIndex(questionIndex - 1)}
             >
               <span className="sr-only">Previous</span>
               <svg
