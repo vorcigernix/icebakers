@@ -25,8 +25,7 @@ export default async (req, res) => {
     { orgId: id }
   );
   console.log(id)
-  const { answers } = await graphcms.request(getAnswersQuery);
-  res.status(200).json(answers);
+  res.status(200).json(getAnswersQuery.edges);
 };
 
 /**
