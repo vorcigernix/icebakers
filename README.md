@@ -1,6 +1,15 @@
-# Future Icebaker readme
+# About [Icebaker](https://icebakers.vercel.app)
+We built this quiz game as a tool to know your friends or colleagues better. It is an icebreaker quiz game where you respond to the questions and later you play guess game: whose answer is what you see on the screen. Main differentiator and the reason why we built this with Victa is that you can sent small tip in cryptocurrency for a great answer. 
+If you are interested in the technology behing, look at the source and watch the video [here](https://youtu.be/icSKd9gL108).
+Do not forget to try our app at https://icebakers.vercel.app
 
-# Preparing the Environment
+Have fun, 
+Adam + Victa
+
+
+
+
+# Building the project from source
 ## Configuring Environment Variables
 Inside __.env.local__ populate the following  
 - BINANCE_ENDPOINT=https://data-seed-prebsc-2-s1.binance.org:8545/
