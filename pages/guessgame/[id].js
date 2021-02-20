@@ -1,6 +1,8 @@
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import useStickyState from "../../lib/useStickyState";
+import Wallet from "../../components/wallet";
 
 export default function GuessGame() {
   const [session, loading] = useSession();
@@ -8,6 +10,11 @@ export default function GuessGame() {
   const { id } = router.query;
 
   if (!loading && !session?.user) return signin();
+
+  const [questionIndex, setQuestionIndex] = useStickyState(
+    0,
+    "questionAnswerNumber"
+  );
 
   const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
   //  const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
@@ -17,12 +24,15 @@ export default function GuessGame() {
 
   //get the questions so I don't need to fake them
   const { data, error } = useSWR(`/api/questions`, fetcher);
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+
   const anwers = [
     {
       answer: "No. And yes, I know I am not getting rewarded for this.",
     },
     {
-      answer: "No. And yes, I know I am not getting rewarded for this.",
+      answer: "No again. Go away.",
     },
     {
       answer: "ACTIV which is like active, which is not me",
@@ -164,26 +174,27 @@ export default function GuessGame() {
               }
               key={item.id}
             >
-              <h3 className="text-4xl font-extrabold  text-gray-900">
+              <h3 className="text-2xl font-extrabold  text-gray-900">
                 {item.questiontext}
               </h3>
+              <div className="text-2xl font-extrabold  text-gray-900 my-6">
+                <h3 className="text-xl text-blue-400">Your friend says:</h3>"
+                {anwers[questionIndex].answer}"
+              </div>
+              <div className="text-xl font-extrabold">
+                <h3 className="text-blue-400">But which one?</h3>
+                <div className="flex flex-col md:flex-row items-center justify-center flex-1 px-20 text-center">
+                  <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                    Adam Sobotka
+                  </button>
+                  <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                    Victa Phu
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
 
-          <div>
-            <div className="mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-400 ">
-              <textarea
-                id="answer"
-                name="answer"
-                rows="3"
-                className="block w-full resize-none p-2 outline-none"
-                placeholder="type your answer and click next"
-                autoFocus
-                onChange={(event) => setAnswerText(event.target.value)}
-                value={answerText}
-              ></textarea>
-            </div>
-          </div>
           <nav
             className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px m-6"
             aria-label="Pagination"
@@ -208,31 +219,27 @@ export default function GuessGame() {
               </svg>
             </button>
 
-            {questionIndex > 15 && (
-              <button
-                className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50"
-                onClick={() => handleClick()}
+            <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span>Reward</span>
+              <svg
+                className="h-5 w-5 mx-2 text-green-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
               >
-                <span>Guess Answers</span>
-                <svg
-                  className="h-5 w-5 mx-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            )}
+                <path
+                  fillRule="evenodd"
+                  d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                  clipRule="evenodd"
+                />
+                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
+              </svg>
+            </button>
 
             <button
               className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-              onClick={() => handleClick()}
+              onClick={() => setQuestionIndex(questionIndex + 1)}
             >
               <span>Next</span>
               <svg
@@ -252,9 +259,9 @@ export default function GuessGame() {
             <Wallet session={session} />
           </nav>
           <p className=" px-4 pb-6 font-light">
-            Now you can guess the answers. You will see what other people in
-            your company responded and you will have to guess who gave this
-            answer.
+            Welcome to the guess game part. Here you see a question you've
+            answered before, answer and two of your friends. Your goal is to
+            pick the name that responded this.
           </p>
         </div>
       </main>
