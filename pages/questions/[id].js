@@ -22,6 +22,7 @@ export default function QuestionsPage() {
   if (!data) return <div>loading...</div>;
 
   async function handleClick() {
+    if (!answerText || answerText == "") return;
     setLoader(true);
     setQuestionIndex(questionIndex + 1);
     await fetch("/api/answer", {
@@ -80,6 +81,7 @@ export default function QuestionsPage() {
                 autoFocus
                 onChange={(event) => setAnswerText(event.target.value)}
                 value={answerText}
+                required
               ></textarea>
             </div>
           </div>

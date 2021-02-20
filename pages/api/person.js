@@ -1,46 +1,45 @@
 import { GraphQLClient } from "graphql-request";
 
 /**
- * When a user joins this function will be called. It will use the emailId to 
+ * When a user joins this function will be called. It will use the emailId to
  * update the users' details inside the CMS
  */
-export default async (emailId) => {
-    const graphcms = new GraphQLClient(
-        process.env.GRAPHCMS_ENDPOINT,
-        {
-            headers: {
-                authorization: `Bearer ${process.env.GRAPHCMS_MUTATION_TOKEN}`,
-            },
-        }
-    );
+export default async (emailId, personName, picUrl) => {
+  const graphcms = new GraphQLClient(process.env.GRAPHCMS_ENDPOINT, {
+    headers: {
+      authorization: `Bearer ${process.env.GRAPHCMS_MUTATION_TOKEN}`,
+    },
+  });
 
-    console.log(`User ${emailId} - this is a test`);
-    /**
-     * This query will create a user 
-     * It should happen after the registration event
-     * The objectId is the email address
-     * We need to add a name and profilepic
-     */
-    const { createPerson } = await graphcms.request(
-        `mutation createPerson ($id:String!){
-            createPerson(data: {objectId: $id}) {
-              id
-              objectId
-            }
-          }`,
-        { id: emailId }
-    );
+  //console.log(`User ${emailId} - this is a test`);
+  /**
+   * This query will create a user
+   * It should happen after the registration event
+   * The objectId is the email address
+   * We need to add a name and profilepic
+   */
+  const { createPerson } = await graphcms.request(
+    `mutation createPerson($id: String!, $name: String!, $pic: String!) {
+          createPerson(data: {objectId: $id, name: $name, profilePic: $pic}) {
+            id
+            objectId
+          }
+        }`,
+    { id: emailId, name: personName, pic: picUrl }
+  );
 
-    await graphcms.request(
-        `mutation publishPerson($id: ID!) {
+  await graphcms.request(
+    `mutation publishPerson($id: ID!) {
           publishPerson(where: {id:$id}, to: PUBLISHED) {
             id
           }
         }`,
-        { id: createPerson.id }
-      );
+    { id: createPerson.id }
+  );
 
-    console.log(`User ${emailId} has been registered. Person is ${createPerson.objectId}`);
+  console.log(
+    `User ${emailId} has been registered. Person is ${createPerson.objectId}`
+  );
 };
 
 /*
