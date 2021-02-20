@@ -42,8 +42,8 @@ const handler = async (req, res) => {
 
     const { db } = await connectToDatabase();
     const results = await db
-    // .collection("users")
-    .collection("userUsers")
+    .collection("users")
+    // .collection("userUsers")
     .findOneAndUpdate(
         {
             email
@@ -63,7 +63,7 @@ const handler = async (req, res) => {
     const result = +(await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call());
     if (result) {
         // claim the tips!
-        const result = await contractDefinition.methods.claim(updatedAddress, Web3.utils.soliditySha3(email)).send({from:accounts[0]});
+        const r = await contractDefinition.methods.claim(updatedAddress, Web3.utils.soliditySha3(email)).send({from:accounts[0]});
         res.status(200).json({"result": "Successfully claimed tips as well!"});
         return;
     }

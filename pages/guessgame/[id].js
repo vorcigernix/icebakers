@@ -1,25 +1,37 @@
-import { useSession } from "next-auth/client";
+import { signin, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";
 import { useState, useEffect } from "react";
+import { getPendingTips } from "../../lib/tipsService";
 
 export default function GuessGame() {
   const [session, loading] = useSession();
+  const [pendingTips, setPendingTips] = useState(false);
+  const [timer, setTimer] = useState(0);
 
   const router = useRouter();
   const { id } = router.query;
   const [data, setData] = useState(undefined);
 
   useEffect(async () => {
+    if (loading) return;
+    console.log("Refreshing");
     const res = await fetch(`/api/getanswers/${id}`);
     const data = await res.json();
     setData(data);
-  });
+  }, [loading]);
 
-  if (!loading && !session?.user) return signin();
+  if (!loading && !session && !session?.user) return signin();
 
-  
+  useEffect(
+    async e => {
+      if (loading) return;
+      const result = await getPendingTips();
+      setPendingTips(+result.pending > 0);
+    },
+    [loading]
+  )
 
   const [questionIndex, setQuestionIndex] = useStickyState(
     0,
@@ -132,11 +144,7 @@ export default function GuessGame() {
                 />
               </svg>
             </button>
-            <Wallet
-              enableTipping={true}
-              session={session}
-              email={data[questionIndex]}
-            />
+            <Wallet enableTipping={true} session={session} email={data[questionIndex]} claimTip={pendingTips} />
             <button
               className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={() => handleNext()}

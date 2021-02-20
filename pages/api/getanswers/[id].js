@@ -9,7 +9,7 @@ export default async (req, res) => {
   const { id } = req.query;
   const session = await getSession({ req })
   if (!session) {
-    res.status(403);
+    res.status(403).json({"message":"Failed"});
     return;
   }
 
