@@ -8,6 +8,30 @@ export default async (req, res) => {
     },
   });
 
+  // todo: this should come from questions, with filter on the organisation. e.g.:
+  /*
+
+  query MyQuery ($id:ID) {
+  questionsConnection(where: {organization: {id:$id}}) {
+    edges {
+      node {
+        questiontext
+        answers {
+          answer
+          person {
+            name
+            profilePic
+          }
+        }
+        
+      }
+    }
+  }
+}
+
+// and supply the org id that you want to look at
+
+*/
   const { answersConnection } = await graphcms.request(
     `query getAnswersQuery($orgId: ID!) {
         answersConnection(where: {organization: {id: $orgId}}) {

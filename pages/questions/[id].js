@@ -15,7 +15,7 @@ export default function QuestionsPage() {
 
   if (!loading && !session?.user) return signin();
 
-  const fetcher = (url) => fetch(url).then((r) => r.json());
+  const fetcher = (url) => fetch(url).then((r) => r.json()); // todo: add the organisation id so we get only questions for a particular org
   const { data, error } = useSWR(`/api/questions`, fetcher);
   //console.log(data)
   if (error) return <div>failed to load</div>;
