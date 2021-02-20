@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";
+import { useState } from "react";
 
 export default function GuessGame() {
   const [session, loading] = useSession();
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -15,6 +17,15 @@ export default function GuessGame() {
     0,
     "questionAnswerNumber"
   );
+  const [rightAnswer, setRightAnswer] = useState("");
+  function showResult(){
+    setRightAnswer(true);
+  }
+  function handleNext(){
+    setQuestionIndex(questionIndex + 1);
+    setRightAnswer(undefined);
+
+  }
 
   const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
   //  const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
@@ -184,7 +195,10 @@ export default function GuessGame() {
               <div className="text-xl font-extrabold">
                 <h3 className="text-blue-400">Was it</h3>
                 <div className="flex flex-col md:flex-row flex-1 text-center py-4">
-                  <button className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600 hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg ">
+                  <button
+                    className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600 hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg "
+                    onClick={() => showResult()}
+                  >
                     <img
                       className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
                       src="https://lh3.googleusercontent.com/ogw/ADGmqu9zT8s8Ev5kcUcGWzUoGmQf8-A2QqCtvHvwMhWFweI=s32-c-mo"
@@ -192,9 +206,14 @@ export default function GuessGame() {
                     Adam Sobotka
                   </button>
                   <div className="w-44 h-44 flex items-center justify-center">
-                      <div className="flex rounded-full w-12 h-12 bg-blue-400 text-white align-middle items-center justify-center">OR</div>
+                    <div className="flex rounded-full w-12 h-12 bg-blue-400 text-white align-middle items-center justify-center">
+                      OR
+                    </div>
                   </div>
-                  <button className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg">
+                  <button
+                    className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg"
+                    onClick={() => showResult()}
+                  >
                     <img
                       className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
                       src="https://media-exp1.licdn.com/dms/image/C5603AQGWANestALqaQ/profile-displayphoto-shrink_100_100/0/1605661692544?e=1619049600&v=beta&t=ot_KSmgwbcaj_YhwJJxdBOeQzKoxwyzXMQTD1wTF6YA"
@@ -202,6 +221,12 @@ export default function GuessGame() {
                     Victa Phu
                   </button>
                 </div>
+                {rightAnswer && rightAnswer == true && (
+                  <h3 className="text-green-400">Oh no, you are right :)</h3>
+                )}
+                {rightAnswer && rightAnswer == false &&  (
+                  <h3 className="text-red-400">Awesome. Wrong.</h3>
+                )}
               </div>
             </div>
           ))}
@@ -247,10 +272,10 @@ export default function GuessGame() {
                 <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
               </svg>
             </button>
-
+            <Wallet session={session} />
             <button
-              className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-              onClick={() => setQuestionIndex(questionIndex + 1)}
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+              onClick={() => handleNext()}
             >
               <span>Next</span>
               <svg
@@ -267,7 +292,6 @@ export default function GuessGame() {
                 />
               </svg>
             </button>
-            <Wallet session={session} />
           </nav>
           <p className=" px-4 pb-6 font-light">
             Welcome to the guess game part. Here you see a question you've

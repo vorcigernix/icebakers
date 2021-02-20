@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/client";
 import useSWR from "swr";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";

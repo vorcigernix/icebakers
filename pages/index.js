@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  if (lastCompany && session.user.address){
+  if (session && lastCompany && session.user.address){
     
     fwRouter.push(`/questions/${lastCompany}`)
   }
