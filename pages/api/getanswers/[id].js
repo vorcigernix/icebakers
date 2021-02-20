@@ -20,30 +20,6 @@ export default async (req, res) => {
     },
   });
 
-  // todo: this should come from questions, with filter on the organisation. e.g.:
-  /*
-
-  query MyQuery  {
-  questionsConnection {
-    edges {
-      node {
-        questiontext
-        answers {
-          answer
-          person {
-            name
-            profilePic
-          }
-        }
-        
-      }
-    }
-  }
-}
-
-// and supply the org id that you want to look at
-
-*/
   const { questionsConnection } = await graphcms.request(
     `query MyQuery  {
       questionsConnection {
@@ -138,14 +114,3 @@ const getQuestionAnsweredTotal = async (req, res) => {
 }
 
 export { getQuestionAnsweredTotal };
-
-/*
-query questionsAnsweredTotal($id: QuestionWhereInput) {
-  answersConnection(where: {question: $id}) {
-    aggregate {
-      count
-    }
-  }
-}
-
-*/

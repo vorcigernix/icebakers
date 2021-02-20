@@ -1,17 +1,25 @@
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function GuessGame() {
   const [session, loading] = useSession();
 
   const router = useRouter();
   const { id } = router.query;
+  const [data, setData] = useState(undefined);
+
+  useEffect(async () => {
+    const res = await fetch(`/api/getanswers/${id}`);
+    const data = await res.json();
+    setData(data);
+  });
 
   if (!loading && !session?.user) return signin();
+
+  
 
   const [questionIndex, setQuestionIndex] = useStickyState(
     0,
@@ -24,19 +32,12 @@ export default function GuessGame() {
   function handleNext() {
     setQuestionIndex(questionIndex + 1);
     setRightAnswer(undefined);
-
   }
 
-  const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
-  const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
+  //   const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
+  //   const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
 
-  //console.log(data);
   //if (error) return <div>failed to load</div>;
-  //if (!data) return <div>loading...</div>;
-
-  //get the questions so I don't need to fake them
-  // const { data, error } = useSWR(`/api/questions`, fetcher);
-  if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
   return (
@@ -58,11 +59,15 @@ export default function GuessGame() {
               key={index}
             >
               <h3 className="text-2xl font-extrabold  text-gray-900">
-                <span className=" text-blue-400">Q:&nbsp;</span>{item.questiontext}
+                <span className=" text-blue-400">Q:&nbsp;</span>
+                {item.questiontext}
               </h3>
               <div className="text-2xl font-extrabold  text-gray-900 my-6">
-                <h3 className="text-xl text-blue-400 mb-4">Either {item.answer.person.name} or {item.answer.person2.name} responded:</h3>"
-                {item.answer.answer}"
+                <h3 className="text-xl text-blue-400 mb-4">
+                  Either {item.answer.person.name} or {item.answer.person2.name}{" "}
+                  responded:
+                </h3>
+                "{item.answer.answer}"
               </div>
               <div className="text-xl font-extrabold">
                 <div className="flex flex-col md:flex-row justify-center items-center flex-1 text-center py-4">
@@ -108,7 +113,9 @@ export default function GuessGame() {
           >
             <button
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              onClick={() => questionIndex > 0 && setQuestionIndex(questionIndex - 1)}
+              onClick={() =>
+                questionIndex > 0 && setQuestionIndex(questionIndex - 1)
+              }
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -125,7 +132,11 @@ export default function GuessGame() {
                 />
               </svg>
             </button>
-            <Wallet enableTipping={true} session={session} email={data[questionIndex]}/>
+            <Wallet
+              enableTipping={true}
+              session={session}
+              email={data[questionIndex]}
+            />
             <button
               className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={() => handleNext()}
