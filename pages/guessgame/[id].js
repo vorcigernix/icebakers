@@ -182,12 +182,20 @@ export default function GuessGame() {
                 {anwers[questionIndex].answer}"
               </div>
               <div className="text-xl font-extrabold">
-                <h3 className="text-blue-400">But which one?</h3>
-                <div className="flex flex-col md:flex-row items-center justify-center flex-1 px-20 text-center">
-                  <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                <h3 className="text-blue-400">Was it</h3>
+                <div className="flex flex-col md:flex-row flex-1 text-center py-4">
+                  <button className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:bg-gray-50 md:py-3 md:px-3 mr-4 rounded-lg ">
+                    <img
+                      className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
+                      src="https://lh3.googleusercontent.com/ogw/ADGmqu9zT8s8Ev5kcUcGWzUoGmQf8-A2QqCtvHvwMhWFweI=s32-c-mo"
+                    />
                     Adam Sobotka
                   </button>
-                  <button className="flex items-center justify-center px-3 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 hover:text-black md:py-3 md:px-3 shadow-sm m-4">
+                  <button className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:bg-gray-50 md:py-3 md:px-3 mr-4 rounded-lg">
+                    <img
+                      className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
+                      src="https://media-exp1.licdn.com/dms/image/C5603AQGWANestALqaQ/profile-displayphoto-shrink_100_100/0/1605661692544?e=1619049600&v=beta&t=ot_KSmgwbcaj_YhwJJxdBOeQzKoxwyzXMQTD1wTF6YA"
+                    />
                     Victa Phu
                   </button>
                 </div>
