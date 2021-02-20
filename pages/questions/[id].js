@@ -3,12 +3,12 @@ import useSWR from "swr";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
-import Wallet from "../../components/wallet";
 
 export default function QuestionsPage() {
   const [session, loading] = useSession();
   const [questionIndex, setQuestionIndex] = useStickyState(0, "questionNumber");
   const [answerText, setAnswerText] = useState("");
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
   const { id } = router.query; // note this value (id) is based on the [id].js
   //console.log(router.query, id);
@@ -22,8 +22,8 @@ export default function QuestionsPage() {
   if (!data) return <div>loading...</div>;
 
   async function handleClick() {
+    setLoader(true);
     setQuestionIndex(questionIndex + 1);
-
     await fetch("/api/answer", {
       method: "POST",
       headers: {
@@ -36,6 +36,7 @@ export default function QuestionsPage() {
       }),
     });
     setAnswerText("");
+    setLoader(false);
   }
 
   return (
@@ -63,12 +64,18 @@ export default function QuestionsPage() {
           ))}
 
           <div>
-            <div className="mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-400 ">
+            <div
+              className={
+                loader
+                  ? `mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-600 opacity-10 bg-gray-300`
+                  : `mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-400`
+              }
+            >
               <textarea
                 id="answer"
                 name="answer"
                 rows="3"
-                className="block w-full resize-none p-2 outline-none"
+                className="block w-full resize-none p-2 outline-none bg-transparent"
                 placeholder="type your answer and click next"
                 autoFocus
                 onChange={(event) => setAnswerText(event.target.value)}
@@ -101,30 +108,29 @@ export default function QuestionsPage() {
             </button>
 
             {questionIndex > 15 && (
-              <button
-                className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50"
-                onClick={() => handleClick()}
-              >
-                <span>Guess Answers</span>
-                <svg
-                  className="h-5 w-5 mx-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+              <a href={`/guessgame/${id}`}>
+                <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50">
+                  <span>Guess Answers</span>
+                  <svg
+                    className="h-5 w-5 mx-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </a>
             )}
 
             <button
               className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-              onClick={() => handleClick()}
+              onClick={handleClick}
             >
               <span>Next</span>
               <svg
@@ -141,7 +147,6 @@ export default function QuestionsPage() {
                 />
               </svg>
             </button>
-
           </nav>
           <p className=" px-4 pb-6 font-light">
             Now you can guess the answers. You will see what other people in
