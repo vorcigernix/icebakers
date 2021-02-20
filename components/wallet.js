@@ -26,6 +26,25 @@ async function tipFriend({ friend, amount, contract, wallet, web3 }) {
   }
 }
 
+
+async function tipPerson(email, contract, wallet, web3) {
+  console.log(email);
+  if (!email) return;
+  const data = await (await fetch(`/api/getaddress/${email}`)).json()
+
+  console.log(data);
+  const amount = window.prompt("Enter amount of BNB to send to " + email);
+  if (!amount || amount === "") return;
+
+  await tipFriend({
+    friend: data,
+    amount: web3.utils.toWei(amount, "ether"),
+    contract,
+    wallet,
+    web3
+  });
+}
+
 /**
  * This function is called to simulate registering your wallet ideally you call
  * this when the user wants to register their wallet; it will also help claim
@@ -46,7 +65,7 @@ function WalletComponent(props) {
   const [session, setSession] = useState(props.session);
   const [timer, setTimer] = useState(0);
 
-  console.log("Redraw", session, props.session);
+  console.log("Redraw", props.session.user);
 
   useEffect(
     (e) => {
@@ -64,6 +83,7 @@ function WalletComponent(props) {
       }
       setTimer(
         window.setInterval(async (e) => {
+          console.log("Timer expired");
           const result = await getPendingTips();
           setPendingTips(+result.pending > 0);
           setSession(await getSession());
@@ -77,7 +97,7 @@ function WalletComponent(props) {
     <>
       {pendingTips && (
         <button
-          className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+          className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
           onClick={(e) => registerWalletToClaim(wallet)}
         >
           <span>Claim tips</span>
@@ -97,9 +117,31 @@ function WalletComponent(props) {
         </button>
       )}
       <>
+        {props.enableTipping && (
           <button
-            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"        
+            className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            onClick={() => tipPerson(props.email, props.contract, props.accounts[0], props.web3)}
           >
+            <span>Reward</span>
+            <svg
+              className="h-5 w-5 mx-2 text-green-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                clipRule="evenodd"
+              />
+              <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
+            </svg>
+          </button>
+        )}
+        <button
+          className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+        >
           <svg
             className="h-5 w-5 mr-2 text-blue-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -113,18 +155,25 @@ function WalletComponent(props) {
               clipRule="evenodd"
             />
           </svg>
-            {session.user.address ? "" : "Wallet Connecting"}
-          </button>
-        </>
+          {session.user.address ? "" : "Wallet Connecting"}
+        </button>
+      </>
     </>
   );
 }
 
 const Wallet = (props) => {
+  let email = "";
+  if (props.email && props.email.answer) {
+    email = props.email.answer.person.objectId;
+    if (props.email.answer.person2.correct) {
+      email = props.email.answer.person2.objectId;
+    }
+  }
   return (
     <Web3Container
       renderLoading={() => (
-        <div className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
+        <div className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
           <svg
             className="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +188,7 @@ const Wallet = (props) => {
         </div>
       )}
       render={({ web3, accounts, contract, session }) => (
-        <WalletComponent accounts={accounts} contract={contract} web3={web3} session={session} />
+        <WalletComponent accounts={accounts} contract={contract} web3={web3} session={session} enableTipping={props.enableTipping} email={email} />
       )}
       {...props}
     />

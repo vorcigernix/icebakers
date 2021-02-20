@@ -18,10 +18,10 @@ export default function GuessGame() {
     "questionAnswerNumber"
   );
   const [rightAnswer, setRightAnswer] = useState("");
-  function showResult(correct){
-    setRightAnswer(correct===true ? true:false);
+  function showResult(correct) {
+    setRightAnswer(correct === true ? true : false);
   }
-  function handleNext(){
+  function handleNext() {
     setQuestionIndex(questionIndex + 1);
     setRightAnswer(undefined);
 
@@ -29,6 +29,7 @@ export default function GuessGame() {
 
   const fetcher = (url, id) => fetch(url, id).then((r) => r.json());
   const { data, error } = useSWR(() => id && `/api/getanswers/${id}`, fetcher);
+
   //console.log(data);
   //if (error) return <div>failed to load</div>;
   //if (!data) return <div>loading...</div>;
@@ -38,7 +39,6 @@ export default function GuessGame() {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
-  console.log(rightAnswer);
   return (
     <div className="flex flex-col  min-h-screen py-2">
       <main className="flex flex-col items-center mt-9 flex-1 px-20">
@@ -95,7 +95,7 @@ export default function GuessGame() {
                 {rightAnswer && rightAnswer === true && (
                   <h3 className="text-green-400">Oh no, you are right :)</h3>
                 )}
-                {rightAnswer === false &&  (
+                {rightAnswer === false && (
                   <h3 className="text-red-400">Awesome. Wrong.</h3>
                 )}
               </div>
@@ -125,25 +125,7 @@ export default function GuessGame() {
                 />
               </svg>
             </button>
-
-            <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-              <span>Reward</span>
-              <svg
-                className="h-5 w-5 mx-2 text-green-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
-                  clipRule="evenodd"
-                />
-                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
-              </svg>
-            </button>
-            <Wallet session={session} />
+            <Wallet enableTipping={true} session={session} email={data[questionIndex]}/>
             <button
               className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={() => handleNext()}
