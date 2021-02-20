@@ -18,15 +18,9 @@ export default function GuessGame() {
     if (loading) return;
     console.log("Refreshing");
     const res = await fetch(`/api/getanswers/${id}`);
-<<<<<<< HEAD
     const data = await res.json();
     setData(data);
   }, [loading]);
-=======
-    const answers = await res.json();
-    setData(answers);
-  });
->>>>>>> 703e08e5c88e503372dca91e155c9c2b8e335282
 
   if (!loading && !session && !session?.user) return signin();
 
