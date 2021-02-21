@@ -44,7 +44,7 @@ We make use of the following key technologies to build our platform.
 - Truffle/Ganache : the development tools to work with the blockchain
 - Solidity : the programming language of the decentralised web
 
-Just wanted to give a shout-out to [nextjs](https://nextjs.org/), [vercel.app](https://vercel.com/), [graphcms](https://graphcms.com/) and [mongo atlas](https://www.mongodb.com/cloud) for the great (and free) infrastructure that we are using to host.
+Just wanted to give a shout-out to [nextjs](https://nextjs.org/), [vercel.app](https://vercel.com/), [graphcms](https://graphcms.com/) and [mongo atlas](https://www.mongodb.com/cloud) for the great (and free) infrastructure that we are using to host. We also use Next-Auth and SWR projects, that helped us a lot in the beginning.
 
 ## Configuring Environment Variables
 Inside __.env.local__ populate the following  
