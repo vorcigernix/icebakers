@@ -22,8 +22,14 @@ The interaction flow is as follows:
 If a user tips a person that has a registered BNB address they will directly send the tip to the user instead of using the escrow.  
 
 ## Future Enhancements
+From a functional perspective:
 @Adam, please write some stuff from an experience perspective
 
+From the blockchain perspective:
+- Accept other tokens (not just BNB), look at other BEP20 token. Also consider integrating with other tokens across other chains (ERC20, BTC, etc)  
+- Integrate with [Binance P2P Escrow Service](https://www.binance.com/en/blog/421499824684900825/How-Does-Binance-P2Ps-Escrow-Service-Work)  
+- Consider modifying the smart contract to have the tips expire after a period of time and return to the user (or sent to a charity)
+- Consider introducing IceBaker tokens that the system can tip to popular posts as encouragement for users to register their wallet
 
 # Building the project from source
 ## Technologies used
