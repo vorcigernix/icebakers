@@ -75,6 +75,6 @@ https://data-seed-prebsc-1-s3.binance.org:8545/
 https://data-seed-prebsc-2-s3.binance.org:8545/  
 
 ## Accounts and Secrets
-- ake sure to fund the secret key with the necessary BNB tokens on the test - etwork. For Metamask, configure to use the endpoints above  
+- Make sure to fund the secret key with the necessary BNB tokens on the test - etwork. For Metamask, configure to use the endpoints above  
 - Make sure to set your network id to 97 in Metamask  
 
