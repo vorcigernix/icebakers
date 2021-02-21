@@ -23,7 +23,10 @@ If a user tips a person that has a registered BNB address they will directly sen
 
 ## Future Enhancements
 From a functional perspective:
-@Adam, please write some stuff from an experience perspective
+- Improve mobile experience: this was really just about running out of time
+- Improve the game mechanics: we will slightly change the model in a way that you will select the best of three answers and than you will guess who responded that way
+- Add ability to add questions. For this, we would probably require wallet and a small escrow for an offensive questions
+- Improve onboarding further - setting up metamask to different network is very unfriendly for a regular user
 
 From the blockchain perspective:
 - Accept other tokens (not just BNB), look at other BEP20 token. Also consider integrating with other tokens across other chains (ERC20, BTC, etc)  
