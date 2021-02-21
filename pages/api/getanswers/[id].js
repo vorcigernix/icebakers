@@ -59,7 +59,7 @@ export default async (req, res) => {
   // step 1 - for all questions returned, randomly choose an answer that is not empty
   const data = questionsConnection.edges.map(e => e.node)
     .filter(e => e.answers.length > 0)
-    .filter(e => e.answers.filter(e=> e.answer && e.answer !== "" && e.answer.trim() !== "").length > 0);
+    .filter(e => (e.answers = e.answers.filter(e=> e.answer && e.answer !== "" && e.answer.trim() !== "")) && e.answers.length > 0);
 
   // choose an answer
   data.forEach(e => {
