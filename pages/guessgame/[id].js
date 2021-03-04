@@ -24,13 +24,13 @@ export default function GuessGame() {
   if (!loading && !session && !session?.user) return signin();
 
   useEffect(
-    async e => {
+    async (e) => {
       if (loading) return;
       const result = await getPendingTips();
       setPendingTips(+result.pending > 0);
     },
     [loading]
-  )
+  );
 
   const [questionIndex, setQuestionIndex] = useStickyState(
     0,
@@ -66,7 +66,9 @@ export default function GuessGame() {
           {data.map((item, index) => (
             <div
               className={
-                index == questionIndex ? `visible px-4 py-5 sm:px-6` : `hidden`
+                index == questionIndex
+                  ? `visible text-center px-4 py-5 md:text-left sm:px-6`
+                  : `hidden`
               }
               key={index}
             >
@@ -74,12 +76,14 @@ export default function GuessGame() {
                 <span className=" text-blue-400">Q:&nbsp;</span>
                 {item.questiontext}
               </h3>
-              <div className="text-2xl font-extrabold  text-gray-900 my-6">
-                <h3 className="font-light text-base md:text-xl md:text-blue-400 md:font-bold mb-4">
+              <div>
+                <h3 className="font-light text-base mb-4">
                   Either {item.answer.person.name} or {item.answer.person2.name}{" "}
                   responded:
                 </h3>
+                <div className="text-2xl font-bold text-blue-500 my-6" >
                 "{item.answer.answer}"
+                </div>
               </div>
               <div className="text-xl font-extrabold">
                 <div className="flex flex-col md:flex-row justify-center items-center flex-1 text-center py-4">
@@ -119,52 +123,59 @@ export default function GuessGame() {
             </div>
           ))}
 
-          <nav
-            className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px m-6"
-            aria-label="Pagination"
-          >
-            <button
-              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              onClick={() =>
-                questionIndex > 0 && setQuestionIndex(questionIndex - 1)
-              }
+          <div className="w-full flex items-start py-6">
+            <nav
+              className="flex rounded-md shadow-sm mx-auto md:mx-4"
+              aria-label="Pagination"
             >
-              <span className="sr-only">Previous</span>
-              <svg
-                className="h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
+              <button
+                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                onClick={() =>
+                  questionIndex > 0 && setQuestionIndex(questionIndex - 1)
+                }
               >
-                <path
-                  fillRule="evenodd"
-                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-            <Wallet enableTipping={true} session={session} email={data[questionIndex]} claimTip={pendingTips} />
-            <button
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-              onClick={() => handleNext()}
-            >
-              <span>Next</span>
-              <svg
-                className="h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
+                <span className="sr-only">Previous</span>
+                <svg
+                  className="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+              <Wallet
+                enableTipping={true}
+                session={session}
+                email={data[questionIndex]}
+                claimTip={pendingTips}
+              />
+              <button
+                className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                onClick={() => handleNext()}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </nav>
+                <span>Next</span>
+                <svg
+                  className="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </nav>
+          </div>
           <p className="px-4 pb-6 font-light">
             Welcome to the guess game part. Here you see a question you've
             answered before, answer and two of your friends. Your goal is to
