@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  lastCompany && fwRouter.push(`/questions/${lastCompany}`)
+  lastCompany && session.user.address && fwRouter.push(`/questions/${lastCompany}`)
   //
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);

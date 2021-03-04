@@ -66,56 +66,38 @@ function WalletComponent(props) {
   const [timer, setTimer] = useState(0);
 
   console.log("Redraw", props.session.user);
+  useEffect(e=>{
+    setSession(props.session);
+  },[props.session.user]);
 
-  useEffect(
-    (e) => {
+  // useEffect(
+  //   (e) => {
 
-      setSession(props.session);
-      // poll the pending tips
-      if (props.session.user && props.session.user.address) {
-        console.log("Clearing Interval");
-        window.clearInterval(timer);
-        setTimer(0);
-        return; // we don't need to check pending tips if the user already exists
-      }
-      if (timer) {
-        window.clearInterval(timer);
-      }
-      setTimer(
-        window.setInterval(async (e) => {
-          console.log("Timer expired");
-          const result = await getPendingTips();
-          setPendingTips(+result.pending > 0);
-          setSession(await getSession());
-        }, 15000)
-      );
-    },
-    [props.session.user]
-  );
+  //     setSession(props.session);
+  //     // poll the pending tips
+  //     if (props.session.user && props.session.user.address) {
+  //       console.log("Clearing Interval");
+  //       window.clearInterval(timer);
+  //       setTimer(0);
+  //       return; // we don't need to check pending tips if the user already exists
+  //     }
+  //     if (timer) {
+  //       window.clearInterval(timer);
+  //     }
+  //     setTimer(
+  //       window.setInterval(async (e) => {
+  //         console.log("Timer expired");
+  //         const result = await getPendingTips();
+  //         setPendingTips(+result.pending > 0);
+  //         setSession(await getSession());
+  //       }, 15000)
+  //     );
+  //   },
+  //   [props.session.user]
+  // );
 
   return (
-    <>
-      {pendingTips && (
-        <button
-          className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-          onClick={(e) => registerWalletToClaim(wallet)}
-        >
-          <span>Claim tips</span>
-          <svg
-            className="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      )}
+    <>      
       <>
         {props.enableTipping && (
           <button
@@ -170,6 +152,7 @@ const Wallet = (props) => {
       email = props.email.answer.person2.objectId;
     }
   }
+
   return (
     <Web3Container
       renderLoading={() => (
