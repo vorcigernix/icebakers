@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  lastCompany && session.user.address && fwRouter.push(`/questions/${lastCompany}`)
+  session && lastCompany && session.user.address && fwRouter.push(`/questions/${lastCompany}`)
   //
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
@@ -59,7 +59,7 @@ export default function Home() {
         </Head>
 
         <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
-          <h1 className="text-6xl font-extrabold sm:text-center">
+          <h1 className="text-6xl font-extrabold text-center md:text-left">
             🧁
             <span className="text-blue-400">Ice</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
@@ -69,9 +69,9 @@ export default function Home() {
 
           {session && session.user && (
             <>
-              <div className="md:flex">
+              <div className=" text-center md:text-left md:flex">
                 <img
-                  className="hidden w-48 h-auto mx-auto md:block"
+                  className="hidden w-1/2 h-auto mx-auto md:block"
                   src="/bg2.svg"
                   alt="illustration"
                 />
@@ -82,7 +82,7 @@ export default function Home() {
                       : `hidden`
                   }
                 >
-                  <p className="my-6 text-2xl mx-auto">
+                  <p className="my-6 text-xl mx-auto">
                     Get to know your colleagues and friends
                   </p>
                   <p className="text-lg font-light">
@@ -107,7 +107,7 @@ export default function Home() {
                     button.
                   </p>
                   <nav
-                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
+                    className="relative z-0 inline-flex rounded-md shadow-sm my-8 py-6"
                     aria-label="Pagination"
                   >
                     <button
@@ -177,7 +177,7 @@ export default function Home() {
                 <div
                   className={
                     pageIndex == 1
-                      ? `visible w-2/3 pt-6 md:p-8  space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-8 space-y-4`
                       : `hidden`
                   }
                 >
@@ -204,7 +204,7 @@ export default function Home() {
                     to install and setup a Metamask. And, welcome to the future.
                   </p>
                   <nav
-                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px my-8"
+                    className="relative z-0 inline-flex rounded-md shadow-sm my-8 py-6"
                     aria-label="Pagination"
                   >
                     <button
@@ -277,7 +277,7 @@ export default function Home() {
           )}
         </main>
 
-        <footer className="flex items-center justify-center w-full h-24 border-t">
+        <footer className="flex items-center justify-center w-full h-24 md:border-t">
           <a
             className="flex items-center justify-center"
             href="https://gitcoin.co/issue/binancex/Grant-projects/17/100024656"

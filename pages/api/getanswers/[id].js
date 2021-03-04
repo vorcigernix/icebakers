@@ -63,8 +63,9 @@ export default async (req, res) => {
 
   // choose an answer
   data.forEach(e => {
+    console.log(e.answers);
     // remove all answers that i have answered because i don't need to guess my own answers
-    e.answers = e.answers.filter(a=>a.person.objectId !== email);
+    e.answers = e.answers.filter(a=>a.person.objectId !== email || a.answer.length > 3);
     if (e.answers.length === 0) return; // no point because there are no answers ...
     const ans = getRandomInt(e.answers.length);
     e.answer = e.answers[ans];   

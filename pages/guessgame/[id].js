@@ -8,7 +8,6 @@ import { getPendingTips } from "../../lib/tipsService";
 export default function GuessGame() {
   const [session, loading] = useSession();
   const [pendingTips, setPendingTips] = useState(false);
-  const [timer, setTimer] = useState(0);
 
   const router = useRouter();
   const { id } = router.query;
@@ -51,6 +50,7 @@ export default function GuessGame() {
 
   //if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+  //data.map((item, index) => (console.log(item.answer)));
 
   return (
     <div className="flex flex-col  min-h-screen py-2">
