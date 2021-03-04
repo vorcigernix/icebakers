@@ -58,8 +58,8 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="flex flex-col items-center mt-9 flex-1 px-20">
-          <h1 className="text-6xl font-extrabold">
+        <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
+          <h1 className="text-6xl font-extrabold sm:text-center">
             🧁
             <span className="text-blue-400">Ice</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
@@ -69,16 +69,16 @@ export default function Home() {
 
           {session && session.user && (
             <>
-              <div className="md:flex p-8 md:p-0">
+              <div className="md:flex">
                 <img
-                  className="w-1/3 h-32 md:w-48 md:h-auto mx-auto"
+                  className="hidden w-48 h-auto mx-auto md:block"
                   src="/bg2.svg"
-                  alt=""
+                  alt="illustration"
                 />
                 <div
                   className={
                     pageIndex == 0
-                      ? `visible w-2/3 pt-6 md:p-8  space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-8 space-y-4`
                       : `hidden`
                   }
                 >
