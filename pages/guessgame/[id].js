@@ -53,16 +53,16 @@ export default function GuessGame() {
   //data.map((item, index) => (console.log(item.answer)));
 
   return (
-    <div className="flex flex-col  min-h-screen py-2">
-      <main className="flex flex-col items-center mt-9 flex-1 px-20">
-        <h1 className="text-6xl font-extrabold">
+    <div>
+      <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
+        <h1 className=" text-xl md:text-6xl font-extrabold text-center md:text-left">
           🧁
           <span className="text-blue-400">Ice</span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
             Bakers
           </span>
         </h1>
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg md:mt-14 w-2/3">
+        <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
           {data.map((item, index) => (
             <div
               className={
@@ -75,7 +75,7 @@ export default function GuessGame() {
                 {item.questiontext}
               </h3>
               <div className="text-2xl font-extrabold  text-gray-900 my-6">
-                <h3 className="text-xl text-blue-400 mb-4">
+                <h3 className="font-light text-base md:text-xl md:text-blue-400 md:font-bold mb-4">
                   Either {item.answer.person.name} or {item.answer.person2.name}{" "}
                   responded:
                 </h3>
@@ -93,7 +93,7 @@ export default function GuessGame() {
                     />
                     {item.answer.person.name}
                   </button>
-                  <div className="w-44 h-44 flex items-center justify-center">
+                  <div className="hidden md:w-44 md:h-44 md:flex items-center justify-center">
                     <div className="flex rounded-full w-12 h-12 bg-blue-400 text-white align-middle items-center justify-center">
                       OR
                     </div>
@@ -165,7 +165,7 @@ export default function GuessGame() {
               </svg>
             </button>
           </nav>
-          <p className=" px-4 pb-6 font-light">
+          <p className="px-4 pb-6 font-light">
             Welcome to the guess game part. Here you see a question you've
             answered before, answer and two of your friends. Your goal is to
             pick the name that responded this.
