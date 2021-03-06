@@ -50,7 +50,7 @@ export default function GuessGame() {
 
   //if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
-  //data.map((item, index) => (console.log(item.answer)));
+  data.map((item, index) => (console.log(item)));
 
   return (
     <div>

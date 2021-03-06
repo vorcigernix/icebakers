@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  session && lastCompany && session.user.address && fwRouter.push(`/questions/${lastCompany}`)
+  lastCompany && session && session.user.address && fwRouter.push(`/questions/${lastCompany}`)
   //
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
@@ -69,7 +69,7 @@ export default function Home() {
 
           {session && session.user && (
             <>
-              <div className=" text-center md:text-left md:flex">
+              <div className="text-center md:text-left md:flex">
                 <img
                   className="hidden w-1/2 h-auto mx-auto md:block"
                   src="/bg2.svg"

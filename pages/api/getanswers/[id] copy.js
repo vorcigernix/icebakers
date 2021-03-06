@@ -57,14 +57,6 @@ export default async (req, res) => {
     `
   );
 
-  const doubledPositiveNumbers = numbers.reduce((accumulator, currentValue) => {
-    if (currentValue > 0) {
-      const doubled = currentValue * 2;
-      accumulator.push(doubled);
-    }
-    return accumulator;
-  }, []);
-
   // step 1 - for all questions returned, randomly choose an answer that is not empty
   const data = questionsConnection.edges
     .map((e) => e.node)
@@ -82,7 +74,7 @@ export default async (req, res) => {
 
   // choose an answer
   data.forEach((e) => {
-    //console.log(Object.values(e.answers));
+    console.log(Object.values(e.answers));
     // remove all answers that i have answered because i don't need to guess my own answers
     e.answers = e.answers.filter((a) => a.person.objectId !== email);
     if (e.answers.length === 0) return; // no point because there are no answers (after filtering my own)

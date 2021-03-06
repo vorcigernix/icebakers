@@ -7,7 +7,7 @@ export default function SignIn({ providers }) {
       <noscript>
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
       </noscript>
-      <div className="flex flex-col min-h-screen py-2">
+      <div className="flex flex-col  min-h-screen py-2">
         <Head>
           <title>IceBakers</title>
           <link rel="icon" href="/favicon.ico" />
@@ -38,32 +38,33 @@ export default function SignIn({ providers }) {
               <img
                 className="hidden w-1/2 h-auto mx-auto md:block"
                 src="/bg2.svg"
-                alt="Illustration"
+                alt="illustration"
               />
-
-              <p className="my-6 text-xl mx-auto">
-                Get to know your colleagues and friends
-              </p>
-              <p className="text-lg font-light">
-                IceBakers works in two stages. In one, you respond to the
-                "icebreaker questions" and your responses are saved with your
-                name. In a second stage, you will get the questions with a reply
-                from your colleague. There is the catch though, you will get two
-                names and your goal is to figure out who is the right person
-                that wrote this answer.
-              </p>
-              <p className="text-lg font-light">
-                This site is heavily inspired by a functionality of&nbsp;
-                <a
-                  href="https://www.quizbreaker.com/"
-                  className="font-semibold"
-                >
-                  QuizBreaker
-                </a>
-                . We want to create a similar system that will be free to use,
-                with a reward system that will allow you to appreciate
-                interesting and honest answers of your friends.
-              </p>
+              <div className="visible md:w-2/3 pt-6 md:p-8 space-y-4">
+                <p className="my-6 text-xl mx-auto">
+                  Get to know your colleagues and friends
+                </p>
+                <p className="text-lg font-light">
+                  IceBakers works in two stages. In one, you respond to the
+                  "icebreaker questions" and your responses are saved with your
+                  name. In a second stage, you will get the questions with a
+                  reply from your colleague. There is the catch though, you will
+                  get two names and your goal is to figure out who is the right
+                  person that wrote this answer.
+                </p>
+                <p className="text-lg font-light">
+                  This site is heavily inspired by a functionality of&nbsp;
+                  <a
+                    href="https://www.quizbreaker.com/"
+                    className="font-semibold"
+                  >
+                    QuizBreaker
+                  </a>
+                  . We want to create a similar system that will be free to use,
+                  with a reward system that will allow you to appreciate
+                  interesting and honest answers of your friends.
+                </p>
+              </div>
             </div>
           </>
         </main>
