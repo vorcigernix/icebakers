@@ -73,21 +73,19 @@ export default async (req, res) => {
           );
           if (other.length > 0) {
             currentAnswer.person2 = other[getRandomInt(other.length)];
-            currentAnswer.person2 = person2;
             answerAccumulator.push(currentAnswer);
           }
-          //console.log(currentAnswer);
+          return answerAccumulator;
         },
-        null
+        []
       );
-      //if (currentValue) {
-      //accumulator.push(doubled);
-      //console.log(currentValue);
-      //}
+      answersReduced.length > 1 && accumulator.push({question: questiontext, answer:answersReduced})
       return accumulator;
     },
     []
   );
+
+  console.log(dataReduced)
 
   // step 1 - for all questions returned, randomly choose an answer that is not empty
   const data = questionsConnection.edges
@@ -155,7 +153,7 @@ const getQuestionAnsweredTotal = async (req, res) => {
     }`,
     { id: { id: id } }
   );
-  console.log(id);
+  //console.log(id);
   res.status(200).json(questionsAnsweredTotal.aggregate);
 };
 
