@@ -57,13 +57,28 @@ export default async (req, res) => {
     `
   );
 
-  const doubledPositiveNumbers = numbers.reduce((accumulator, currentValue) => {
-    if (currentValue > 0) {
-      const doubled = currentValue * 2;
-      accumulator.push(doubled);
-    }
-    return accumulator;
-  }, []);
+  const dataReduced = questionsConnection.edges.reduce(
+    (accumulator, currentValue) => {
+      const {
+        node: { questiontext, answers },
+      } = currentValue;
+      const answersReduced = answers.reduce(
+        (answerAccumulator, currentAnswer) => {
+          const {objectId} = currentAnswer.person 
+          if (objectId != email){
+            console.log(objectId);
+          }
+          
+        }, null
+      );
+      //if (currentValue) {
+      //accumulator.push(doubled);
+      //console.log(currentValue);
+      //}
+      return accumulator;
+    },
+    []
+  );
 
   // step 1 - for all questions returned, randomly choose an answer that is not empty
   const data = questionsConnection.edges
@@ -76,7 +91,7 @@ export default async (req, res) => {
             e.answer &&
             e.answer !== "" &&
             e.answer.trim() !== "" &&
-            e.answer.length > 1 
+            e.answer.length > 1
         )) && e.answers.length > 1 //like one answer is kinda not enough, this was probably the issue
     );
 
