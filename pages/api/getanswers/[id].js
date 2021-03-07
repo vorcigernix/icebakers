@@ -1,4 +1,4 @@
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient, gql } from "graphql-request";
 import { getSession } from "next-auth/client";
 
 function getRandomInt(max) {
@@ -43,19 +43,38 @@ export default async (req, res) => {
   );
 
   const { persons } = await graphcms.request(
-    `query MyQuery {
-      persons {
-        name
-        objectId
-        profilePic
-        organizations {
-          id
+    `
+      query Persons {
+        persons {
           name
+          objectId
+          profilePic
+          organization {
+            name
+            id
+          }
         }
       }
-    }    
     `
   );
+
+  const notme = await graphcms.request(
+    `
+      query NotMe($orgId: ID!, $objectId: String!) {
+        organization(where: { id: $orgId }) {
+          persons(where: { objectId_not: $objectId }) {
+            id
+            name
+            profilePic
+            objectId
+          }
+        }
+      }
+    `,
+    { objectId: email, orgId: id }
+  );
+
+  console.log(notme);
 
   const dataReduced = questionsConnection.edges.reduce(
     (accumulator, currentValue) => {
@@ -64,12 +83,12 @@ export default async (req, res) => {
       } = currentValue;
       const answersReduced = answers.reduce(
         (answerAccumulator, currentAnswer) => {
-          const {objectId} = currentAnswer.person 
-          if (objectId != email){
-            console.log(objectId);
+          const { objectId } = currentAnswer.person;
+          if (objectId != email) {
+            //console.log(objectId);
           }
-          
-        }, null
+        },
+        null
       );
       //if (currentValue) {
       //accumulator.push(doubled);
