@@ -21,12 +21,12 @@ export default async (req, res) => {
   });
 
   const { questionsConnection } = await graphcms.request(
-    `query MyQuery  {
+    `query Answers($orgId: ID!, $objectId: String!) {
       questionsConnection {
         edges {
           node {
             questiontext
-            answers {
+            answers(where: {organization: {id: $orgId}, person: {objectId_not: $objectId}}) {
               answer
               person {
                 name
@@ -34,31 +34,17 @@ export default async (req, res) => {
                 objectId
               }
             }
-            
           }
         }
       }
-    }`,
-    { orgId: id }
+    }
+    `,
+    { objectId: email, orgId: id }
   );
 
-  const { persons } = await graphcms.request(
-    `
-      query Persons {
-        persons {
-          name
-          objectId
-          profilePic
-          organization {
-            name
-            id
-          }
-        }
-      }
-    `
-  );
-
-  const notme = await graphcms.request(
+  const {
+    organization: { persons },
+  } = await graphcms.request(
     `
       query NotMe($orgId: ID!, $objectId: String!) {
         organization(where: { id: $orgId }) {
@@ -74,8 +60,6 @@ export default async (req, res) => {
     { objectId: email, orgId: id }
   );
 
-  console.log(notme);
-
   const dataReduced = questionsConnection.edges.reduce(
     (accumulator, currentValue) => {
       const {
@@ -83,10 +67,16 @@ export default async (req, res) => {
       } = currentValue;
       const answersReduced = answers.reduce(
         (answerAccumulator, currentAnswer) => {
-          const { objectId } = currentAnswer.person;
-          if (objectId != email) {
-            //console.log(objectId);
+          currentAnswer.person.correct = true;
+          const other = persons.filter(
+            (f) => f.objectId !== currentAnswer.person.objectId
+          );
+          if (other.length > 0) {
+            currentAnswer.person2 = other[getRandomInt(other.length)];
+            currentAnswer.person2 = person2;
+            answerAccumulator.push(currentAnswer);
           }
+          //console.log(currentAnswer);
         },
         null
       );
