@@ -85,9 +85,9 @@ export default async (req, res) => {
     []
   );
 
-  console.log(dataReduced)
+  //console.log(dataReduced)
 
-  // step 1 - for all questions returned, randomly choose an answer that is not empty
+/*   // step 1 - for all questions returned, randomly choose an answer that is not empty
   const data = questionsConnection.edges
     .map((e) => e.node)
     .filter((e) => e.answers.length > 0)
@@ -127,9 +127,9 @@ export default async (req, res) => {
     }
   });
   // step 2 - randomly choose two "people" who have answered that (not including current user)
-  // step 3 - return for each question, a single random answer and two optional people
+  // step 3 - return for each question, a single random answer and two optional people */
 
-  res.status(200).json(data);
+  res.status(200).json(dataReduced);
 };
 
 /**
