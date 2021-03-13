@@ -27,21 +27,19 @@ export default async (req, res) => {
   console.log(body);
   const { updatePerson } = await graphcms.request(
     ` mutation connectOrgPeople($id: String! $orgId: ID) {
-        updatePerson(where: {objectId: $id}, 
-          data: {
-            organizations: {
-              connect:{
-                where:{
-                  id:$orgId
-                }
-              }
-            }       
-          }
-        ) {
-          id
-          organizations: id
+      updatePerson(where: {objectId: $id}, 
+        data: {
+          organization: {
+            connect:{
+                id:$orgId
+            }
+          }       
         }
-      }`,
+      ) {
+        id
+        organization: id
+      }
+    }`,
     { id: email, orgId: body.orgId }
   );
 

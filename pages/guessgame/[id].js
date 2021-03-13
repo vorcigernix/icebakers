@@ -50,7 +50,7 @@ export default function GuessGame() {
   }
   if (!data) return <div>loading...</div>;
 
-  data.map((item, index) => console.log(item));
+  //data.map((item, index) => console.log(item));
 
   return (
     <div>
@@ -65,7 +65,7 @@ export default function GuessGame() {
         <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
           {data.map((item, index) => {
             const rndAnswer = getRandomInt(item.answer.length - 1);
-            //console.log(item.question, index);
+            console.log(data[questionIndex]);
             return (
               <div
                 className={
