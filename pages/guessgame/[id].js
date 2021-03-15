@@ -1,25 +1,15 @@
 import { signin, useSession } from "next-auth/client";
-import { useRouter } from "next/router";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";
+import People from "../../components/people";
 import { useState, useEffect } from "react";
 import { getPendingTips } from "../../lib/tipsService";
+import { getAnswers } from "../../lib/getanswers";
 
-export default function GuessGame() {
+export default function GuessGame({ data }) {
   const [session, loading] = useSession();
   const [pendingTips, setPendingTips] = useState(false);
-
-  const router = useRouter();
-  const { id } = router.query;
-  const [data, setData] = useState(undefined);
-
-  useEffect(async () => {
-    if (loading) return;
-    console.log("Refreshing");
-    const res = await fetch(`/api/getanswers/${id}`);
-    const data = await res.json();
-    setData(data);
-  }, [loading]);
+  const [answered, setAnswered] = useState(false);
 
   if (!loading && !session && !session?.user) return signin();
 
@@ -36,21 +26,20 @@ export default function GuessGame() {
     0,
     "questionAnswerNumber"
   );
-  const [rightAnswer, setRightAnswer] = useState("");
-  function showResult(correct) {
-    setRightAnswer(correct === true ? true : false);
-  }
+  const [answer, setAnswer] = useState(0);
+
   function handleNext() {
     setQuestionIndex(questionIndex + 1);
     setRightAnswer(undefined);
   }
 
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+  function changeAnswer(event) {
+    setAnswer(event.target.id);
   }
-  if (!data) return <div>loading...</div>;
 
-  //data.map((item, index) => console.log(item));
+  function freezeAnswers(answer) {
+    setAnswered(answer);
+  }
 
   return (
     <div>
@@ -63,74 +52,76 @@ export default function GuessGame() {
           </span>
         </h1>
         <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
-          {data.map((item, index) => {
-            const rndAnswer = getRandomInt(item.answer.length - 1);
-            console.log(data[questionIndex]);
-            return (
-              <div
-                className={
-                  index == questionIndex
-                    ? `visible text-center px-4 py-5 md:text-left sm:px-6`
-                    : `hidden`
-                }
-                key={index}
-              >
-                <h3 className="text-2xl font-extrabold  text-gray-900">
-                  <span className=" text-blue-400">Q:&nbsp;</span>
-                  {item.question}
-                </h3>
-                <div>
-                  <h3 className="font-light text-base mb-4">
-                    Either {item.answer[rndAnswer].person.name} or &nbsp;
-                    {item.answer[rndAnswer].person2.name}
-                    &nbsp;responded:
+          {data &&
+            data.map((item, index) => {
+              return (
+                <div
+                  className={
+                    index == questionIndex
+                      ? `visible text-center px-4 py-5 md:text-left sm:px-6`
+                      : `hidden`
+                  }
+                  key={index}
+                >
+                  <h3 className="text-2xl font-extrabold  text-gray-900">
+                    <span className=" text-blue-400">Q:&nbsp;</span>
+                    {item.question}
                   </h3>
-                  <div className="text-2xl font-bold text-blue-500 my-6">
-                    "{item.answer[rndAnswer].answer}"
+                  <div className="font-light text-base mb-4">
+                    select best answer:
                   </div>
-                </div>
-                <div className="text-xl font-extrabold">
-                  <div className="flex flex-col md:flex-row justify-center items-center flex-1 text-center py-4">
-                    <button
-                      className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600 hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg "
-                      onClick={() =>
-                        showResult(item.answer[rndAnswer].person.correct)
-                      }
+                  <div>
+                    <div
+                      className="flex flex-col justify-center text-gray-900"
+                      onChange={changeAnswer}
                     >
-                      <img
-                        className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
-                        src={item.answer[rndAnswer].person.profilePic}
-                      />
-                      {item.answer[rndAnswer].person.name}
-                    </button>
-                    <div className="hidden md:w-44 md:h-44 md:flex items-center justify-center">
-                      <div className="flex rounded-full w-12 h-12 bg-blue-400 text-white align-middle items-center justify-center">
-                        OR
-                      </div>
+                      {item.answer.map((answeritem, answerindex) => {
+                        return (
+                          <div
+                            key={`ans${answerindex}`}
+                            className={
+                              answered
+                                ? answer == answerindex
+                                  ? `border-blue-400 border-2 p-4 rounded-lg`
+                                  : `hidden`
+                                : answer == answerindex
+                                ? ` border-blue-400 border-2 p-4 rounded-lg`
+                                : ` border-white border-2 p-4`
+                            }
+                          >
+                            <div className="flex flex-row">
+                              <input
+                                type="radio"
+                                id={answerindex}
+                                name="answerinput"
+                                value={answeritem.answer}
+                                className={`inline-flex text-blue-600 outline-none`}
+                              />
+                              <label
+                                className={`inline-flex items-center m-4`}
+                                htmlFor="answerinput"
+                              >
+                                {answeritem.answer}
+                              </label>
+                            </div>
+                            <div
+                              className={
+                                answer == answerindex ? `visible` : `hidden`
+                              }
+                            >
+                              <People
+                                data={answeritem}
+                                onselectedPerson={freezeAnswers}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <button
-                      className="flex flex-col w-44 items-center justify-center px-3 py-3 font-extrabold text-gray-600  hover:text-black hover:shadow-md md:py-3 md:px-3 mr-4 rounded-lg"
-                      onClick={() =>
-                        showResult(item.answer[rndAnswer].person2.correct)
-                      }
-                    >
-                      <img
-                        className="inline-block h-16 w-16 h rounded-full ring-4 ring-blue-400 mr-3 mb-4"
-                        src={item.answer[rndAnswer].person2.profilePic}
-                      />
-                      {item.answer[rndAnswer].person2.name}
-                    </button>
                   </div>
-                  {rightAnswer && rightAnswer === true && (
-                    <h3 className="text-green-400">Oh no, you are right :)</h3>
-                  )}
-                  {rightAnswer === false && (
-                    <h3 className="text-red-400">Awesome. Wrong.</h3>
-                  )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
           <div className="w-full flex items-start py-6">
             <nav
@@ -158,12 +149,12 @@ export default function GuessGame() {
                   />
                 </svg>
               </button>
-              {/* <Wallet
+              <Wallet
                 enableTipping={true}
                 session={session}
-                email={data[questionIndex]}
+                email={data[questionIndex][0]}
                 claimTip={pendingTips}
-              /> */}
+              />
               <button
                 className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
                 onClick={() => handleNext()}
@@ -190,12 +181,22 @@ export default function GuessGame() {
               questionIndex < 3 ? `visible px-4 pb-6 font-light` : `hidden`
             }
           >
-            Welcome to the guess game part. Here you see a question you've
-            answered before, answer and two of your friends. Your goal is to
-            pick the name that responded this.
+            Welcome to the guess game part. Here you see a question (same you
+            were answering) and a list of answers. You can select the answer you
+            like best and then you have to guess who is the author of this
+            question.
           </p>
         </div>
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const data = await getAnswers(context);
+  return {
+    props: {
+      data,
+    },
+  };
 }

@@ -145,6 +145,7 @@ function WalletComponent(props) {
 }
 
 const Wallet = (props) => {
+  console.log(props);
   let email = "";
   if (props.email && props.email.answer) {
     email = props.email.answer.person.objectId;

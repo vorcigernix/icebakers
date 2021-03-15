@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
