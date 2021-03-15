@@ -30,7 +30,7 @@ export default function GuessGame({ data }) {
 
   function handleNext() {
     setQuestionIndex(questionIndex + 1);
-    setRightAnswer(undefined);
+    setAnswered(false);
   }
 
   function changeAnswer(event) {

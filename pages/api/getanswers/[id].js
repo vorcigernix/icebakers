@@ -1,6 +1,10 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { getSession } from "next-auth/client";
 
+//
+// whole thing moved to lib
+//
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }

@@ -12,6 +12,8 @@ export default function People({ onselectedPerson, data }) {
     onselectedPerson(true);
     setRightAnswer(person.correct === true ? [true, person.name] : [false, person.name]);
   }
+
+
   return (
     <>
       <span
@@ -20,7 +22,7 @@ export default function People({ onselectedPerson, data }) {
       >
         {process.browser && replys.sort(() => 0.5 - Math.random()).slice(0, 1)}
       </span>
-      <div className="flex flex-row outline-none">
+      <div className={Math.random > 0.5 ? `flex flex-row-reverse self-start justify-end outline-none` : `flex flex-row self-start justify-start outline-none`}>
         <button
           className={rightAnswer ? `flex items-center rounded-md text-gray-400 outline-none` : `flex items-center rounded-md group text-gray-900 outline-none`}
           onClick={() => showResult(data.person)}
