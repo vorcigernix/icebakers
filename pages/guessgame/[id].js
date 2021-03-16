@@ -152,7 +152,7 @@ export default function GuessGame({ data }) {
               <Wallet
                 enableTipping={true}
                 session={session}
-                email={data[questionIndex][0]}
+                email={data[questionIndex].answer[answer].person?.objectId}
                 claimTip={pendingTips}
               />
               <button

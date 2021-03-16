@@ -26,11 +26,10 @@ async function tipFriend({ friend, amount, contract, wallet, web3 }) {
   }
 }
 
-
 async function tipPerson(email, contract, wallet, web3) {
   console.log(email);
   if (!email) return;
-  const data = await (await fetch(`/api/getaddress/${email}`)).json()
+  const data = await (await fetch(`/api/getaddress/${email}`)).json();
 
   console.log(data);
   const amount = window.prompt("Enter amount of BNB to send to " + email);
@@ -41,7 +40,7 @@ async function tipPerson(email, contract, wallet, web3) {
     amount: web3.utils.toWei(amount, "ether"),
     contract,
     wallet,
-    web3
+    web3,
   });
 }
 
@@ -66,9 +65,12 @@ function WalletComponent(props) {
   const [timer, setTimer] = useState(0);
 
   console.log("Redraw", props.session.user);
-  useEffect(e=>{
-    setSession(props.session);
-  },[props.session.user]);
+  useEffect(
+    (e) => {
+      setSession(props.session);
+    },
+    [props.session.user]
+  );
 
   // useEffect(
   //   (e) => {
@@ -97,12 +99,19 @@ function WalletComponent(props) {
   // );
 
   return (
-    <>      
+    <>
       <>
         {props.enableTipping && (
           <button
             className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            onClick={() => tipPerson(props.email, props.contract, props.accounts[0], props.web3)}
+            onClick={() =>
+              tipPerson(
+                props.email,
+                props.contract,
+                props.accounts[0],
+                props.web3
+              )
+            }
           >
             <span>Reward</span>
             <svg
@@ -121,9 +130,7 @@ function WalletComponent(props) {
             </svg>
           </button>
         )}
-        <button
-          className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
-        >
+        <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
           <svg
             className="h-5 w-5 mr-2 text-blue-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -145,15 +152,6 @@ function WalletComponent(props) {
 }
 
 const Wallet = (props) => {
-  console.log(props);
-  let email = "";
-  if (props.email && props.email.answer) {
-    email = props.email.answer.person.objectId;
-    if (props.email.answer.person2.correct) {
-      email = props.email.answer.person2.objectId;
-    }
-  }
-
   return (
     <Web3Container
       renderLoading={() => (
@@ -172,7 +170,14 @@ const Wallet = (props) => {
         </div>
       )}
       render={({ web3, accounts, contract, session }) => (
-        <WalletComponent accounts={accounts} contract={contract} web3={web3} session={session} enableTipping={props.enableTipping} email={email} />
+        <WalletComponent
+          accounts={accounts}
+          contract={contract}
+          web3={web3}
+          session={session}
+          enableTipping={props.enableTipping}
+          email={props.email}
+        />
       )}
       {...props}
     />
