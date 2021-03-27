@@ -115,6 +115,7 @@ const options = {
     //verifyRequest: '/api/auth/verify-request', // (used for check email message)
     //newUser: null // If set, new users will be directed here on first sign in
   },
+  debug: false,
   events: {
     async createUser(message) {
       console.log(message);

@@ -74,15 +74,17 @@ export default function Home() {
           {session && session.user && (
             <>
               <div className="text-center md:text-left md:flex">
-                <img
-                  className="hidden w-1/3 h-auto mx-auto md:block"
-                  src="/bg2.svg"
-                  alt="illustration"
-                />
+                <div className="md:block inline-block p-2 w-56 h-56 rounded-full bg-gradient-to-r from-yellow-100 to-green-400 md:w-72 md:h-72 ">
+                  <img
+                    className="mx-auto w-64 w h-64"
+                    src="/undraw_Waiting__for_you_ldha.svg"
+                    alt="illustration"
+                  />
+                </div>
                 <div
                   className={
                     pageIndex == 0
-                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-12 md:ml-16 space-y-4`
                       : `hidden`
                   }
                 >
