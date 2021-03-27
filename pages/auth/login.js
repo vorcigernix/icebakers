@@ -36,11 +36,11 @@ export default function SignIn({ providers }) {
             </div>
             <div className="text-center md:text-left md:flex">
               <img
-                className="hidden w-1/2 h-auto mx-auto md:block"
+                className="hidden w-1/3 h-auto mx-auto md:block"
                 src="/bg2.svg"
                 alt="illustration"
               />
-              <div className="visible md:w-2/3 pt-6 md:p-8 space-y-4">
+              <div className="visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-4">
                 <p className="my-6 text-xl mx-auto">
                   Get to know your colleagues and friends
                 </p>

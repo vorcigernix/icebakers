@@ -33,8 +33,7 @@ export default function Home() {
           name: createdCompany,
         }),
       });
-      const json = await result.json();
-      setSelectedCompany(json);
+      setSelectedCompany(createdCompany);
     } else {
       setLastCompany(selectedCompany.id);
       await fetch("/api/joincompany", {
@@ -73,14 +72,14 @@ export default function Home() {
             <>
               <div className="text-center md:text-left md:flex">
                 <img
-                  className="hidden w-1/2 h-auto mx-auto md:block"
+                  className="hidden w-1/3 h-auto mx-auto md:block"
                   src="/bg2.svg"
                   alt="illustration"
                 />
                 <div
                   className={
                     pageIndex == 0
-                      ? `visible md:w-2/3 pt-6 md:p-8 space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-4`
                       : `hidden`
                   }
                 >
@@ -112,28 +111,9 @@ export default function Home() {
                     className="relative z-0 inline-flex rounded-md shadow-sm my-8 py-6"
                     aria-label="Pagination"
                   >
-                    <button
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                      onClick={() => setPageIndex(pageIndex - 1)}
-                    >
-                      <span className="sr-only">Previous</span>
-                      <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
                     {selectedCompany && selectedCompany != " " && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
                         onClick={() => ManageCompany(false)}
                       >
                         <span>Join {selectedCompany.name}</span>
@@ -154,7 +134,7 @@ export default function Home() {
                     )}
                     {!selectedCompany && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-yellow-300 text-sm font-medium text-gray-500 hover:bg-white"
+                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-yellow-300 text-sm font-medium text-gray-500 hover:bg-white"
                         onClick={() => ManageCompany(true)}
                       >
                         <span>Create new company</span>
@@ -179,7 +159,7 @@ export default function Home() {
                 <div
                   className={
                     pageIndex == 1
-                      ? `visible md:w-2/3 pt-6 md:p-8 space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-4`
                       : `hidden`
                   }
                 >
@@ -206,7 +186,7 @@ export default function Home() {
                     to install and setup a Metamask. And, welcome to the future.
                   </p>
                   <nav
-                    className="relative z-0 inline-flex rounded-md shadow-sm my-8 py-6"
+                    className="relative z-0 inline-flex my-8 py-6 last:rounded-r-md"
                     aria-label="Pagination"
                   >
                     <button
@@ -230,7 +210,7 @@ export default function Home() {
                     </button>
                     {session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <button className="relative inline-flex items-center px-2 py-2 border rounded-r-md border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                           <span>Nice, all is set</span>
 
                           <svg
@@ -249,9 +229,10 @@ export default function Home() {
                         </button>
                       </a>
                     )}
+                    <Wallet session={session} />
                     {!session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <button className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                           <span>Skip</span>
 
                           <svg
@@ -270,7 +251,6 @@ export default function Home() {
                         </button>
                       </a>
                     )}
-                    <Wallet session={session} />
                   </nav>
                 </div>
                 {/* screen3 - choose questions or answers?*/}
