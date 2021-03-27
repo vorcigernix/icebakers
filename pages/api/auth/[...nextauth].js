@@ -32,20 +32,21 @@ const options = {
     // Use JSON Web Tokens for session instead of database sessions.
     // This option can be used with or without a database for users/accounts.
     // Note: `jwt` is automatically set to `true` if no database is specified.
-     jwt: true,
+    jwt: true,
     // Seconds - How long until an idle session expires and is no longer valid.
-     maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens
-     updateAge: 24 * 60 * 60, // 24 hours
+    updateAge: 24 * 60 * 60, // 24 hours
   },
 
   // @link https://next-auth.js.org/configuration/options#jwt
   jwt: {
     // A secret to use for key generation - you should set this explicitly
     // Defaults to NextAuth.js secret if not explicitly specified.
-    // secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
+    secret:
+      "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDC2s94RDzBV6rOexeBGiwgBimuo9isGkD1Xn8J7hFj1wAAAKB6x3p7esd6ewAAAAtzc2gtZWQyNTUxOQAAACDC2s94RDzBV6rOexeBGiwgBimuo9isGkD1Xn8J7hFj1wAAAED/j0+k1OeNcF6Jf9Z71DSXdYHLsCGU9uWDxM3079BxNcLaz3hEPMFXqs57F4EaLCAGKa6j2KwaQPVefwnuEWPXAAAAGnZvcmNpZ2Vybml4QGFkYW1zb2JvdGthLW5iAQID",
     // Set to true to use encryption. Defaults to false (signing only).
     // encryption: true,
     // You can define your own encode/decode functions for signing and encryption
@@ -67,7 +68,7 @@ const options = {
      *                           Return `false` to deny access
      */
     signIn: async (user, account, profile) => {
-      console.log(user);
+      //console.log(user);
       return true;
     },
 
@@ -115,11 +116,11 @@ const options = {
     //newUser: null // If set, new users will be directed here on first sign in
   },
   events: {
-    async createUser(message) { 
+    async createUser(message) {
       console.log(message);
-      await RegisterPerson(message.email, message.name, message.image);    
+      await RegisterPerson(message.email, message.name, message.image);
     },
-  }
+  },
 
   // Additional options
   // secret: 'abcdef123456789' // Recommended (but auto-generated if not specified)
