@@ -56,7 +56,10 @@ export default function Home() {
       <div className="flex flex-col  min-h-screen py-2">
         <Head>
           <title>IceBakers</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧁</text></svg>"
+          />
         </Head>
 
         <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
