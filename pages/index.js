@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { useState } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
@@ -54,16 +53,9 @@ export default function Home() {
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
       </noscript>
       <div className="flex flex-col  min-h-screen py-2">
-        <Head>
-          <title>IceBakers</title>
-          <link
-            rel="icon"
-            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧁</text></svg>"
-          />
-        </Head>
 
         <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
-          <h1 className="text-6xl font-extrabold text-center md:text-left">
+          <h1 className="text-6xl pb-8 font-extrabold text-center md:text-left md:pb-1">
             🧁
             <span className="text-blue-400">Ice</span>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">

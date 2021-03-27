@@ -22,3 +22,11 @@
   background: center / 80% no-repeat url("/undraw_public_discussion.svg");
 }
 @tailwind utilities;
+@layer base {
+  h1 {
+    font-family: "Averia Serif Libre";
+  }
+  h2 {
+    font-family: "Averia Serif Libre";
+  }
+}
