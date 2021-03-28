@@ -44,7 +44,7 @@ export default function GuessGame({ data }) {
   return (
     <div>
       <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
-        <h1 className=" text-xl md:text-6xl font-extrabold text-center md:text-left">
+        <h1 className=" text-4xl md:text-6xl font-extrabold text-center md:text-left">
           🧁
           <span className="text-blue-400">Ice</span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
@@ -125,7 +125,7 @@ export default function GuessGame({ data }) {
 
           <div className="w-full flex items-start py-6">
             <nav
-              className="flex rounded-md shadow-sm mx-auto md:mx-4"
+              className="flex mx-auto md:mx-4"
               aria-label="Pagination"
             >
               <button

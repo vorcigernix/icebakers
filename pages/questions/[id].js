@@ -43,24 +43,24 @@ export default function QuestionsPage() {
   return (
     <div >
       <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
-        <h1 className=" text-xl md:text-6xl font-extrabold text-center md:text-left">
+        <h1 className=" text-4xl md:text-6xl font-extrabold text-center md:text-left">
           🧁
           <span className="text-blue-400">Ice</span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
             Bakers
           </span>
         </h1>
-        <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
+        <div className="md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3 rounded-md ">
           {data.map((item, index) => (
             <div
               className={
-                index == questionIndex ? `visible px-4 py-5 sm:px-6` : `hidden`
+                index == questionIndex ? `visible px-6 py-12 md:pb-16 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500` : `hidden`
               }
               key={item.id}
             >
-              <h3 className="text-4xl font-extrabold  text-gray-900">
+              <h2 className="text-4xl font-extrabold  text-gray-50">
                 {item.questiontext}
-              </h3>
+              </h2>
             </div>
           ))}
 
@@ -68,8 +68,8 @@ export default function QuestionsPage() {
             <div
               className={
                 loader
-                  ? `mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-600 opacity-10 bg-gray-300`
-                  : `mt-1 py-2 mx-4 rounded-md ring-2 ring-blue-400`
+                  ? `mt-1 py-2 mx-4 rounded-md ring-2 ring-gray-100 opacity-10 bg-gray-300`
+                  : `mt-1 py-2 mx-4 rounded-md ring-2 ring-white bg-white`
               }
             >
               <textarea
@@ -87,7 +87,7 @@ export default function QuestionsPage() {
           </div>
           <div className="w-full flex items-start py-6">
           <nav
-            className="flex rounded-md shadow-sm mx-auto md:mx-4"
+            className="flex mx-4"
             aria-label="Pagination"
           >
             <button
