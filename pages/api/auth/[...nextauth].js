@@ -45,8 +45,7 @@ const options = {
   jwt: {
     // A secret to use for key generation - you should set this explicitly
     // Defaults to NextAuth.js secret if not explicitly specified.
-    secret:
-      "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDC2s94RDzBV6rOexeBGiwgBimuo9isGkD1Xn8J7hFj1wAAAKB6x3p7esd6ewAAAAtzc2gtZWQyNTUxOQAAACDC2s94RDzBV6rOexeBGiwgBimuo9isGkD1Xn8J7hFj1wAAAED/j0+k1OeNcF6Jf9Z71DSXdYHLsCGU9uWDxM3079BxNcLaz3hEPMFXqs57F4EaLCAGKa6j2KwaQPVefwnuEWPXAAAAGnZvcmNpZ2Vybml4QGFkYW1zb2JvdGthLW5iAQID",
+    secret: "119b3490f255f360d2b57ab1c869fdd5",
     // Set to true to use encryption. Defaults to false (signing only).
     // encryption: true,
     // You can define your own encode/decode functions for signing and encryption
@@ -110,10 +109,10 @@ const options = {
   // @link https://next-auth.js.org/configuration/pages
   pages: {
     signIn: "/auth/login",
-    //signOut: '/api/auth/signout',
-    //error: '/api/auth/error', // Error code passed in query string as ?error=
-    //verifyRequest: '/api/auth/verify-request', // (used for check email message)
-    //newUser: null // If set, new users will be directed here on first sign in
+    signOut: "/api/auth/signout",
+    error: "/api/auth/error", // Error code passed in query string as ?error=
+    verifyRequest: "/api/auth/verify-request", // (used for check email message)
+    newUser: null, // If set, new users will be directed here on first sign in
   },
   debug: false,
   events: {

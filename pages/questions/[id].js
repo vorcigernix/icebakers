@@ -81,7 +81,7 @@ export default function QuestionsPage() {
                 autoFocus
                 onChange={(event) => setAnswerText(event.target.value)}
                 value={answerText}
-                required
+                tabIndex="1"
               ></textarea>
             </div>
           </div>
@@ -134,6 +134,7 @@ export default function QuestionsPage() {
             <button
               className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
               onClick={handleClick}
+              disabled={answerText==""}
             >
               <span>Next</span>
               <svg
