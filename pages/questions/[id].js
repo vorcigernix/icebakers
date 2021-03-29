@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/client";
+import { useSession, signin } from "next-auth/client";
 import useSWR from "swr";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -46,7 +46,7 @@ export default function QuestionsPage() {
         <h1 className=" text-4xl md:text-6xl font-extrabold text-center md:text-left">
           🧁
           <span className="text-blue-400">Ice</span>
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-600">
+          <span className="bg-clip-text text-transparent bg-gradient-to-tl from-green-400 to-blue-600">
             Bakers
           </span>
         </h1>
@@ -132,7 +132,7 @@ export default function QuestionsPage() {
             )}
 
             <button
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50 disabled:opacity-20 "
               onClick={handleClick}
               disabled={answerText==""}
             >
