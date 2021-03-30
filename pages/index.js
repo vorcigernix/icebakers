@@ -110,7 +110,7 @@ export default function Home() {
                   >
                     {selectedCompany && selectedCompany != " " && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-bold text-gray-500 hover:bg-green-50"
+                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-bold text-gray-500 hover:bg-green-400 hover:text-white"
                         onClick={() => ManageCompany(false)}
                       >
                         <span>Join {selectedCompany.name}</span>

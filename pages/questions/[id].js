@@ -1,24 +1,15 @@
 import { useSession, signin } from "next-auth/client";
-import useSWR from "swr";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { getQuestions } from "../../lib/getquestions";
 import useStickyState from "../../lib/useStickyState";
 
-export default function QuestionsPage() {
+export default function QuestionsPage({ data, eligible }) {
   const [session, loading] = useSession();
   const [questionIndex, setQuestionIndex] = useStickyState(0, "questionNumber");
   const [answerText, setAnswerText] = useState("");
   const [loader, setLoader] = useState(false);
-  const router = useRouter();
-  const { id } = router.query; // note this value (id) is based on the [id].js
-  //console.log(router.query, id);
 
   if (!loading && !session?.user) return signin();
-
-  const fetcher = (url, id) => fetch(url, id).then((r) => r.json()); // todo: add the organisation id so we get only questions for a particular org
-  const { data, error } = useSWR(`/api/questions`, fetcher);
-
-  if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
   async function handleClick() {
@@ -39,6 +30,7 @@ export default function QuestionsPage() {
     setAnswerText("");
     setLoader(false);
   }
+  //console.log(data);
 
   return (
     <div>
@@ -109,7 +101,7 @@ export default function QuestionsPage() {
                 </svg>
               </button>
 
-              {questionIndex > 15 && (
+              {questionIndex > 15 && eligible && (
                 <a href={`/guessgame/${id}`}>
                   <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50">
                     <span>Guess Answers</span>
@@ -165,4 +157,13 @@ export default function QuestionsPage() {
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { data, eligible } = await getQuestions(context);
+  return {
+    props: {
+      data,
+    },
+  };
 }
