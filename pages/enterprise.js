@@ -73,9 +73,6 @@ export default function Enterprise() {
         <footer className="flex items-center justify-center w-full h-24 md:border-t">
           <a
             className="flex items-center justify-center"
-            href="https://gitcoin.co/issue/binancex/Grant-projects/17/100024656"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             &copy; 2021 - IceBakers. Images by Unsplash
           </a>

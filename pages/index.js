@@ -110,7 +110,7 @@ export default function Home() {
                   >
                     {selectedCompany && selectedCompany != " " && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-bold text-gray-500 hover:bg-green-50"
                         onClick={() => ManageCompany(false)}
                       >
                         <span>Join {selectedCompany.name}</span>
@@ -131,7 +131,7 @@ export default function Home() {
                     )}
                     {!selectedCompany && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-yellow-300 text-sm font-medium text-gray-500 hover:bg-white"
+                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-yellow-300 text-sm font-bold text-gray-500 hover:bg-white"
                         onClick={() => ManageCompany(true)}
                       >
                         <span>Create new company</span>
@@ -207,7 +207,7 @@ export default function Home() {
                     </button>
                     {session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative inline-flex items-center px-2 py-2 border rounded-r-md border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <button className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20">
                           <span>Nice, all is set</span>
 
                           <svg
@@ -229,7 +229,7 @@ export default function Home() {
                     <Wallet session={session} />
                     {!session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <button className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20">
                           <span>Skip</span>
 
                           <svg
@@ -259,11 +259,8 @@ export default function Home() {
         <footer className="flex items-center justify-center w-full h-24 md:border-t">
           <a
             className="flex items-center justify-center"
-            href="https://gitcoin.co/issue/binancex/Grant-projects/17/100024656"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            built at Binance Hackathon: The Future Is Now
+            &copy; 2021 - IceBakers. Images by Unsplash
           </a>
         </footer>
       </div>

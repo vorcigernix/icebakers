@@ -75,11 +75,8 @@ export default function SignIn({ providers }) {
         <footer className="flex items-center justify-center w-full h-24 md:border-t">
           <a
             className="flex items-center justify-center"
-            href="https://gitcoin.co/issue/binancex/Grant-projects/17/100024656"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            built at Binance Hackathon: The Future Is Now
+            &copy; 2021 - IceBakers. Images by Unsplash
           </a>
         </footer>
       </div>
