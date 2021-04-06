@@ -124,10 +124,7 @@ export default function GuessGame({ data }) {
             })}
 
           <div className="w-full flex items-start py-6">
-            <nav
-              className="flex mx-auto md:mx-4"
-              aria-label="Pagination"
-            >
+            <nav className="flex mx-auto md:mx-4" aria-label="Pagination">
               <button
                 className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 onClick={() =>

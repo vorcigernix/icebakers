@@ -30,7 +30,6 @@ export default function QuestionsPage({ data, eligible }) {
     setAnswerText("");
     setLoader(false);
   }
-  //console.log(data);
 
   return (
     <div>
@@ -75,7 +74,7 @@ export default function QuestionsPage({ data, eligible }) {
                 autoFocus
                 onChange={(event) => setAnswerText(event.target.value)}
                 value={answerText}
-                tabIndex="1"
+                tabIndex="0"
               ></textarea>
             </div>
           </div>
@@ -121,11 +120,32 @@ export default function QuestionsPage({ data, eligible }) {
                   </button>
                 </a>
               )}
+              {questionIndex > 15 && !eligible && (
+                <a href={`/guessgame/${id}`}>
+                  <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50">
+                    <span>Guess Answers</span>
+                    <svg
+                      className="h-5 w-5 mx-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </a>
+              )}
 
               <button
                 className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20"
                 onClick={handleClick}
                 disabled={answerText == ""}
+                tabIndex="1"
               >
                 <span>Next</span>
                 <svg
@@ -152,6 +172,18 @@ export default function QuestionsPage({ data, eligible }) {
             Welcome to the Answers part. Answer at least 15 questions and we
             will let you in the Guess Game. Remember: Honest, rare and generally
             great answers will be rewarded by your friends.
+          </p>
+          <p
+            className={
+              questionIndex > 15 && !eligible
+                ? `visible px-4 pb-6 font-bold`
+                : `hidden`
+            }
+          >
+            Congratulations, you answered basic set of questions. We are now
+            waiting for your friends to answer them too as the game make sense
+            only if at least three people participate. You can continue
+            answering questions though, more answers equals more fun.
           </p>
         </div>
       </main>
