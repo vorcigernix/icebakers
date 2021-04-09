@@ -8,7 +8,8 @@ export default function QuestionsPage({ data, eligible }) {
   const [questionIndex, setQuestionIndex] = useStickyState(0, "questionNumber");
   const [answerText, setAnswerText] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const [id] = useStickyState("", "companyid");
+  
   if (!loading && !session?.user) return signin();
   if (!data) return <div>loading...</div>;
 
