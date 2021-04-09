@@ -9,6 +9,8 @@
     "link-contracts": "cd lib && ln -s ../build/contracts contracts"
   },
   "dependencies": {
+    "@celo-tools/use-contractkit": "^1.0.0-beta.3",
+    "@celo/contractkit": "^1.1.0",
     "autoprefixer": "^10.0.4",
     "mongodb": "^3.6.4",
     "next": "^10.1.1",
