@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  icebakers:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      VIRTUAL_HOST: app.icebakers.docker
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./build:/app/build:delegated
+      - ./components:/app/components:delegated
+      - ./lib:/app/lib:delegated
+      - ./migrations:/app/migrations:delegated
+      - ./pages:/app/pages:delegated
+      - ./public:/app/public:delegated
+      - ./styles:/app/styles:delegated
+      - ./usermodels:/app/usermodels:delegated
+      - ./util:/app/util:delegated

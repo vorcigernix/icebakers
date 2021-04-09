@@ -8,6 +8,7 @@
     "start": "next start",
     "link-contracts": "cd lib && ln -s ../build/contracts contracts"
   },
+  "browser": { "fs": false, "path": false, "os": false},
   "dependencies": {
     "@celo-tools/use-contractkit": "^1.0.0-beta.3",
     "@celo/contractkit": "^1.1.0",
