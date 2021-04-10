@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
           />
         </noscript>
       </Head>
-      <ContractKitProvider dappName="IceBakers">
+      <ContractKitProvider dappName="Icebakers">
         <Provider session={session}>
           <Component {...pageProps} />
         </Provider>

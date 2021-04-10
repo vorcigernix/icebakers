@@ -4,11 +4,19 @@ import Companies from "../components/companies";
 import Wallet from "../components/wallet";
 import { useRouter } from "next/router";
 import useStickyState from "../lib/useStickyState";
+import { useContractKit } from '@celo-tools/use-contractkit';
+
 
 export default function Home() {
   const [session, loading] = useSession();
   if (!loading && (!session || !session?.user)) return signin();
   const fwRouter = useRouter();
+
+  const { openModal } = useContractKit();
+  const xx = useContractKit();
+
+  console.log(openModal, xx);
+
 
   //refactor this
   const [pageIndex, setPageIndex] = useState(0);
@@ -48,6 +56,7 @@ export default function Home() {
   }
 
   return (
+    
     <div className={`nojs-show ${!session && loading ? "loading" : "loaded"}`}>
       <noscript>
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
