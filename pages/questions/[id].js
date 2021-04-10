@@ -9,7 +9,7 @@ export default function QuestionsPage({ data, eligible, orgId }) {
   const [answerText, setAnswerText] = useState("");
   const [loader, setLoader] = useState(false);
   const [id] = useStickyState("", "companyid");
-  
+
   if (!loading && !session?.user) return signin();
   if (!data) return <div>loading...</div>;
 
@@ -83,7 +83,7 @@ export default function QuestionsPage({ data, eligible, orgId }) {
             <div className="w-full flex items-start py-6">
               <nav className="flex mx-4" aria-label="Pagination">
                 <button
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-l focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
                   onClick={() => setQuestionIndex(questionIndex - 1)}
                 >
                   <span className="sr-only">Previous</span>
@@ -104,7 +104,7 @@ export default function QuestionsPage({ data, eligible, orgId }) {
 
                 {questionIndex > 15 && eligible && (
                   <a href={`/guessgame/${id}`}>
-                    <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50">
+                    <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
                       <span>Guess Answers</span>
                       <svg
                         className="h-5 w-5 mx-2"
@@ -124,7 +124,7 @@ export default function QuestionsPage({ data, eligible, orgId }) {
                 )}
                 {questionIndex > 15 && !eligible && (
                   <a href={`/guessgame/${id}`}>
-                    <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-green-100 text-sm font-medium text-gray-500 hover:bg-green-50">
+                    <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
                       <span>Guess Answers</span>
                       <svg
                         className="h-5 w-5 mx-2"
@@ -144,7 +144,8 @@ export default function QuestionsPage({ data, eligible, orgId }) {
                 )}
 
                 <button
-                  className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20"
+                  
+                  className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center disabled:opacity-10"
                   onClick={handleClick}
                   disabled={answerText == ""}
                   tabIndex="1"

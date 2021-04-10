@@ -53,7 +53,6 @@ export default function Home() {
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
       </noscript>
       <div className="flex flex-col  min-h-screen py-2">
-
         <main className="flex flex-col items-center mt-9 flex-1 md:px-20">
           <h1 className="text-6xl pb-8 font-extrabold text-center md:text-left md:pb-1">
             🧁
@@ -76,11 +75,11 @@ export default function Home() {
                 <div
                   className={
                     pageIndex == 0
-                      ? `visible md:w-2/3 pt-6 md:p-12 md:ml-16 space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-1`
                       : `hidden`
                   }
                 >
-                  <p className="my-6 text-xl mx-auto">
+                  <p className="my-6 text-2xl mx-auto">
                     Get to know your colleagues and friends
                   </p>
                   <p className="text-lg font-light">
@@ -105,12 +104,13 @@ export default function Home() {
                     button.
                   </p>
                   <nav
-                    className="relative z-0 inline-flex rounded-md shadow-sm my-8 py-6"
+                    className="inline-flex pt-6"
                     aria-label="Pagination"
+                    role="group"
                   >
                     {selectedCompany && selectedCompany != " " && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-white text-sm font-bold text-gray-500 hover:bg-green-400 hover:text-white"
+                        className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
                         onClick={() => ManageCompany(false)}
                       >
                         <span>Join {selectedCompany.name}</span>
@@ -131,7 +131,7 @@ export default function Home() {
                     )}
                     {!selectedCompany && (
                       <button
-                        className="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-yellow-300 text-sm font-bold text-gray-500 hover:bg-white"
+                        className="h-10 px-5 text-gray-900 transition-colors duration-150 bg-yellow-400 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-300 inline-flex items-center"
                         onClick={() => ManageCompany(true)}
                       >
                         <span>Create new company</span>
@@ -156,7 +156,7 @@ export default function Home() {
                 <div
                   className={
                     pageIndex == 1
-                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-4`
+                      ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-1`
                       : `hidden`
                   }
                 >
@@ -183,11 +183,12 @@ export default function Home() {
                     to install and setup a Metamask. And, welcome to the future.
                   </p>
                   <nav
-                    className="relative z-0 inline-flex my-8 py-6 last:rounded-r-md"
+                    className="inline-flex pt-6"
                     aria-label="Pagination"
+                    role="group"
                   >
                     <button
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-l focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
                       onClick={() => setPageIndex(pageIndex - 1)}
                     >
                       <span className="sr-only">Previous</span>
@@ -207,13 +208,13 @@ export default function Home() {
                     </button>
                     {session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20">
+                        <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
                           <span>Nice, all is set</span>
 
                           <svg
                             className="h-5 w-5 ml-2"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+                            viewBox="0 0 10 20"
                             fill="currentColor"
                             aria-hidden="true"
                           >
@@ -226,16 +227,18 @@ export default function Home() {
                         </button>
                       </a>
                     )}
-                    <Wallet session={session} />
+                    <div className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700  focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
+                      <Wallet session={session} />
+                    </div>
                     {!session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20">
+                        <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
                           <span>Skip</span>
 
                           <svg
                             className="h-5 w-5 ml-2"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+                            viewBox="0 0 10 20"
                             fill="currentColor"
                             aria-hidden="true"
                           >
@@ -257,9 +260,7 @@ export default function Home() {
         </main>
 
         <footer className="flex items-center justify-center w-full h-24 md:border-t">
-          <a
-            className="flex items-center justify-center"
-          >
+          <a className="flex items-center justify-center">
             &copy; 2021 - IceBakers. Images by Unsplash
           </a>
         </footer>

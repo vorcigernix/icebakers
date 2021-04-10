@@ -103,7 +103,7 @@ function WalletComponent(props) {
       <>
         {props.enableTipping && (
           <button
-            className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            className="relative inline-flex items-center"
             onClick={() =>
               tipPerson(
                 props.email,
@@ -130,7 +130,7 @@ function WalletComponent(props) {
             </svg>
           </button>
         )}
-        <button className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
+        <button className="inline-flex items-center ">
           <svg
             className="h-5 w-5 mr-2 text-blue-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@ const Wallet = (props) => {
   return (
     <Web3Container
       renderLoading={() => (
-        <div className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50">
+        <div className="inline-flex items-center">
           <svg
             className="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
