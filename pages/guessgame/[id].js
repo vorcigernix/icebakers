@@ -54,6 +54,7 @@ export default function GuessGame({ data }) {
         <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
           {data &&
             data.map((item, index) => {
+              console.log(data.length);
               return (
                 <div
                   className={
