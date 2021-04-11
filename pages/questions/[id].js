@@ -31,7 +31,18 @@ export default function QuestionsPage({ data, eligible, orgId }) {
     setAnswerText("");
     setLoader(false);
   }
-  console.log(data.length);
+  //eligible = false;
+  //maybe handle that somehow, don't want to introduce another react state though
+  async function copyToClip() {
+    navigator.clipboard.writeText(location).then(
+      function () {
+        return true;
+      },
+      function () {
+        return false;
+      }
+    );
+  }
   return (
     <>
       <div className={questionIndex < data.length ? `visible` : `hidden`}>
@@ -144,7 +155,6 @@ export default function QuestionsPage({ data, eligible, orgId }) {
                 )}
 
                 <button
-                  
                   className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center disabled:opacity-10"
                   onClick={handleClick}
                   disabled={answerText == ""}
@@ -201,9 +211,70 @@ export default function QuestionsPage({ data, eligible, orgId }) {
                 Bakers
               </span>
             </h1>
-            <div className="md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3 rounded-md ">
-              All questions answered, thank you. {questionIndex} --{" "}
-              {data.length}
+
+            <div className="text-center md:text-left md:flex">
+              <div className="md:block inline-block p-2 w-56 h-56 rounded-full bg-gradient-to-r from-yellow-100 to-green-400 md:w-72 md:h-72 ">
+                <img
+                  className="mx-auto w-64 w h-64"
+                  src="/undraw_result_5583.svg"
+                  alt="illustration"
+                />
+              </div>
+              <div
+                className={
+                  eligible
+                    ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-1`
+                    : `hidden`
+                }
+              >
+                <p className="my-6 text-2xl mx-auto">Thank you</p>
+                <p className="text-lg font-light">
+                  That's it for the icebreakers. We have all your answers
+                  recorded and we love them already. Your friends will love them
+                  too for sure.
+                </p>
+                <p className="text-lg font-light pb-8">
+                  In next part of the app you will see the questions you just
+                  answered with responses from your team. You pick the response
+                  you like best and than you guess the author.
+                </p>
+                <a href={`/guessgame/${id}`}>
+                  <button className="h-10 px-5  text-indigo-100 transition-colors duration-150 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
+                    Continue to Guess Game
+                  </button>
+                </a>
+              </div>
+              <div
+                className={
+                  !eligible
+                    ? `visible md:w-2/3 pt-6 md:p-12 md:mx-8 space-y-1`
+                    : `hidden`
+                }
+              >
+                <p className="my-6 text-2xl mx-auto">Thank you</p>
+                <p className="text-lg font-light">
+                  That's it for the icebreakers. We have all your answers
+                  recorded and we love them already. Your friends will love them
+                  too for sure.
+                </p>
+                <p className="text-lg font-light">
+                  In next part of the app you will see the questions you just
+                  answered with responses from your team. There is not enough
+                  answers from your team yet though, what about sharing the game
+                  with them?
+                </p>
+                <p className="text-lg font-light pb-8">
+                  Press the button below and paste the link into your favorite
+                  communication channel.
+                </p>
+
+                <button
+                  className="h-10 px-5  text-indigo-100 transition-colors duration-150 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
+                  onClick={() => copyToClip}
+                >
+                  Copy link
+                </button>
+              </div>
             </div>
           </main>
         </div>
