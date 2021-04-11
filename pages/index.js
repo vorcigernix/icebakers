@@ -4,18 +4,12 @@ import Companies from "../components/companies";
 import Wallet from "../components/wallet";
 import { useRouter } from "next/router";
 import useStickyState from "../lib/useStickyState";
-import { useContractKit } from '@celo-tools/use-contractkit';
 
 
 export default function Home() {
   const [session, loading] = useSession();
   if (!loading && (!session || !session?.user)) return signin();
   const fwRouter = useRouter();
-
-  const { openModal } = useContractKit();
-  const xx = useContractKit();
-
-  console.log(openModal, xx);
 
 
   //refactor this
