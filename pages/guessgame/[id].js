@@ -53,8 +53,8 @@ export default function GuessGame({ data }) {
         </h1>
         <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
           {data &&
+            questionIndex < data.length &&
             data.map((item, index) => {
-              console.log(data.length);
               return (
                 <div
                   className={
@@ -125,13 +125,9 @@ export default function GuessGame({ data }) {
             })}
 
           <div className="w-full flex items-start py-6">
-            <nav
-              className="inline-flex pt-6"
-              aria-label="Pagination"
-              role="group"
-            >
+            <nav className="flex mx-4" aria-label="Pagination">
               <button
-                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-l focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
                 onClick={() =>
                   questionIndex > 0 && setQuestionIndex(questionIndex - 1)
                 }
@@ -151,14 +147,16 @@ export default function GuessGame({ data }) {
                   />
                 </svg>
               </button>
-              <Wallet
-                enableTipping={true}
-                session={session}
-                email={data[questionIndex].answer[answer].person?.objectId}
-                claimTip={pendingTips}
-              />
+              <div className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700  focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
+                <Wallet
+                  enableTipping={true}
+                  session={session}
+                  email={data[questionIndex].answer[answer].person?.objectId}
+                  claimTip={pendingTips}
+                />
+              </div>
               <button
-                className="relative inline-flex items-center rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center disabled:opacity-10"
                 onClick={() => handleNext()}
               >
                 <span>Next</span>
@@ -189,6 +187,7 @@ export default function GuessGame({ data }) {
             question.
           </p>
         </div>
+        {data && questionIndex == data.length && <div>dis is da end</div>}
       </main>
     </div>
   );
