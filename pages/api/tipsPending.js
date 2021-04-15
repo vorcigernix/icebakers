@@ -4,10 +4,8 @@
  * notified of their pending tips
  */
 
-import { resolveWeb3 } from "../../lib/getWeb3Server";
-import getContractInstance from "../../lib/getContract";
-import Contract from "../../lib/contracts/TipEscrow.json";
 import { getSession } from 'next-auth/client'
+import { connectToDatabase } from "../../util/mongodb";
 
 // Call this to get any pending tips. It should be done when a user logs in
 // This will encourage the user to redeem the tips by linking their public key
@@ -19,13 +17,28 @@ const handler = async (req, res) => {
     }
     // retrieving the users' email from the session
     const { email } = session.user;
-    // find the wallet
-    const Web3 = await resolveWeb3();
 
-    const contractDefinition = await getContractInstance(Web3, Contract);
-    const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
+    // get the user based on their email
+    // check their tipsPending field in the database
 
-    res.status(200).json({ "pending": result });
+    // // find the wallet
+    // const Web3 = await resolveWeb3();
+    // tipped
+
+    const { db } = await connectToDatabase();
+    const result = await db
+    // .collection("users")
+    .collection("users")
+    .findOne(
+        {
+            email
+        }
+    );
+
+    // const contractDefinition = await getContractInstance(Web3, Contract);
+    // const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
+
+    res.status(200).json({ "pending": result.tipped?.length > 0 ? result.tipped?.length : 0 });
 }
 
 export default handler;

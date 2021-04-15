@@ -1,13 +1,48 @@
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import Head from "next/head";
-import { ContractKitProvider, Alfajores, Screens, SupportedProviders } from '@celo-tools/use-contractkit';
+import { ContractKitProvider, Alfajores } from '@celo-tools/use-contractkit';
 import '@celo-tools/use-contractkit/lib/styles.css';
-import { ConnectModal } from "@celo-tools/use-contractkit/lib/modals/connect";
 
 function defaultRenderProvider(provider) {
-  console.log("provider", provider);
   if (provider.name === "Wallet Connect" || provider.name === "Ledger") return null;
+
+  if (provider.name === "MetaMask") {
+    return (
+      <div
+        className="tw-flex tw-cursor-pointer tw-py-5 tw-px-4 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-transition tw-rounded-md"
+        onClick={e=> {
+          if (window.celo) return provider.onClick(e);
+
+          window.open("https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en");
+        }
+        }
+      >
+        <div className="tw-flex tw-w-1/4">
+          <span className="tw-my-auto">
+            {typeof provider.image === 'string' ? (
+              <img
+                src={provider.image}
+                alt={`${provider.name} logo`}
+                style={{ height: '48px', width: '48px' }}
+              />
+            ) : (
+              provider.image
+            )}
+          </span>
+        </div>
+        <div className="tw-w-3/4">
+          <div className="tw-text-lg tw-pb-1 tw-font-medium dark:tw-text-gray-300">
+            {provider.name}
+          </div>
+          <div className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">
+            {provider.description}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="tw-flex tw-cursor-pointer tw-py-5 tw-px-4 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-transition tw-rounded-md"

@@ -48,8 +48,8 @@ Just wanted to give a shout-out to [nextjs](https://nextjs.org/), [vercel.app](h
 
 ## Configuring Environment Variables
 Inside __.env.local__ populate the following  
-- BINANCE_ENDPOINT=https://data-seed-prebsc-2-s1.binance.org:8545/
-- BINANCE_SECRET_KEY : this is your private key containing a funded binance wallet for interacting with the smart contract
+- ENDPOINT=https://data-seed-prebsc-2-s1.binance.org:8545/
+- SECRET_KEY : this is your private key containing a funded binance wallet for interacting with the smart contract
 - GRAPHCMS_ENDPOINT : this is your GRAPHCMS endpoint
 - GRAPHCMS_MUTATION_TOKEN : this is your GRAPHCMS mutation token (Permanent Access Token)
 - NEXTAUTH_DATABASE_URL : this is your mongo-db URL (with username and password)
@@ -58,7 +58,7 @@ Inside __.env.local__ populate the following
 - NEXTAUTH_URL=http://localhost:3000
 - NEXTAUTH_DATABASE : the database to connect to (default to icebakers)
 
-Inside __.secret__ store the same BINANCE_SECRET_KEY as above. This .secret file is used to compile and deploy your Smart Contracts
+Inside __.secret__ store the same SECRET_KEY as above. This .secret file is used to compile and deploy your Smart Contracts
 
 ## Startup
 To begin, run the following commands (version 14+ of NodeJS):

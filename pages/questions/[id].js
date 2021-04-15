@@ -82,7 +82,8 @@ export default function QuestionsPage({ data, eligible }) {
           <div className="w-full flex items-start py-6">
             <nav className="flex mx-4" aria-label="Pagination">
               <button
-                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                disabled={questionIndex < 1 || loader}
+                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-20"
                 onClick={() => setQuestionIndex(questionIndex - 1)}
               >
                 <span className="sr-only">Previous</span>
@@ -145,7 +146,7 @@ export default function QuestionsPage({ data, eligible }) {
               <button
                 className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20"
                 onClick={handleClick}
-                disabled={answerText == ""}
+                disabled={answerText == "" || loader}
                 tabIndex="1"
               >
                 <span>Next</span>
