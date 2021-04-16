@@ -1,17 +1,18 @@
 import Web3Container from "../lib/Web3Container";
-import { getPendingTips, connectWallet } from "../lib/tipsService";
+import { getPendingTips, connectWallet, tipFriendAccount } from "../lib/tipsService";
 import React, { useEffect, useState } from "react";
 import { useSession, getSession } from "next-auth/client";
 import { useContractKit } from "@celo-tools/use-contractkit";
 
-async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken }) {
+async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken, sendTransaction }) {
   // we will tip 
   if (friend.wallet) {
-    
+
+    // tip 10c to our friend
     await web3.eth.sendTransaction({
       from: wallet,
       to: friend.wallet,
-      value: amount,
+      value: web3.utils.toWei('0.1', 'ether'),
     });
     console.log("Completed");
     // this function should call update on a database to register
@@ -34,32 +35,38 @@ async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken }) {
     // update the server, tell it that the secret details for this user
     // server associates the tip details to the user
 
+    const web3 = kit.web3;
+    const stableToken = await kit.contracts.getStableToken();
+    const escrow = await kit.contracts.getEscrow();
+
     const account = web3.eth.accounts.create();
 
-    console.log(stableToken);
-    console.log(await stableToken.balanceOf(wallet));
-    // no unique id, no attestations, 30 days validity
+    // approve spending of 10 cUSD
+    const approved = (await stableToken.allowance(wallet, escrow.address)).toNumber();
+    const tipSize = web3.utils.toWei('0.1', 'ether');
+    if (approved < +tipSize) { // only ask for approval if escrow has not enough funds for transfer
+      const result = await sendTransaction(stableToken.approve(escrow.address, web3.utils.toWei('10', 'ether')));
+    }
+    // no unique id, no attestations, 30 days validity - save to escrow account
+    await sendTransaction(escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, tipSize, 30 * 24 * 60 * 60, account.address, 0));
+    await tipFriendAccount(friend.email, account.privateKey);
 
-    let tx = await escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, 10000, 30*24*60*60, account.address, 0).send({from: wallet});
-    let receipt = await tx.waitReceipt();
-    console.log(receipt);
+    // notify the user that they have successfully tipped their friend
+
+    return;
+    // finally, save to database so our friend has the tip
   }
 }
 
-async function tipPerson(email, wallet, web3, escrow, stableToken, kit) {
-  console.log(email);
+async function tipPerson(email, wallet, kit, sendTransaction) {
   if (!email) return;
   const data = await (await fetch(`/api/getaddress/${email}`)).json();
 
-  console.log(data);
-  
   await tipFriend({
     friend: data,
     wallet,
-    web3,
-    escrow,
-    stableToken,
-    kit
+    kit,
+    sendTransaction
   });
 }
 
@@ -82,6 +89,13 @@ function WalletComponent(props) {
   const [pendingTips, setPendingTips] = React.useState(false);
   const [session, setSession] = useState(props.session);
   const [timer, setTimer] = useState(0);
+
+  const {
+    kit,
+    address,
+    network,
+    sendTransaction,
+  } = useContractKit();
 
   useEffect(
     (e) => {
@@ -116,8 +130,6 @@ function WalletComponent(props) {
     [props.session.user]
   );
 
-  console.log("Props details:", props);
-
   return (
     <>
       <>
@@ -128,10 +140,8 @@ function WalletComponent(props) {
               tipPerson(
                 props.email,
                 props.accounts[0],
-                props.web3, 
-                props.escrow,
-                props.stableToken,
-                props.kit
+                kit,
+                sendTransaction
               )
             }
           >
@@ -191,16 +201,12 @@ const Wallet = (props) => {
           Connecting
         </div>
       )}
-      render={({ web3, accounts, session, stableToken, escrow, kit }) => (
+      render={({ accounts, session }) => (
         <WalletComponent
           accounts={accounts}
-          web3={web3}
           session={session}
           enableTipping={props.enableTipping}
           email={props.email}
-          stableToken={stableToken}
-          escrow={escrow}
-          kit={kit}
         />
       )}
       {...props}

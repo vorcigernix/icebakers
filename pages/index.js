@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signin, signout, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
 import { useRouter } from "next/router";
 import useStickyState from "../lib/useStickyState";
+import { getPendingTips } from "../lib/tipsService";
 
 
 export default function Home() {
   const [session, loading] = useSession();
   if (!loading && (!session || !session?.user)) return signin();
   const fwRouter = useRouter();
-
-
   //refactor this
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedCompany, setSelectedCompany] = useState(" ");
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
+  const [pendingTips, setPendingTips] = useState(false);
+  
+  useEffect(
+    async (e) => {
+      if (loading) return;
+      const result = await getPendingTips();
+      setPendingTips(+result.pending > 0);
+    },
+    [loading]
+  );
+  
   lastCompany &&
     session &&
     session.user.address &&
@@ -229,7 +239,7 @@ export default function Home() {
                         </button>
                       </a>
                     )}
-                    <Wallet session={session} />
+                    <Wallet session={session} claimTip={pendingTips}/>
                     {!session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
                         <button className="relative flex rounded-r-md px-2 py-2 border border-gray-300 bg-white text-sm font-bold text-gray-500 b hover:bg-green-400 hover:text-white disabled:opacity-20">
