@@ -26,22 +26,20 @@ export default function GuessGame({ data }) {
     0,
     "questionAnswerNumber"
   );
-  const [answer, setAnswer] = useState(null);
+  const [answer, setAnswer] = useState(0);
 
   function handleNext() {
     setQuestionIndex(questionIndex + 1);
     setAnswered(false);
-    setAnswer(null);
   }
 
-  function changeAnswer(event, id) {
-    setAnswer(id);
+  function changeAnswer(event) {
+    setAnswer(event.target.id);
   }
 
   function freezeAnswers(answer) {
     setAnswered(answer);
   }
-
 
   return (
     <div>
@@ -53,7 +51,7 @@ export default function GuessGame({ data }) {
             Bakers
           </span>
         </h1>
-        <div className="bg-white overflow-hidden mt-8 md:mt-14 md:w-2/3">
+        <div className="bg-white md:shadow overflow-hidden mt-8 md:mt-14 md:w-2/3">
           {data &&
             questionIndex < data.length &&
             data.map((item, index) => {
@@ -74,49 +72,52 @@ export default function GuessGame({ data }) {
                     select best answer:
                   </div>
                   <div>
-                    <div className="flex flex-col md:items-start text-gray-900">
-                      {item.answer.map(
-                        (answeritem, answerindex) => {
-                          return (
-                            <div
-                              key={`a${answerindex}`}
-                              className={
-                                answer == null || answer == answerindex
-                                  ? `block w-full`
+                    <div
+                      className="flex flex-col justify-center text-gray-900"
+                      onChange={changeAnswer}
+                    >
+                      {item.answer.map((answeritem, answerindex) => {
+                        return (
+                          <div
+                            key={`ans${answerindex}`}
+                            className={
+                              answered
+                                ? answer == answerindex
+                                  ? `border-blue-400 border-2 p-4 rounded-lg`
                                   : `hidden`
+                                : answer == answerindex
+                                ? ` border-blue-400 border-2 p-4 rounded-lg`
+                                : ` border-white border-2 p-4`
+                            }
+                          >
+                            <div className="flex flex-row">
+                              <input
+                                type="radio"
+                                id={answerindex}
+                                name="answerinput"
+                                value={answeritem.answer}
+                                className={`inline-flex text-blue-600 outline-none`}
+                              />
+                              <label
+                                className={`inline-flex items-center m-4`}
+                                htmlFor="answerinput"
+                              >
+                                {answeritem.answer}
+                              </label>
+                            </div>
+                            <div
+                              className={
+                                answer == answerindex ? `visible` : `hidden`
                               }
                             >
-                              <button
-                                key={`ans${answerindex}`}
-                                className="my-4 p-6 rounded w-full shadow md:text-left focus:ring-2 focus:ring-blue-600 group focus:bg-blue-700 "
-                                onClick={(event) =>
-                                  changeAnswer(event, answerindex)
-                                }
-                              >
-                                <figure>
-                                  <blockquote className=" group-focus:text-white text-lg">
-                                    <span className="font-bold text-4xl mr-3 text-green-400 group-focus:text-blue-400">
-                                      "
-                                    </span>
-                                    {answeritem.answer}
-                                  </blockquote>
-                                  <figcaption></figcaption>
-                                </figure>
-                              </button>
-                              <div
-                                className={
-                                  answer == answerindex ? `visible` : `hidden`
-                                }
-                              >
-                                <People
-                                  data={answeritem}
-                                  onselectedPerson={freezeAnswers}
-                                />
-                              </div>
+                              <People
+                                data={answeritem}
+                                onselectedPerson={freezeAnswers}
+                              />
                             </div>
-                          );
-                        }
-                      )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -146,16 +147,14 @@ export default function GuessGame({ data }) {
                   />
                 </svg>
               </button>
-              {answered && (
-                <div className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700  focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
-                  <Wallet
-                    enableTipping={true}
-                    session={session}
-                    email={data[questionIndex].answer[answer].person?.objectId}
-                    claimTip={pendingTips}
-                  />
-                </div>
-              )}
+              <div className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700  focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
+                <Wallet
+                  enableTipping={true}
+                  session={session}
+                  email={data[questionIndex].answer[answer].person?.objectId}
+                  claimTip={pendingTips}
+                />
+              </div>
               <button
                 className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center disabled:opacity-10"
                 onClick={() => handleNext()}
@@ -196,8 +195,9 @@ export default function GuessGame({ data }) {
 
 export async function getServerSideProps(context) {
   const data = await getAnswers(context);
-  //console.log(data);
   return {
-    props: { data },
+    props: {
+      data,
+    },
   };
 }

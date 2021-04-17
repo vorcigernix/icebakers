@@ -2,12 +2,6 @@ import { useState } from "react";
 
 export default function People({ onselectedPerson, data }) {
   const [rightAnswer, setRightAnswer] = useState("");
-  const replys = [
-    "Yes, great one. Now who responded this?",
-    "Totally. Whose answer is this though?",
-    "My favorite. But who is the author?",
-    "I like this reply. Now guess the author.",
-  ];
   function showResult(person) {
     onselectedPerson(true);
     setRightAnswer(person.correct === true ? [true, person.name] : [false, person.name]);
@@ -16,12 +10,6 @@ export default function People({ onselectedPerson, data }) {
 
   return (
     <>
-      <span
-        className="font-light text-base mb-4"
-        suppressHydrationWarning={true}
-      >
-        {process.browser && replys.sort(() => 0.5 - Math.random()).slice(0, 1)}
-      </span>
       <div className={Math.random > 0.5 ? `flex flex-row-reverse self-start justify-end outline-none` : `flex flex-row self-start justify-start outline-none`}>
         <button
           className={rightAnswer ? `flex items-center rounded-md text-gray-400 outline-none` : `flex items-center rounded-md group text-gray-900 outline-none`}
