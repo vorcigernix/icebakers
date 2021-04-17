@@ -4,27 +4,29 @@ import React, { useEffect, useState } from "react";
 import { useSession, getSession } from "next-auth/client";
 import { useContractKit } from "@celo-tools/use-contractkit";
 
-async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken, sendTransaction }) {
+// return true on success, false means that we might need to wait for a proper result 
+// from the wallet and call the tip function again
+async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
   // we will tip 
-  if (friend.wallet) {
+  if (friend.wallet && friend.wallet !== "") {
     // tip 10c to our friend
-    await web3.eth.sendTransaction({
-      from: wallet,
-      to: friend.wallet,
-      value: web3.utils.toWei('0.1', 'ether'),
-    });
+    // await web3.eth.sendTransaction({
+    //   from: wallet,
+    //   to: friend.wallet,
+    //   value: web3.utils.toWei('0.1', 'ether'),
+    // });
+    const stableToken = await kit.contracts.getStableToken();
+    const result = await sendTransaction(stableToken.transfer(friend.wallet, web3.utils.toWei('0.1', 'ether')));
+
+    if (!result) {
+      return false; // probably the prompt to connect wallet, lets do it again!
+    }
+
     console.log("Completed");
     // this function should call update on a database to register
     // that your friend was tipped an amount
     return true;
   } else {
-    // send to escrow account (smart contract)
-    // to be continued
-    // console.log("No address, so we will send a tip to the escrow service");
-    // const result = await contract.methods
-    //   .deposit(web3.utils.soliditySha3(friend.email))
-    //   .send({ from: wallet, value: amount });
-    // console.log(result);
 
     // send to escrow, then notify server that we have sent amount to escrow, for 
     // claim by the email of the user
@@ -54,23 +56,28 @@ async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken, sendT
     // no unique id, no attestations, 30 days validity - save to escrow account
     // NOTE: must already be initialised before calling this
     const res = await sendTransaction(escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, tipSize, 30 * 24 * 60 * 60, account.address, 0));
+    if (!res) {
+      return false;
+    }
+    // todo: notify the user that they have successfully tipped their friend
+    
+    // finally, save to database so our friend has the tip
     await tipFriendAccount(friend.email, account.privateKey);
 
-    // todo: notify the user that they have successfully tipped their friend
-
-    return;
-    // finally, save to database so our friend has the tip
+    return true;
   }
 }
 
 async function tipPerson(email, wallet, kit, sendTransaction) {
   if (!email) return;
   const data = await (await fetch(`/api/getaddress/${email}`)).json();
+  console.log(data);
 
-  await tipFriend({
+  return await tipFriend({
     friend: data,
     wallet,
     kit,
+    web3: kit.web3,
     sendTransaction
   });
 }
@@ -94,13 +101,15 @@ function WalletComponent(props) {
   const [pendingTips, setPendingTips] = React.useState(false);
   const [session, setSession] = useState(props.session);
   const [timer, setTimer] = useState(0);
+  const [waitingContractKit, setWaitingContractKit] = useState(false);
 
   const {
     kit,
     address,
     network,
     sendTransaction,
-    updateKit
+    updateKit, 
+    modalIsOpen
   } = useContractKit();
 
   useEffect(
@@ -112,11 +121,30 @@ function WalletComponent(props) {
 
   useEffect(
     (e) => {
+      if (waitingContractKit && !modalIsOpen) {
+        // assume user connected, try to tip again!
+        if (!tipPerson(
+          props.email,
+          props.accounts[0],
+          kit,
+          sendTransaction
+        )) {
+          setWaitingContractKit(true);
+        }
+        else {
+          setWaitingContractKit(false);
+        }
+      }
+    },
+    [waitingContractKit, modalIsOpen]
+  );
+
+  useEffect(
+    (e) => {
 
       setSession(props.session);
       // poll the pending tips
       if (props.session.user && props.session.user.address) {
-        console.log("Clearing Interval");
         window.clearInterval(timer);
         setTimer(0);
         return; // we don't need to check pending tips if the user already exists
@@ -126,7 +154,6 @@ function WalletComponent(props) {
       }
       setTimer(
         window.setInterval(async (e) => {
-          console.log("Timer expired");
           const result = await getPendingTips();
           setPendingTips(+result.pending > 0);
           setSession(await getSession());
@@ -142,15 +169,16 @@ function WalletComponent(props) {
         {props.enableTipping && (
           <button
             className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            onClick={() => {
-              window.celo?.enable();
-              updateKit(kit); // 
-              tipPerson(
+            onClick={async () => {
+              
+              if (! await tipPerson(
                 props.email,
                 props.accounts[0],
                 kit,
                 sendTransaction
-              )
+              )) {
+                setWaitingContractKit(true);
+              }
             }
             }
           >

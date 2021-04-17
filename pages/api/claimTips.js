@@ -29,7 +29,7 @@ const handler = async (req, res) => {
                 email: email
             },
             {
-                tipped: []
+                $set: {tipped: []}
             }
         );
     
