@@ -49,9 +49,14 @@ const handler = async (req, res) => {
         }
     );
 
-    console.log(results);
-
-    console.log(`Connected User Wallet ${updatedAddress} to client email ${email}`);
+    const tips = await db
+        // .collection("users")
+        .collection("tips")
+        .findOne(
+            {
+                email: email
+            }
+        );
 
     // const result = +(await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call());
     // if (result) {
@@ -63,7 +68,8 @@ const handler = async (req, res) => {
 
     // tip should now be claimed using the escrow from kit
 
-    res.status(200).json({"result":"success", "message": `Registered ${updatedAddress} to ${email}`});
+
+    res.status(200).json({"result":"success", "message": `Registered ${updatedAddress} to ${email}`, tipsPending: tips?.tipped || []});
 }
 
 export default handler;

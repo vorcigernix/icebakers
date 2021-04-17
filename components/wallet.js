@@ -7,7 +7,6 @@ import { useContractKit } from "@celo-tools/use-contractkit";
 async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken, sendTransaction }) {
   // we will tip 
   if (friend.wallet) {
-
     // tip 10c to our friend
     await web3.eth.sendTransaction({
       from: wallet,
@@ -41,17 +40,23 @@ async function tipFriend({ friend, wallet, web3, kit, escrow, stableToken, sendT
 
     const account = web3.eth.accounts.create();
 
+    console.log("Tipping friend with paymentId", account.address);
+
+    if (window.celo) await window.celo.enable();
     // approve spending of 10 cUSD
     const approved = (await stableToken.allowance(wallet, escrow.address)).toNumber();
     const tipSize = web3.utils.toWei('0.1', 'ether');
+
     if (approved < +tipSize) { // only ask for approval if escrow has not enough funds for transfer
       const result = await sendTransaction(stableToken.approve(escrow.address, web3.utils.toWei('10', 'ether')));
     }
+
     // no unique id, no attestations, 30 days validity - save to escrow account
-    await sendTransaction(escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, tipSize, 30 * 24 * 60 * 60, account.address, 0));
+    // NOTE: must already be initialised before calling this
+    const res = await sendTransaction(escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, tipSize, 30 * 24 * 60 * 60, account.address, 0));
     await tipFriendAccount(friend.email, account.privateKey);
 
-    // notify the user that they have successfully tipped their friend
+    // todo: notify the user that they have successfully tipped their friend
 
     return;
     // finally, save to database so our friend has the tip
@@ -95,6 +100,7 @@ function WalletComponent(props) {
     address,
     network,
     sendTransaction,
+    updateKit
   } = useContractKit();
 
   useEffect(
@@ -136,13 +142,16 @@ function WalletComponent(props) {
         {props.enableTipping && (
           <button
             className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            onClick={() =>
+            onClick={() => {
+              window.celo?.enable();
+              updateKit(kit); // 
               tipPerson(
                 props.email,
                 props.accounts[0],
                 kit,
                 sendTransaction
               )
+            }
             }
           >
             <span>Reward</span>
