@@ -12,6 +12,8 @@ module.exports = {
   variants: {
     extend: {
       opacity: ["disabled"],
+      backgroundColor: ['group-focus'],
+      textColor: ['group-focus'],
     },
   },
   plugins: [],
