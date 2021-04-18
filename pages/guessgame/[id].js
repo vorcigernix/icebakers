@@ -42,6 +42,7 @@ export default function GuessGame({ data }) {
     setAnswered(answer);
   }
 
+  console.log(data.length);
 
   return (
     <div>
@@ -75,48 +76,46 @@ export default function GuessGame({ data }) {
                   </div>
                   <div>
                     <div className="flex flex-col md:items-start text-gray-900">
-                      {item.answer.map(
-                        (answeritem, answerindex) => {
-                          return (
-                            <div
-                              key={`a${answerindex}`}
-                              className={
-                                answer == null || answer == answerindex
-                                  ? `block w-full`
-                                  : `hidden`
+                      {item.answer.map((answeritem, answerindex) => {
+                        return (
+                          <div
+                            key={`a${answerindex}`}
+                            className={
+                              answer == null || answer == answerindex
+                                ? `block w-full`
+                                : `hidden`
+                            }
+                          >
+                            <button
+                              key={`ans${answerindex}`}
+                              className="my-4 p-6 rounded w-full shadow md:text-left focus:ring-2 focus:ring-blue-600 group focus:bg-blue-700 "
+                              onClick={(event) =>
+                                changeAnswer(event, answerindex)
                               }
                             >
-                              <button
-                                key={`ans${answerindex}`}
-                                className="my-4 p-6 rounded w-full shadow md:text-left focus:ring-2 focus:ring-blue-600 group focus:bg-blue-700 "
-                                onClick={(event) =>
-                                  changeAnswer(event, answerindex)
-                                }
-                              >
-                                <figure>
-                                  <blockquote className=" group-focus:text-white text-lg">
-                                    <span className="font-bold text-4xl mr-3 text-green-400 group-focus:text-blue-400">
-                                      "
-                                    </span>
-                                    {answeritem.answer}
-                                  </blockquote>
-                                  <figcaption></figcaption>
-                                </figure>
-                              </button>
-                              <div
-                                className={
-                                  answer == answerindex ? `visible` : `hidden`
-                                }
-                              >
-                                <People
-                                  data={answeritem}
-                                  onselectedPerson={freezeAnswers}
-                                />
-                              </div>
+                              <figure>
+                                <blockquote className=" group-focus:text-white text-lg">
+                                  <span className="font-bold text-4xl mr-3 text-green-400 group-focus:text-blue-400">
+                                    "
+                                  </span>
+                                  {answeritem.answer}
+                                </blockquote>
+                                <figcaption></figcaption>
+                              </figure>
+                            </button>
+                            <div
+                              className={
+                                answer == answerindex ? `visible` : `hidden`
+                              }
+                            >
+                              <People
+                                data={answeritem}
+                                onselectedPerson={freezeAnswers}
+                              />
                             </div>
-                          );
-                        }
-                      )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -196,7 +195,15 @@ export default function GuessGame({ data }) {
 
 export async function getServerSideProps(context) {
   const data = await getAnswers(context);
-  //console.log(data);
+  if(!data) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/auth/login'
+      }
+    }
+  }
+  console.log(data.length)
   return {
     props: { data },
   };
