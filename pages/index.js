@@ -12,17 +12,18 @@ export default function Home() {
 
   //refactor this
   const [pageIndex, setPageIndex] = useState(0);
-  const [selectedCompany, setSelectedCompany] = useState(" ");
+  const [selectedCompany, setSelectedCompany] = useStickyState(" ", "companyid");
   const [createdCompany, setCreatedCompany] = useState("");
-  const [lastCompany, setLastCompany] = useStickyState("", "companyid");
-  lastCompany &&
+  //const [lastCompany, setLastCompany] = useStickyState("", "companyid");
+  selectedCompany &&
     session &&
     session.user.address &&
-    fwRouter.push(`/questions/${lastCompany}`);
+    fwRouter.push(`/questions/${selectedCompany}`);
   //
   async function ManageCompany(isnew) {
     setPageIndex(pageIndex + 1);
     if (isnew) {
+      
       const result = await fetch("/api/addcompany", {
         method: "POST",
         headers: {
@@ -32,9 +33,9 @@ export default function Home() {
           name: createdCompany,
         }),
       });
-      setSelectedCompany(createdCompany);
+      setSelectedCompany(result.id);
     } else {
-      setLastCompany(selectedCompany.id);
+      setSelectedCompany(selectedCompany.id);
       await fetch("/api/joincompany", {
         method: "POST",
         headers: {
@@ -95,8 +96,7 @@ export default function Home() {
                   </p>
 
                   <Companies
-                    onCreateCompany={setCreatedCompany}
-                    onCompanyChange={setSelectedCompany}
+                    onCompanyChange={setSelectedCompany} onCreateCompany={setCreatedCompany}
                   />
                   <p className="font-light">
                     Existing companies are listed as you type. If you want to

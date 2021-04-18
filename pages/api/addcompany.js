@@ -3,7 +3,7 @@ import { getSession } from "next-auth/client";
 
 export default async (req, res) => {
   const { body } = req;
-  const session = await getSession({ req })
+  const session = await getSession({ req });
   if (!session) {
     res.status(403);
     return;
@@ -57,6 +57,6 @@ export default async (req, res) => {
     }`,
     { id: email, orgId: createOrganization.id }
   );
-
+  console.log(createOrganization.id);
   res.status(200).json({ id: createOrganization.id });
 };
