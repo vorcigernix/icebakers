@@ -1,7 +1,5 @@
 /**
- * ConnectWallet is called to link the wallet address of a user to their email address
- * IF the email address link has associated tips, the user will be paid-out the tips and
- * notified of their pending tips
+ * Claim tips - tell the system that we have claimed all the tips, remove the tip
  */
 
 import { getSession } from 'next-auth/client'
@@ -17,28 +15,29 @@ const handler = async (req, res) => {
     }
     // retrieving the users' email from the session
     const { email } = session.user;
-
-    // get the user based on their email
-    // check their tipsPending field in the database
-
-    // // find the wallet
-    // const Web3 = await resolveWeb3();
-    // tipped
+  
+    // find the user and add the private key to their account (insert into array)
+    // we will claim all the tips after 
 
     const { db } = await connectToDatabase();
-    const result = await db
-    // .collection("users")
-    .collection("tips")
-    .findOne(
-        {
-            email
-        }
-    );
 
+    const result = await db
+        // .collection("users")
+        .collection("tips")
+        .findOneAndUpdate(
+            {
+                email: email
+            },
+            {
+                $set: {tipped: []}
+            }
+        );
+    
+    
     // const contractDefinition = await getContractInstance(Web3, Contract);
     // const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
 
-    res.status(200).json({ "pending": result?.tipped?.length > 0 ? result?.tipped?.length : 0 });
+    res.status(200).json({ "success": "Tips claimed" });
 }
 
 export default handler;

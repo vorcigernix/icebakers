@@ -19,5 +19,9 @@ export const UserSchema = {
       type: "varchar",
       nullable: true,
     },
+    tipped: {
+      type: [String],
+      nullable: true,
+    }
   },
 }

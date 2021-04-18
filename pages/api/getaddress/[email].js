@@ -22,5 +22,6 @@ export default async (req, res) => {
     res.status(200).json({ email: email });
     return;
   }
-  res.status(200).json({ address: results.erctwenty, email: results.email });
+  const wallet = results.erctwenty && results.erctwenty !== "" ? results.erctwenty : null;
+  res.status(200).json({ address: results.erctwenty, wallet: results.erctwenty, email: results.email });
 };

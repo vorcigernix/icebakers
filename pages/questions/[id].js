@@ -94,7 +94,8 @@ export default function QuestionsPage({ data, eligible, orgId }) {
             <div className="w-full flex items-start py-6">
               <nav className="flex mx-4" aria-label="Pagination">
                 <button
-                  className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-l focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center"
+                  disabled={questionIndex < 1}
+                  className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-l focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center disabled:opacity-10"
                   onClick={() => setQuestionIndex(questionIndex - 1)}
                 >
                   <span className="sr-only">Previous</span>
