@@ -1,13 +1,17 @@
 import Web3Container from "../lib/Web3Container";
-import { getPendingTips, connectWallet, tipFriendAccount } from "../lib/tipsService";
+import {
+  getPendingTips,
+  connectWallet,
+  tipFriendAccount,
+} from "../lib/tipsService";
 import React, { useEffect, useState } from "react";
 import { useSession, getSession } from "next-auth/client";
 import { useContractKit } from "@celo-tools/use-contractkit";
 
-// return true on success, false means that we might need to wait for a proper result 
+// return true on success, false means that we might need to wait for a proper result
 // from the wallet and call the tip function again
 async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
-  // we will tip 
+  // we will tip
   if (friend.wallet && friend.wallet !== "") {
     // tip 10c to our friend
     // await web3.eth.sendTransaction({
@@ -16,7 +20,9 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
     //   value: web3.utils.toWei('0.1', 'ether'),
     // });
     const stableToken = await kit.contracts.getStableToken();
-    const result = await sendTransaction(stableToken.transfer(friend.wallet, web3.utils.toWei('0.1', 'ether')));
+    const result = await sendTransaction(
+      stableToken.transfer(friend.wallet, web3.utils.toWei("0.1", "ether"))
+    );
 
     if (!result) {
       return false; // probably the prompt to connect wallet, lets do it again!
@@ -27,8 +33,7 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
     // that your friend was tipped an amount
     return true;
   } else {
-
-    // send to escrow, then notify server that we have sent amount to escrow, for 
+    // send to escrow, then notify server that we have sent amount to escrow, for
     // claim by the email of the user
 
     // generate a new user
@@ -42,25 +47,39 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
 
     const account = web3.eth.accounts.create();
 
-    console.log("Tipping friend with paymentId", account.address);
+    //console.log("Tipping friend with paymentId", account.address);
 
     if (window.celo) await window.celo.enable();
     // approve spending of 10 cUSD
-    const approved = (await stableToken.allowance(wallet, escrow.address)).toNumber();
-    const tipSize = web3.utils.toWei('0.1', 'ether');
+    const approved = (
+      await stableToken.allowance(wallet, escrow.address)
+    ).toNumber();
+    const tipSize = web3.utils.toWei("0.1", "ether");
 
-    if (approved < +tipSize) { // only ask for approval if escrow has not enough funds for transfer
-      const result = await sendTransaction(stableToken.approve(escrow.address, web3.utils.toWei('10', 'ether')));
+    if (approved < +tipSize) {
+      // only ask for approval if escrow has not enough funds for transfer
+      const result = await sendTransaction(
+        stableToken.approve(escrow.address, web3.utils.toWei("10", "ether"))
+      );
     }
 
     // no unique id, no attestations, 30 days validity - save to escrow account
     // NOTE: must already be initialised before calling this
-    const res = await sendTransaction(escrow.transfer(web3.utils.asciiToHex(""), stableToken.address, tipSize, 30 * 24 * 60 * 60, account.address, 0));
+    const res = await sendTransaction(
+      escrow.transfer(
+        web3.utils.asciiToHex(""),
+        stableToken.address,
+        tipSize,
+        30 * 24 * 60 * 60,
+        account.address,
+        0
+      )
+    );
     if (!res) {
       return false;
     }
     // todo: notify the user that they have successfully tipped their friend
-    
+
     // finally, save to database so our friend has the tip
     await tipFriendAccount(friend.email, account.privateKey);
 
@@ -71,14 +90,14 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
 async function tipPerson(email, wallet, kit, sendTransaction) {
   if (!email) return;
   const data = await (await fetch(`/api/getaddress/${email}`)).json();
-  console.log(data);
+  //console.log(data);
 
   return await tipFriend({
     friend: data,
     wallet,
     kit,
     web3: kit.web3,
-    sendTransaction
+    sendTransaction,
   });
 }
 
@@ -108,8 +127,8 @@ function WalletComponent(props) {
     address,
     network,
     sendTransaction,
-    updateKit, 
-    modalIsOpen
+    updateKit,
+    modalIsOpen,
   } = useContractKit();
 
   useEffect(
@@ -123,15 +142,9 @@ function WalletComponent(props) {
     (e) => {
       if (waitingContractKit && !modalIsOpen) {
         // assume user connected, try to tip again!
-        if (!tipPerson(
-          props.email,
-          props.accounts[0],
-          kit,
-          sendTransaction
-        )) {
+        if (!tipPerson(props.email, props.accounts[0], kit, sendTransaction)) {
           setWaitingContractKit(true);
-        }
-        else {
+        } else {
           setWaitingContractKit(false);
         }
       }
@@ -141,7 +154,6 @@ function WalletComponent(props) {
 
   useEffect(
     (e) => {
-
       setSession(props.session);
       // poll the pending tips
       if (props.session.user && props.session.user.address) {
@@ -170,16 +182,17 @@ function WalletComponent(props) {
           <button
             className="relative inline-flex items-center"
             onClick={async () => {
-              if (! await tipPerson(
-                props.email,
-                props.accounts[0],
-                kit,
-                sendTransaction
-              )) {
+              if (
+                !(await tipPerson(
+                  props.email,
+                  props.accounts[0],
+                  kit,
+                  sendTransaction
+                ))
+              ) {
                 setWaitingContractKit(true);
               }
-            }
-            }
+            }}
           >
             <span>Reward</span>
             <svg
@@ -198,22 +211,24 @@ function WalletComponent(props) {
             </svg>
           </button>
         )}
-        <button className="inline-flex items-center ">
-          <svg
-            className="h-5 w-5 mr-2 text-blue-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {session.user.address ? "" : "Wallet Connecting"}
-        </button>
+        {!session.user.address && (
+          <button className="inline-flex items-center ">
+            <svg
+              className="h-5 w-5 mr-2 text-blue-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {session.user.address ? "" : "Wallet Connecting"}
+          </button>
+        )}
       </>
     </>
   );
