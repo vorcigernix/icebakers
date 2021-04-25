@@ -1,4 +1,4 @@
-import { signin, useSession } from "next-auth/client";
+import { signIn, useSession } from "next-auth/client";
 import useStickyState from "../../lib/useStickyState";
 import Wallet from "../../components/wallet";
 import People from "../../components/people";
@@ -11,7 +11,7 @@ export default function GuessGame({ data }) {
   const [pendingTips, setPendingTips] = useState(false);
   const [answered, setAnswered] = useState(false);
 
-  if (!loading && !session && !session?.user) return signin();
+  if (!loading && !session && !session?.user) return signIn();
 
   useEffect(
     async (e) => {
@@ -53,7 +53,6 @@ export default function GuessGame({ data }) {
     setAnswered(answer);
   }
 
-  console.log(data.length);
 
   return (
     <div>
@@ -254,7 +253,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(data.length);
   return {
     props: { data },
   };

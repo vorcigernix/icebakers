@@ -219,7 +219,7 @@ export default function Home() {
                     </button>
                     {session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>
-                        <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
+                        <button className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
                           <span>Nice, all is set</span>
 
                           <svg

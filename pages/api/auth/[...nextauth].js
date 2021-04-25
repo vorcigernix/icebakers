@@ -117,7 +117,7 @@ const options = {
   debug: false,
   events: {
     async createUser(message) {
-      console.log(message);
+      //console.log(message);
       await RegisterPerson(message.email, message.name, message.image);
     },
   },

@@ -1,72 +1,66 @@
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import Head from "next/head";
-import { ContractKitProvider, Alfajores } from '@celo-tools/use-contractkit';
-import '@celo-tools/use-contractkit/lib/styles.css';
+import { ContractKitProvider, Alfajores } from "@celo-tools/use-contractkit";
+import "@celo-tools/use-contractkit/lib/styles.css";
 
-function defaultRenderProvider(provider) {
-  if (provider.name === "Wallet Connect" || provider.name === "Ledger") return null;
 
-  if (provider.name === "MetaMask") {
+
+function iceRenderProvider(provider) {
+  if (provider.name === "Wallet Connect") {
     return (
       <div
-        className="tw-flex tw-cursor-pointer tw-py-5 tw-px-4 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-transition tw-rounded-md"
-        onClick={e=> {
-          if (window.celo) return provider.onClick(e);
-
-          window.open("https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en");
-        }
-        }
+      //h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center
+        className="flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
+        onClick={provider.onClick}
+        key={provider.name.trim()}
       >
-        <div className="tw-flex tw-w-1/4">
-          <span className="tw-my-auto">
-            {typeof provider.image === 'string' ? (
+        <div className="flex w-1/4">
+          <span className="my-auto">
+            {typeof provider.image === "string" ? (
               <img
                 src={provider.image}
                 alt={`${provider.name} logo`}
-                style={{ height: '48px', width: '48px' }}
+                style={{ height: "48px", width: "48px" }}
               />
             ) : (
               provider.image
             )}
           </span>
         </div>
-        <div className="tw-w-3/4">
-          <div className="tw-text-lg tw-pb-1 tw-font-medium dark:tw-text-gray-300">
+        <div className="w-3/4">
+          <div className="text-lg pb-1 font-medium">
             {provider.name}
           </div>
-          <div className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">
-            {provider.description}
-          </div>
+          <span className="text-sm text-white">
+            Install any compatible wallet and click this button (recommended).
+          </span>
         </div>
       </div>
     );
   }
-
   return (
     <div
-      className="tw-flex tw-cursor-pointer tw-py-5 tw-px-4 hover:tw-bg-gray-100 dark:hover:tw-bg-gray-700 tw-transition tw-rounded-md"
+      className="flex cursor-pointer py-5 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition rounded"
       onClick={provider.onClick}
+      key={provider.name.trim()}
     >
-      <div className="tw-flex tw-w-1/4">
-        <span className="tw-my-auto">
-          {typeof provider.image === 'string' ? (
+      <div className="flex w-1/4">
+        <span className="my-auto">
+          {typeof provider.image === "string" ? (
             <img
               src={provider.image}
               alt={`${provider.name} logo`}
-              style={{ height: '48px', width: '48px' }}
+              style={{ height: "24px", width: "24px" }}
             />
           ) : (
             provider.image
           )}
         </span>
       </div>
-      <div className="tw-w-3/4">
-        <div className="tw-text-lg tw-pb-1 tw-font-medium dark:tw-text-gray-300">
+      <div className="w-3/4">
+        <div className="text-lg pb-1 font-medium dark:text-gray-300">
           {provider.name}
-        </div>
-        <div className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">
-          {provider.description}
         </div>
       </div>
     </div>
@@ -107,7 +101,13 @@ function MyApp({ Component, pageProps }) {
           />
         </noscript>
       </Head>
-      <ContractKitProvider dappName="Icebakers" networks={[Alfajores]} connectModal={{renderProvider:defaultRenderProvider}}>
+      <ContractKitProvider
+        dappName="Icebakers"
+        networks={[Alfajores]}
+        connectModal={{
+          renderProvider: iceRenderProvider,
+        }}
+      >
         <Provider session={session}>
           <Component {...pageProps} />
         </Provider>
