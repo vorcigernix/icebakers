@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { signin, signout, useSession } from "next-auth/client";
+import { signIn, useSession } from "next-auth/client";
 import Companies from "../components/companies";
 import Wallet from "../components/wallet";
 import { useRouter } from "next/router";
 import useStickyState from "../lib/useStickyState";
 import { getPendingTips } from "../lib/tipsService";
 
-
 export default function Home() {
   const [session, loading] = useSession();
-  if (!loading && (!session || !session?.user)) return signin();
+  if (!loading && (!session || !session?.user)) return signIn();
   const fwRouter = useRouter();
   //refactor this
   const [pageIndex, setPageIndex] = useState(0);
@@ -17,7 +16,7 @@ export default function Home() {
   const [createdCompany, setCreatedCompany] = useState("");
   const [lastCompany, setLastCompany] = useStickyState("", "companyid");
   const [pendingTips, setPendingTips] = useState(false);
-  
+
   useEffect(
     async (e) => {
       if (loading) return;
@@ -26,7 +25,7 @@ export default function Home() {
     },
     [loading]
   );
-  
+
   lastCompany &&
     session &&
     session.user.address &&
@@ -60,7 +59,6 @@ export default function Home() {
   }
 
   return (
-    
     <div className={`nojs-show ${!session && loading ? "loading" : "loaded"}`}>
       <noscript>
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
@@ -241,7 +239,7 @@ export default function Home() {
                       </a>
                     )}
                     <div className="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700  focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center">
-                      <Wallet session={session} claimTip={pendingTips}/>
+                      <Wallet session={session} claimTip={pendingTips} />
                     </div>
                     {!session.user.address && selectedCompany && (
                       <a href={`/questions/${selectedCompany.id}`}>

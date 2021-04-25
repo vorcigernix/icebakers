@@ -40,9 +40,9 @@
 @tailwind utilities;
 @layer base {
   h1 {
-    font-family: "Averia Serif Libre";
+    font-family: "Titillium Web";
   }
   h2 {
-    font-family: "Averia Serif Libre";
+    font-family: "Titillium Web";
   }
 }

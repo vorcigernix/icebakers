@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { providers, signIn } from "next-auth/client";
+import { getProviders, signIn } from "next-auth/client";
 
 export default function SignIn({ providers }) {
   return (
@@ -86,6 +86,6 @@ export default function SignIn({ providers }) {
 
 SignIn.getInitialProps = async (context) => {
   return {
-    providers: await providers(context),
+    providers: await getProviders(context),
   };
 };

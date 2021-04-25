@@ -92,18 +92,18 @@ function MyApp({ Component, pageProps }) {
         <link
           rel="preload"
           as="style"
-          href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@700&family=Lato:wght@300;400;700;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&family=Lato:wght@300;400;700;900&display=swap"
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@700&family=Lato:wght@300;400;700;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&family=Lato:wght@300;400;700;900&display=swap"
           media="print"
           onLoad="this.media='all'"
         />
         <noscript>
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@700&family=Lato:wght@300;400;700;900&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&family=Lato:wght@300;400;700;900&display=swap"
           />
         </noscript>
       </Head>
