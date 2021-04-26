@@ -35,10 +35,13 @@ const handler = async (req, res) => {
         }
     );
 
+    let tipsPending = result?.tipped?.filter(tip=>!tip.claimed).length > 0;
+
+
     // const contractDefinition = await getContractInstance(Web3, Contract);
     // const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
 
-    res.status(200).json({ "pending": result?.tipped?.length > 0 ? result?.tipped?.length : 0 });
+    res.status(200).json({ "pending": tipsPending?.length > 0 ? tipsPending?.length : 0 });
 }
 
 export default handler;

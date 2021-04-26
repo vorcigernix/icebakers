@@ -51,6 +51,7 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
 
     if (window.celo) await window.celo.enable();
     // approve spending of 10 cUSD
+
     const approved = (
       await stableToken.allowance(wallet, escrow.address)
     ).toNumber();
@@ -58,24 +59,45 @@ async function tipFriend({ friend, wallet, web3, kit, sendTransaction }) {
 
     if (approved < +tipSize) {
       // only ask for approval if escrow has not enough funds for transfer
-      const result = await sendTransaction(
-        stableToken.approve(escrow.address, web3.utils.toWei("10", "ether"))
-      );
+      try {
+        console.log("Getting result for stable coin");
+        const result = await sendTransaction(
+          stableToken.approve(escrow.address, web3.utils.toWei("10", "ether"))
+        );
+      }
+      catch (e) {
+        console.log("Issue, lets try to connect wallet");
+        return false;
+      }
     }
 
     // no unique id, no attestations, 30 days validity - save to escrow account
     // NOTE: must already be initialised before calling this
-    const res = await sendTransaction(
-      escrow.transfer(
-        web3.utils.asciiToHex(""),
-        stableToken.address,
-        tipSize,
-        30 * 24 * 60 * 60,
-        account.address,
-        0
-      )
-    );
-    if (!res) {
+    // bytes32 identifier,
+    // address token,
+    // uint256 value,
+    // uint256 expirySeconds,
+    // address paymentId,
+    // uint256 minAttestations
+
+    console.log("Lets try to transfer!", stableToken.address, tipSize, account.address);
+    try {
+      const res = await sendTransaction(
+        escrow.transfer(
+          web3.utils.asciiToHex(""),
+          stableToken.address,
+          tipSize,
+          30 * 24 * 60 * 60,
+          account.address,
+          0
+        )
+      );
+      if (!res) {
+        return false;
+      }
+    }
+    catch (e) {
+      console.log("Something failed");
       return false;
     }
     // todo: notify the user that they have successfully tipped their friend
@@ -129,6 +151,8 @@ function WalletComponent(props) {
     sendTransaction,
     updateKit,
     modalIsOpen,
+    openModal,
+    updateNetwork
   } = useContractKit();
 
   useEffect(
@@ -139,10 +163,15 @@ function WalletComponent(props) {
   );
 
   useEffect(
-    (e) => {
+    async (e) => {
+      console.log(waitingContractKit, modalIsOpen);
       if (waitingContractKit && !modalIsOpen) {
         // assume user connected, try to tip again!
-        if (!tipPerson(props.email, props.accounts[0], kit, sendTransaction)) {
+        if (!(await tipPerson(props.email, props.accounts[0], kit, sendTransaction))) {
+          console.log("modal is open?");
+          if (!modalIsOpen) {
+            openModal();
+          }
           setWaitingContractKit(true);
         } else {
           setWaitingContractKit(false);

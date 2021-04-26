@@ -33,12 +33,15 @@ const handler = async (req, res) => {
     const result = await db
         // .collection("users")
         .collection("tips")
-        .update(
+        .updateOne(
             {
                 email: friendEmail
             },
             {
-                $push: { tipped: accessId }
+                // claimed means icebakers sent to the owner of the tip, withdrawn means icebakers
+                // withdrew but have not transferred
+                // gas is how much gas was used so far (total)
+                $push: { tipped: {"access": accessId, "claimed": false, "withdrawn": false, "gas": 0 }}
             },
             {
                 upsert: true

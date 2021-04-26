@@ -4,8 +4,6 @@ import Head from "next/head";
 import { ContractKitProvider, Alfajores } from "@celo-tools/use-contractkit";
 import "@celo-tools/use-contractkit/lib/styles.css";
 
-
-
 function iceRenderProvider(provider) {
   if (provider.name === "Wallet Connect") {
     return (
