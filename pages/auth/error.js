@@ -1,6 +1,7 @@
-import { providers, signIn, signOut } from "next-auth/client";
+import { getProviders, signOut } from "next-auth/client";
 
 export default function AuthError() {
+  const providers = getProviders();
   return Object.values(providers).map((provider) => (
     <div key={provider.name}>
       <button
