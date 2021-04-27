@@ -1,4 +1,4 @@
-import { useSession, signin } from "next-auth/client";
+import { useSession, signIn } from "next-auth/client";
 import { useState } from "react";
 import { getQuestions } from "../../lib/getquestions";
 import useStickyState from "../../lib/useStickyState";
@@ -10,7 +10,7 @@ export default function QuestionsPage({ data, eligible, orgId }) {
   const [loader, setLoader] = useState(false);
   const [id] = useStickyState("", "companyid");
 
-  if (!loading && !session?.user) return signin();
+  if (!loading && !session?.user) return signIn();
   if (!data) return <div>loading...</div>;
 
   async function handleClick() {
