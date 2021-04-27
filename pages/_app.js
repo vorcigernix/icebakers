@@ -1,8 +1,7 @@
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import Head from "next/head";
-import { Toaster } from "react-hot-toast";
-import { ContractKitProvider, Alfajores } from "@celo-tools/use-contractkit";
+import { ContractKitProvider, Alfajores, Mainnet  } from "@celo-tools/use-contractkit";
 import "@celo-tools/use-contractkit/lib/styles.css";
 
 function iceRenderProvider(provider) {
