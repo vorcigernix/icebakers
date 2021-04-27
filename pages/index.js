@@ -177,21 +177,19 @@ export default function Home() {
                   <p className="text-lg font-light">
                     Thanks for selecting your company. Now, this part is
                     optional, but we all like to be rewarded, right? A new
-                    projects like BSC allows us to make tip process fast and
-                    easy. This does not mean that you need to reward your peers,
-                    no pressure, this is up to you.
+                    blockchain projects like Celo allows us to make tip process
+                    fast and easy. This does not mean that you need to reward
+                    your peers, no pressure, this is up to you.
                   </p>
                   <p className="text-lg font-light">
                     It goes both ways though, if you want to be rewarded, we'll
-                    need your wallet address. If you don't have a wallet
-                    installed, follow{" "}
-                    <a
-                      href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-                      className="font-semibold"
-                    >
-                      Binance easy guide
-                    </a>{" "}
-                    to install and setup a Metamask. And, welcome to the future.
+                    need your wallet address. If you don't have any wallet
+                    installed, we recommend&nbsp;
+                    <a href="hhttps://valoraapp.com/" className="font-semibold">
+                      Valora
+                    </a>
+                    , native wallet for Celo network. You can use most of other
+                    wallets though.
                   </p>
                   <nav
                     className="inline-flex pt-6"
