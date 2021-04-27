@@ -5,11 +5,10 @@ import { Toaster } from "react-hot-toast";
 import { ContractKitProvider, Alfajores } from "@celo-tools/use-contractkit";
 import "@celo-tools/use-contractkit/lib/styles.css";
 
-/* function iceRenderProvider(provider) {
+function iceRenderProvider(provider) {
   if (provider.name === "Wallet Connect") {
     return (
       <div
-      //h-10 px-5 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-r focus:shadow-outline bg-gradient-to-tl hover:from-green-400 inline-flex items-center
         className="flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
         onClick={provider.onClick}
         key={provider.name.trim()}
@@ -28,9 +27,7 @@ import "@celo-tools/use-contractkit/lib/styles.css";
           </span>
         </div>
         <div className="w-3/4">
-          <div className="text-lg pb-1 font-medium">
-            {provider.name}
-          </div>
+          <div className="text-lg pb-1 font-medium">{provider.name}</div>
           <span className="text-sm text-white">
             Install any compatible wallet and click this button (recommended).
           </span>
@@ -64,7 +61,7 @@ import "@celo-tools/use-contractkit/lib/styles.css";
       </div>
     </div>
   );
-} */
+}
 
 function MyApp({ Component, pageProps }) {
   const { session } = pageProps;
@@ -102,9 +99,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ContractKitProvider
         dappName="Icebakers"
-        // connectModal={{
-        //   renderProvider: iceRenderProvider,
-        // }}
+        connectModal={{
+          renderProvider: iceRenderProvider,
+        }}
       >
         <Provider session={session}>
           <Toaster
