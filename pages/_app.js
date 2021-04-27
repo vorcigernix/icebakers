@@ -103,15 +103,6 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         <Provider session={session}>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              className: "w-72 md:w-96",
-              style: {
-                padding: "0px",
-              },
-            }}
-          />
           <Component {...pageProps} />
         </Provider>
       </ContractKitProvider>
