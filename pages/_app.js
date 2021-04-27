@@ -1,10 +1,11 @@
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 import { ContractKitProvider, Alfajores } from "@celo-tools/use-contractkit";
 import "@celo-tools/use-contractkit/lib/styles.css";
 
-function iceRenderProvider(provider) {
+/* function iceRenderProvider(provider) {
   if (provider.name === "Wallet Connect") {
     return (
       <div
@@ -63,7 +64,7 @@ function iceRenderProvider(provider) {
       </div>
     </div>
   );
-}
+} */
 
 function MyApp({ Component, pageProps }) {
   const { session } = pageProps;
@@ -101,11 +102,20 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ContractKitProvider
         dappName="Icebakers"
-        connectModal={{
-          renderProvider: iceRenderProvider,
-        }}
+        // connectModal={{
+        //   renderProvider: iceRenderProvider,
+        // }}
       >
         <Provider session={session}>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              className: "w-72 md:w-96",
+              style: {
+                padding: "0px",
+              },
+            }}
+          />
           <Component {...pageProps} />
         </Provider>
       </ContractKitProvider>
