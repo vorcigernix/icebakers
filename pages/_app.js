@@ -101,7 +101,6 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ContractKitProvider
         dappName="Icebakers"
-        networks={[Alfajores]}
         connectModal={{
           renderProvider: iceRenderProvider,
         }}

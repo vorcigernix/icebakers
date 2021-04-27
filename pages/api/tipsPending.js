@@ -35,8 +35,7 @@ const handler = async (req, res) => {
         }
     );
 
-    let tipsPending = result?.tipped?.filter(tip=>!tip.claimed).length > 0;
-
+    let tipsPending = result?.tipped?.filter(tip=>!tip.claimed);
 
     // const contractDefinition = await getContractInstance(Web3, Contract);
     // const result = await contractDefinition.methods.hasTips(Web3.utils.soliditySha3(email)).call();
