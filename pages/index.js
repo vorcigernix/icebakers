@@ -99,7 +99,7 @@ export default function Home() {
                     others and make the app more fun for your colleagues.
                   </p>
                   <p className="text-lg font-light">
-                    First, please select a "company". This is the group that
+                    First, please select your team. This is the group that
                     sets boundaries, your answers will be visible only within
                     your group and later, in a Guess Answer part, you will see
                     answers only from your group.
@@ -110,8 +110,8 @@ export default function Home() {
                     onCompanyChange={setSelectedCompany}
                   />
                   <p className="font-light">
-                    Existing companies are listed as you type. If you want to
-                    create a new company, type a name and press the yellow
+                    Existing teams are listed as you type. If you want to
+                    create a new team, type a name and press the yellow
                     button.
                   </p>
                   <nav

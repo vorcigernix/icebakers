@@ -17,8 +17,8 @@ function Companies({ onCreateCompany, onCompanyChange }) {
         <input
           className="bg-white shadow rounded border-0 p-3 w-full"
           type="search"
-          aria-label="Search for your company"
-          placeholder="type your company..."
+          aria-label="Search for your team"
+          placeholder="type your team..."
           name="companies"
           list="companyName"
           onChange={handleChange}

@@ -46,13 +46,13 @@ export default function SignIn({ providers }) {
                   Get to know your colleagues and friends
                 </p>
                 <p className="text-lg font-light">
-                  IceBakers works in two stages. In one, you respond to the
+                  IceBakers works in two parts. In one, you respond to the
                   "icebreaker questions" and your responses are saved with your
-                  name. In a second stage, you will play the guess game: you
+                  name. In a second part, you will play the guess game: you
                   will see the question with a list of answers, you pick the
                   answer you like best and then you will see two names - one is
                   author of reply and on is random person from your
-                  "company".Your goal is to find out who is the correct author
+                  team. Your goal is to find out who is the correct author
                   of the response.
                 </p>
                 <p className="text-lg font-light">
