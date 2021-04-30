@@ -1,65 +1,101 @@
 import "../styles/globals.css";
 import { Provider } from "next-auth/client";
 import Head from "next/head";
-import { ContractKitProvider, Alfajores, Mainnet  } from "@celo-tools/use-contractkit";
+import {
+  ContractKitProvider,
+  Alfajores,
+  Mainnet,
+} from "@celo-tools/use-contractkit";
 import "@celo-tools/use-contractkit/lib/styles.css";
 
 function iceRenderProvider(provider) {
-  if (provider.name === "Wallet Connect") {
-    return (
-      <div
-        className="flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
-        onClick={provider.onClick}
-        key={provider.name.trim()}
-      >
-        <div className="flex w-1/4">
-          <span className="my-auto">
-            {typeof provider.image === "string" ? (
-              <img
-                src={provider.image}
-                alt={`${provider.name} logo`}
-                style={{ height: "48px", width: "48px" }}
-              />
-            ) : (
-              provider.image
-            )}
-          </span>
+  switch (provider.name) {
+    case "Valora":
+      return (
+        <div
+          className="flex md:hidden text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
+          onClick={provider.onClick}
+          key={provider.name.trim()}
+        >
+          <div className="flex w-1/4">
+            <span className="my-auto">
+              {typeof provider.image === "string" ? (
+                <img
+                  src={provider.image}
+                  alt={`${provider.name} logo`}
+                  style={{ height: "48px", width: "48px" }}
+                />
+              ) : (
+                provider.image
+              )}
+            </span>
+          </div>
+          <div className="w-3/4">
+            <div className="text-lg pb-1 font-medium">{provider.name}</div>
+            <span className="text-sm text-white">
+              Install Valora app and click on this button.
+            </span>
+          </div>
         </div>
-        <div className="w-3/4">
-          <div className="text-lg pb-1 font-medium">{provider.name}</div>
-          <span className="text-sm text-white">
-            Install any compatible wallet and click this button (recommended).
-          </span>
+      );
+
+    case "MetaMask":
+      return (
+        <div
+          className="hidden md:flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
+          onClick={provider.onClick}
+          key={provider.name.trim()}
+        >
+          <div className="flex w-1/4">
+            <span className="my-auto">
+              {typeof provider.image === "string" ? (
+                <img
+                  src={provider.image}
+                  alt={`${provider.name} logo`}
+                  style={{ height: "48px", width: "48px" }}
+                />
+              ) : (
+                provider.image
+              )}
+            </span>
+          </div>
+          <div className="w-3/4">
+            <div className="text-lg pb-1 font-medium">{provider.name}</div>
+            <span className="text-sm text-white">
+              Install Metamask plugin and click here.
+            </span>
+          </div>
         </div>
-      </div>
-    );
+      );
+
+    default:
+      return (
+        <div
+          className="cursor-pointer py-5 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition rounded hidden"
+          onClick={provider.onClick}
+          key={provider.name.trim()}
+        >
+          <div className="flex w-1/4">
+            <span className="my-auto">
+              {typeof provider.image === "string" ? (
+                <img
+                  src={provider.image}
+                  alt={`${provider.name} logo`}
+                  style={{ height: "24px", width: "24px" }}
+                />
+              ) : (
+                provider.image
+              )}
+            </span>
+          </div>
+          <div className="w-3/4">
+            <div className="text-lg pb-1 font-medium dark:text-gray-300">
+              {provider.name}
+            </div>
+          </div>
+        </div>
+      );
   }
-  return (
-    <div
-      className="flex cursor-pointer py-5 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition rounded"
-      onClick={provider.onClick}
-      key={provider.name.trim()}
-    >
-      <div className="flex w-1/4">
-        <span className="my-auto">
-          {typeof provider.image === "string" ? (
-            <img
-              src={provider.image}
-              alt={`${provider.name} logo`}
-              style={{ height: "24px", width: "24px" }}
-            />
-          ) : (
-            provider.image
-          )}
-        </span>
-      </div>
-      <div className="w-3/4">
-        <div className="text-lg pb-1 font-medium dark:text-gray-300">
-          {provider.name}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function MyApp({ Component, pageProps }) {
