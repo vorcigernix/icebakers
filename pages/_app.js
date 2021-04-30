@@ -134,6 +134,8 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ContractKitProvider
         dappName="Icebakers"
+        dappDescription="Blockchain enhanced icebreaker question game"
+        dappUrl="https://icebakers.app"
         connectModal={{
           renderProvider: iceRenderProvider,
         }}
