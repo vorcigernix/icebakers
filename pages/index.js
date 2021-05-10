@@ -145,7 +145,7 @@ export default function Home() {
                         className="h-10 px-5 text-gray-900 transition-colors duration-150 bg-yellow-400 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-300 inline-flex items-center"
                         onClick={() => ManageCompany(true)}
                       >
-                        <span>Create new company</span>
+                        <span>Create new team</span>
                         <svg
                           className="h-5 w-5"
                           xmlns="http://www.w3.org/2000/svg"
