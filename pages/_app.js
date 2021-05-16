@@ -9,6 +9,7 @@ import {
 import "@celo-tools/use-contractkit/lib/styles.css";
 
 function iceRenderProvider(provider) {
+  console.log(provider);
   switch (provider.name) {
     case "Valora":
       return (
@@ -39,10 +40,11 @@ function iceRenderProvider(provider) {
         </div>
       );
 
-    case "MetaMask":
+    case "Celo Extension Wallet":
       return (
         <div
           className="hidden md:flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
+          style={{"margin":"4px"}}
           onClick={provider.onClick}
           key={provider.name.trim()}
         >
@@ -67,6 +69,36 @@ function iceRenderProvider(provider) {
           </div>
         </div>
       );
+
+      // case "Wallet Connect":
+      //   return (
+      //     <div
+      //       className="hidden md:flex text-indigo-100 cursor-pointer py-5 px-4 bg-blue-700 rounded focus:shadow-outline bg-gradient-to-tl hover:from-green-400 transition "
+      //       style={{"margin":"4px"}}
+      //       onClick={provider.onClick}
+      //       key={provider.name.trim()}
+      //     >
+      //       <div className="flex w-1/4">
+      //         <span className="my-auto">
+      //           {typeof provider.image === "string" ? (
+      //             <img
+      //               src={provider.image}
+      //               alt={`${provider.name} logo`}
+      //               style={{ height: "48px", width: "48px" }}
+      //             />
+      //           ) : (
+      //             provider.image
+      //           )}
+      //         </span>
+      //       </div>
+      //       <div className="w-3/4">
+      //         <div className="text-lg pb-1 font-medium">{provider.name}</div>
+      //         <span className="text-sm text-white">
+      //           Install Metamask plugin and click here.
+      //         </span>
+      //       </div>
+      //     </div>
+      //   );
 
     default:
       return (

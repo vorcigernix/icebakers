@@ -9,7 +9,7 @@
     "link-contracts": "cd lib && ln -s ../build/contracts contracts"
   },
   "dependencies": {
-    "@celo-tools/use-contractkit": "^0.0.31",
+    "@celo-tools/use-contractkit": "^1.0.0-beta.10",
     "@celo/contractkit": "^1.1.0",
     "@celo/wallet-walletconnect": "^1.1.0",
     "@walletconnect/web3-provider": "^1.4.1",
