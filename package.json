@@ -14,7 +14,7 @@
     "@celo/wallet-walletconnect": "^1.1.0",
     "@walletconnect/web3-provider": "^1.4.1",
     "autoprefixer": "^10.0.4",
-    "better-sqlite3": "latest",
+    "better-sqlite3": "^7.4.1",
     "mongodb": "^3.6.4",
     "next": "^10.2.0",
     "next-auth": "^3.19.0",
